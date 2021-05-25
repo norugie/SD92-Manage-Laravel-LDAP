@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=Edge">
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-        <title>Dasboard | SD92 - Nisga'a</title>
+        <title>Dasboard | SD92 - Nisga'a HR</title>
         <!-- Favicon-->
         <link rel="icon" href="/nisgaa-icon.png" type="image/x-icon">
 
@@ -78,7 +78,7 @@
                 <div class="navbar-header">
                     <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
                     <a href="javascript:void(0);" class="bars"></a>
-                    <a class="navbar-brand" href="/">SD92 - NISGA'A CMS</a>
+                    <a class="navbar-brand" href="/">SD92 - NISGA'A HR CMS</a>
                 </div>
                 <div class="collapse navbar-collapse" id="navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
@@ -112,192 +112,11 @@
                                 <span>Dashboard</span>
                             </a>
                         </li>
-                        <li id="post" class="{{ Request::is( 'cms/posts/*' ) ? 'active' : '' }}">
-                            <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
-                                <i class="material-icons">create</i>
-                                <span>Posts</span>
+                        <li id="employees" class="{{ Request::is( 'cms/employees/*' ) ? 'active' : '' }}">
+                            <a href="/cms/employees">
+                                <i class="material-icons">people</i>
+                                <span>Employee Management</span>
                             </a>
-                            <ul class="ml-menu">
-                                <li id="posts" class="{{ Request::is( 'cms/posts/posts' ) ? 'active' : '' }}">
-                                    <a href="/cms/posts/posts" class="waves-effect waves-block">
-                                        <i class="material-icons">mode_comment</i>
-                                        <span>District Posts</span>
-                                    </a>
-                                </li>
-                                <li id="links" class="{{ Request::is( 'cms/posts/links' ) ? 'active' : '' }}">
-                                    <a href="/cms/posts/links" class="waves-effect waves-block">
-                                        <i class="material-icons">link</i>
-                                        <span>Links</span>
-                                    </a>
-                                </li>
-                                <li id="categories" class="{{ Request::is( 'cms/posts/categories' ) ? 'active' : '' }}">
-                                    <a href="/cms/posts/categories" class="waves-effect waves-block">
-                                        <i class="material-icons">widgets</i>
-                                        <span>Categories</span>
-                                    </a>
-                                </li>  
-                            </ul>
-                        </li>
-                        <li id="district" class="{{ Request::is( 'cms/district/*' ) ? 'active' : '' }}">
-                            <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
-                                <i class="material-icons">business</i>
-                                <span>School District</span>
-                            </a>
-                            <ul class="ml-menu">
-                                <li id="users" class="{{ Request::is( 'cms/district/users' ) ? 'active' : '' }}">
-                                    <a href="" class="waves-effect waves-block">
-                                        <i class="material-icons">people</i>
-                                        <span>Users</span>
-                                    </a>
-                                </li>
-                                <li id="employment" class="{{ Request::is( 'cms/district/employment' ) ? 'active' : '' }}">
-                                    <a href="" class="waves-effect waves-block">
-                                        <i class="material-icons">work</i>
-                                        <span>Employment</span>
-                                    </a>
-                                </li>
-                                 
-                                <li id="files" class="{{ Request::is( 'cms/district/files' ) ? 'active' : '' }}">
-                                    <a href="" class="waves-effect waves-block">
-                                        <i class="material-icons">library_books</i>
-                                        <span>District Files</span>
-                                    </a>
-                                </li>
-                                <li id="packages" class="{{ Request::is( 'cms/district/packages' ) ? 'active' : '' }}">
-                                    <a href="" class="waves-effect waves-block">
-                                        <i class="material-icons">archive</i>
-                                        <span>Board Meeting Packages</span>
-                                    </a>
-                                </li>
-                                <li id="minutes" class="{{ Request::is( 'cms/district/minutes' ) ? 'active' : '' }}">
-                                    <a href="" class="waves-effect waves-block">
-                                        <i class="material-icons">access_time</i>
-                                        <span>Board Meeting Minutes</span>
-                                    </a>
-                                </li>
-                                <li id="policies" class="{{ Request::is( 'cms/district/policies' ) ? 'active' : '' }}">
-                                    <a href="" class="waves-effect waves-block">
-                                        <i class="material-icons">account_balance</i>
-                                        <span>Board of Education - Policies</span>
-                                    </a>
-                                </li>
-                                <li id="directives" class="{{ Request::is( 'cms/district/directives' ) ? 'active' : '' }}">
-                                    <a href="" class="waves-effect waves-block">
-                                        <i class="material-icons">subdirectory_arrow_right</i>
-                                        <span>Board of Education - Process and Directives</span>
-                                    </a>
-                                </li>
-                                <li id="plans" class="{{ Request::is( 'cms/district/plans' ) ? 'active' : '' }}">
-                                    <a href="" class="waves-effect waves-block">
-                                        <i class="material-icons">assignment</i>
-                                        <span>School District Strategic Plans</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li id="web" class="{{ Request::is( 'cms/web/*' ) ? 'active' : '' }}">
-                            <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
-                                <i class="material-icons">public</i>
-                                <span>Web Interactions</span>
-                            </a>
-                            <ul class="ml-menu">
-                                <li id="content" class="{{ Request::is( 'cms/web/content/*' ) ? 'active' : '' }}">
-                                    <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
-                                        <i class="material-icons">view_day</i>
-                                        <span>Web Content</span>
-                                    </a>
-                                    <ul class="ml-menu">
-                                        <li id="about" class="{{ Request::is( 'cms/web/content/about' ) ? 'active' : '' }}">
-                                            <a href="" class="waves-effect waves-block">
-                                                <i class="material-icons">info</i>
-                                                <span>About</span>
-                                            </a>
-                                        </li>
-                                        <li id="contacts" class="{{ Request::is( 'cms/web/content/contacts' ) ? 'active' : '' }}">
-                                            <a href="" class="waves-effect waves-block">
-                                                <i class="material-icons">contacts</i>
-                                                <span>Contacts</span>
-                                            </a>
-                                        </li>
-                                        <li id="carousel" class="{{ Request::is( 'cms/web/content/carousel' ) ? 'active' : '' }}">
-                                            <a href="" class="waves-effect waves-block">
-                                                <i class="material-icons">photo_size_select_large</i>
-                                                <span>Home Carousel</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li id="curriculums" class="{{ Request::is( 'cms/web/curriculums/*' ) ? 'active' : '' }}">
-                                    <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
-                                        <i class="material-icons">local_library</i>
-                                        <span>Curriculum</span>
-                                    </a>
-                                    <ul class="ml-menu">
-                                        <li id="k12" class="{{ Request::is( 'cms/web/curriculums/k12' ) ? 'active' : '' }}">
-                                            <a href="" class="waves-effect waves-block">
-                                                <span>K-12 Program</span>
-                                            </a>
-                                        </li>
-                                        <li id="dl" class="{{ Request::is( 'cms/web/curriculums/dl' ) ? 'active' : '' }}">
-                                            <a href="" class="waves-effect waves-block">
-                                                <span>Distributed Learning Program</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li id="departments" class="{{ Request::is( 'cms/web/departments/*' ) ? 'active' : '' }}">
-                                    <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
-                                        <i class="material-icons">device_hub</i>
-                                        <span>Departments</span>
-                                    </a>
-                                    <ul class="ml-menu">
-                                        <li id="ssd" class="{{ Request::is( 'cms/web/departments/ssd' ) ? 'active' : '' }}">
-                                            <a href="" class="waves-effect waves-block">
-                                                <span>School District Superintendent</span>
-                                            </a>
-                                        </li>
-                                        <li id="finance" class="{{ Request::is( 'cms/web/departments/finance' ) ? 'active' : '' }}">
-                                            <a href="" class="waves-effect waves-block">
-                                                <span>Finance Department</span>
-                                            </a>
-                                        </li>
-                                        <li id="tech" class="{{ Request::is( 'cms/web/departments/tech' ) ? 'active' : '' }}">
-                                            <a href="" class="waves-effect waves-block">
-                                                <span>Information Technology Department</span>
-                                            </a>
-                                        </li>
-                                        <li id="maintenance" class="{{ Request::is( 'cms/web/departments/maintenance' ) ? 'active' : '' }}">
-                                            <a href="" class="waves-effect waves-block">
-                                                <span>Transportation and Maintenance Department</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li id="boe" class="{{ Request::is( 'cms/web/boe' ) ? 'active' : '' }}">
-                                    <a href="" class="waves-effect waves-block">
-                                        <i class="material-icons">group_work</i>
-                                        <span>Board of Education</span>
-                                    </a>
-                                </li>
-                                <li id="gcc" class="{{ Request::is( 'cms/web/gcc' ) ? 'active' : '' }}">
-                                    <a href="" class="waves-effect waves-block">
-                                        <i class="material-icons">face</i>
-                                        <span>Gitginsaa Childcare Centre</span>
-                                    </a>
-                                </li>
-                                <li id="ss" class="{{ Request::is( 'cms/web/ss' ) ? 'active' : '' }}">
-                                    <a href="" class="waves-effect waves-block">
-                                        <i class="material-icons">school</i>
-                                        <span>Strong Start</span>
-                                    </a>
-                                </li>
-                                <li id="nlc" class="{{ Request::is( 'cms/web/nlc' ) ? 'active' : '' }}">
-                                    <a href="" class="waves-effect waves-block">
-                                        <i class="material-icons">record_voice_over</i>
-                                        <span>Nisga'a Language and Culture</span>
-                                    </a>
-                                </li>
-                            </ul>
                         </li>
                     </ul>
                 </div>
