@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\PostController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 
@@ -31,10 +31,5 @@ Route::get('/signout', [AuthController::class, 'signout']);
 
 Route::group(['middleware' => 'authAD', 'prefix' => 'cms'], function (){
     Route::get('/dashboard', [DashboardController::class, 'index']);
-
-    Route::group(['prefix' => 'posts'], function() {
-        Route::get('/posts', [PostController::class, 'postsPostsIndex']);
-        Route::get('/links', [PostController::class, 'postsLinksIndex']);
-        Route::get('/categories', [PostController::class, 'postsCategoriesIndex']);
-    });
+    Route::get('/employees', [EmployeeController::class, 'index']);
 });
