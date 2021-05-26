@@ -7,8 +7,13 @@
             <div class="card">
                     <div class="header">
                         <div class="row clearfix">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-xs-sm-center">
+                            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 text-xs-sm-center">
                                 <h4>EMPLOYEE LIST</h4>      
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                <center>
+                                    <a href="/cms/employees/create" type="button" class="btn bg-blue waves-effect" style="display: inline-block;"><i class="material-icons">add</i><span>NEW EMPLOYEE</span></a>
+                                </center>
                             </div>
                         </div>
                     </div>

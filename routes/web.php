@@ -31,5 +31,10 @@ Route::get('/signout', [AuthController::class, 'signout']);
 
 Route::group(['middleware' => 'authAD', 'prefix' => 'cms'], function (){
     Route::get('/dashboard', [DashboardController::class, 'index']);
-    Route::get('/employees', [EmployeeController::class, 'index']);
+
+    Route::group(['prefix' => 'employees'], function (){
+        Route::get('/', [EmployeeController::class, 'index']);
+        Route::get('/create', [EmployeeController::class, 'createEmployeeForm']);
+        Route::post('/create', [EmployeeController::class, 'createEmployee']);
+    });
 });

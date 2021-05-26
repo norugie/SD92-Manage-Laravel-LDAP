@@ -18,4 +18,15 @@ class EmployeeController extends Controller
         // var_dump($employees);
         // exit();
     }
+
+    public function createEmployeeForm ()
+    {
+        return view ( 'cms.employee.create.employee' );
+    }
+
+    public function createEmployee (Request $request)
+    {
+        dd($request);
+        exit();
+    }
 }
