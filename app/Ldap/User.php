@@ -11,7 +11,9 @@ class User extends Model
      *
      * @var array
      */
-    public static $objectClasses = [];
+    public static $objectClasses = [
+        'user'
+    ];
 
     /**
      * Retrieve the groups the user is apart of.

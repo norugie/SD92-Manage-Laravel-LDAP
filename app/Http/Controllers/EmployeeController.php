@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use App\Ldap\User;
 use App\Ldap\Group;
-use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
 {
@@ -15,8 +16,6 @@ class EmployeeController extends Controller
         return view ( 'cms.employee.employee',[
             'employees' => $employees
         ]);
-        // var_dump($employees);
-        // exit();
     }
 
     public function createEmployeeForm ()
@@ -26,7 +25,27 @@ class EmployeeController extends Controller
 
     public function createEmployee (Request $request)
     {
-        dd($request);
+        $firstname = $request->employee_firstname;
+        $lastname = $request->employee_lastname;
+        $fullname = $firstname . " " . $lastname;
+        $username = strtolower(substr($firstname, 0, 1) . $lastname);
+        $email = $username . "@nisgaa.bc.ca";
+        $password = 
+        $hash_password = Hash::make('SD924now!');
+        $company = 'SD92';
+        $department = $request->employee_department;
+
+        // $employee = new User();
+        
+        // $employee->cn = $fullname;
+        // $employee->givenname = $firstname;
+        // $employee->sn = $lastname;
+        // $employee->company = "SD92";
+        // $employee->department = $department;
+
+        // $employee->save();
+        echo $fullname . "<br>" . $username . "<br>" . $email . "<br>" . $password . "<br>" . $department . "<br>" . $company;
         exit();
+
     }
 }
