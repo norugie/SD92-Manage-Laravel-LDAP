@@ -21,20 +21,11 @@
         <!-- Animation Css -->
         <link href="/cms/plugins/animate-css/animate.css" rel="stylesheet" />
 
-        <!-- Bootstrap DatePicker Css -->
-        <link href="/cms/plugins/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
-
-        <!-- Sweetalert Css -->
-        <link href="/cms/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
-
         <!-- Bootstrap Select Css -->
         <link href="/cms/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
 
         <!-- JQuery DataTable Css -->
         <link href="/cms/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet">
-
-        <!-- FullCalendar Css -->
-        <link href='/cms/plugins/fullcalendar/fullcalendar.min.css' rel='stylesheet' />
 
         <!-- Custom Css -->
         <link href="/cms/css/style.css" rel="stylesheet">
@@ -161,9 +152,6 @@
         <!-- Waves Effect Plugin Js -->
         <script src="/cms/plugins/node-waves/waves.js"></script>
 
-        <!-- SweetAlert Plugin Js -->
-        <script src="/cms/plugins/sweetalert/sweetalert.min.js"></script>
-
         <!-- Jquery DataTable Plugin Js -->
         <script src="/cms/plugins/jquery-datatable/jquery.dataTables.js"></script>
         <script src="/cms/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
@@ -178,16 +166,11 @@
         <!-- Select Plugin Js -->
         <script src="/cms/plugins/bootstrap-select/js/bootstrap-select.js"></script>
 
-        <!-- Bootstrap Datepicker Plugin Js -->
-        <script src="/cms/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-
         <!-- Validation Plugin Js -->
         <script src="/cms/plugins/jquery-validation/jquery.validate.js"></script>
 
         <!-- Custom Js -->
         <script src="/cms/js/admin.js"></script>
-        <script src="/cms/js/dialogs.js"></script>
-        <script src="/cms/js/edit.js"></script>
         <script src="/cms/js/custom.js"></script>
         <!-- END - Page Footer -->
     </body>
