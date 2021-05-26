@@ -4,7 +4,7 @@ namespace App\Ldap;
 
 use LdapRecord\Models\Model;
 
-class User extends Model
+class Group extends Model
 {
     /**
      * The object classes of the LDAP model.
@@ -14,10 +14,12 @@ class User extends Model
     public static $objectClasses = [];
 
     /**
-     * Retrieve the groups the user is apart of.
+     * Retrieve the members of the group.
      */
-    public function groups()
+    public function members()
     {
-        return $this->hasMany(Group::class, 'member');
+        return $this->hasMany([
+            Group::class, User::class
+        ], 'memberof')->using($this, 'member');
     }
 }

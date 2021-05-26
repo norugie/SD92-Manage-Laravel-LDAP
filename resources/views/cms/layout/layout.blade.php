@@ -112,7 +112,7 @@
                                 <span>Dashboard</span>
                             </a>
                         </li>
-                        <li id="employees" class="{{ Request::is( 'cms/employees/*' ) ? 'active' : '' }}">
+                        <li id="employees" class="{{ Request::is( 'cms/employees' ) ? 'active' : '' }}">
                             <a href="/cms/employees">
                                 <i class="material-icons">people</i>
                                 <span>Employee Management</span>
