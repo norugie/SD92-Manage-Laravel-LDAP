@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use LdapRecord\Models\Attributes\Password;
 use App\Ldap\User;
 use App\Ldap\Group;
 
@@ -27,10 +27,6 @@ class EmployeeController extends Controller
 
     public function createEmployee (Request $request)
     {
-        $firstname = $request->employee_firstname;
-        $lastname = $request->employee_lastname;
-        $fullname = $firstname . " " . $lastname;
-
         // Username check
         $username = strtolower(substr($firstname, 0, 1) . $lastname);
         $usernamectr = User::whereContains('cn', $username)->get();
@@ -39,11 +35,15 @@ class EmployeeController extends Controller
             $username = $username . $ctr++;
         }
 
+        $firstname = $request->employee_firstname;
+        $lastname = $request->employee_lastname;
+        $fullname = $firstname . " " . $lastname;
         $email = $username . "@nisgaa.bc.ca";
         $password = "SD924now!";
         $company = "SD92";
         $department = $request->employee_department;
 
+        // Setting employee object values
         $employee = new User();
         
         $employee->cn = $username;
@@ -53,11 +53,22 @@ class EmployeeController extends Controller
         $employee->givenname = $firstname;
         $employee->sn = $lastname;
         $employee->mail = $email;
+        // $employee->unicodePwd = Password::encode($password); // Will work on this again once I have a server for this webapp with that goes through SSL connection
         $employee->company = $company;
         $employee->department = $department;
         $employee->proxyaddresses = "SMTP:" . $email;
 
         $employee->save();
+
+        $employee->refresh();
+
+        // Enable the user.
+        $employee->userAccountControl = 512;
+
+        // Adding to employee group
+        $employee_group = Group::find('CN=employee,CN=Users,DC=nisgaa,DC=bc,DC=ca');
+        $employee->groups()->attach($employee_group);
+
         echo $fullname . "<br>" . $username . "<br>" . $email . "<br>" . $password . "<br>" . $department . "<br>" . $company;
         // exit();
 
