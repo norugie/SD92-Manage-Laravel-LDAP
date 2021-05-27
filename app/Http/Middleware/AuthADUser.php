@@ -39,36 +39,8 @@ class AuthADUser
 
             $page = explode('/', $request->path());
             $viewData['pageSection'] = $page[1];
-            if(isset($page[2])){
-                switch ($page[2]) {
-                    case 'posts': 
-                        $page[2] = 'district posts';
-                        break;
-                    case 'files': 
-                        $page[2] = 'district files';
-                        break;
-                    case 'package': 
-                        $page[2] = 'board meeting packages';
-                        break;
-                    case 'minutes': 
-                        $page[2] = 'board meeting minutes';
-                        break;
-                    case 'policies': 
-                        $page[2] = 'board of education: policies';
-                        break;
-                    case 'directives': 
-                        $page[2] = 'board of education: process and directives';
-                        break;
-                    case 'plans': 
-                        $page[2] = 'district strategic plans';
-                        break;
-                    case 'ss': 
-                        $page[2] = 'strong start';
-                        break;
-                }
 
-                $viewData['pageSubSection'] = $page[2];
-            }
+            if(isset($page[2])) $viewData['pageSubSection'] = $page[2];
 
             $data = json_decode(json_encode($viewData), FALSE);
 

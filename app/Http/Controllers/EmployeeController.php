@@ -13,11 +13,11 @@ class EmployeeController extends Controller
     public function index ()
     {
         $employees = Group::find('CN=employee,CN=Users,DC=nisgaa,DC=bc,DC=ca')->members()->get();
-        return view ( 'cms.employee.employee',[
-            'employees' => $employees
-        ]);
-        // var_dump($employees);
-        // exit();
+        // return view ( 'cms.employee.employee',[
+        //     'employees' => $employees
+        // ]);
+        var_dump($employees);
+        exit();
     }
 
     public function createEmployeeForm ()
@@ -47,12 +47,15 @@ class EmployeeController extends Controller
         $employee = new User();
         
         $employee->cn = $username;
+        $employee->name = $username;
+        $employee->samaccountname = $username;
         $employee->displayname = $fullname;
         $employee->givenname = $firstname;
         $employee->sn = $lastname;
         $employee->mail = $email;
         $employee->company = $company;
         $employee->department = $department;
+        $employee->proxyaddresses = "SMTP:" . $email;
 
         $employee->save();
         echo $fullname . "<br>" . $username . "<br>" . $email . "<br>" . $password . "<br>" . $department . "<br>" . $company;
@@ -60,11 +63,11 @@ class EmployeeController extends Controller
 
     }
 
-    public function stringGenerator ()
-    {  
-        $length = 8;
-        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789";
+    // public function stringGenerator ()
+    // {  
+    //     $length = 8;
+    //     $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789";
         
-        return substr(str_shuffle(str_repeat($chars, $length)),0,$length);
-    }
+    //     return substr(str_shuffle(str_repeat($chars, $length)),0,$length);
+    // }
 }

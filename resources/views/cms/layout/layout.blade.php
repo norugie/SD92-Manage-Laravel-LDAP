@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=Edge">
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-        <title>Dasboard | SD92 - Nisga'a HR</title>
+        <title>Dasboard | SD92 - User Manager</title>
         <!-- Favicon-->
         <link rel="icon" href="/nisgaa-icon.png" type="image/x-icon">
 
@@ -115,7 +115,7 @@
                 <!-- Footer -->
                 <div class="legal">
                     <div class="version">
-                        &copy; <b>2019. SD92 (Nisga'a)</b> v3.0
+                        &copy; <b>2021. SD92 - User Manager</b> v1.0
                     </div>
                     <div class="copyright">
                         Design Template by <b><a href="https://github.com/gurayyarar/AdminBSBMaterialDesign">Güray Yarar</a></b>

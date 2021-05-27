@@ -12,6 +12,9 @@ class User extends Model
      * @var array
      */
     public static $objectClasses = [
+        'top',
+        'person',
+        'organizationalPerson',
         'user'
     ];
 
