@@ -16,6 +16,8 @@ class EmployeeController extends Controller
         return view ( 'cms.employee.employee',[
             'employees' => $employees
         ]);
+        // var_dump($employees);
+        // exit();
     }
 
     public function createEmployeeForm ()
@@ -28,24 +30,41 @@ class EmployeeController extends Controller
         $firstname = $request->employee_firstname;
         $lastname = $request->employee_lastname;
         $fullname = $firstname . " " . $lastname;
+
+        // Username check
         $username = strtolower(substr($firstname, 0, 1) . $lastname);
+        $usernamectr = User::whereContains('cn', $username)->get();
+        if(count($usernamectr) >= 1) {
+            $ctr = count($usernamectr);
+            $username = $username . $ctr++;
+        }
+
         $email = $username . "@nisgaa.bc.ca";
-        $password = 
-        $hash_password = Hash::make('SD924now!');
-        $company = 'SD92';
+        $password = "SD924now!";
+        $company = "SD92";
         $department = $request->employee_department;
 
-        // $employee = new User();
+        $employee = new User();
         
-        // $employee->cn = $fullname;
-        // $employee->givenname = $firstname;
-        // $employee->sn = $lastname;
-        // $employee->company = "SD92";
-        // $employee->department = $department;
+        $employee->cn = $username;
+        $employee->displayname = $fullname;
+        $employee->givenname = $firstname;
+        $employee->sn = $lastname;
+        $employee->mail = $email;
+        $employee->company = $company;
+        $employee->department = $department;
 
-        // $employee->save();
+        $employee->save();
         echo $fullname . "<br>" . $username . "<br>" . $email . "<br>" . $password . "<br>" . $department . "<br>" . $company;
-        exit();
+        // exit();
 
+    }
+
+    public function stringGenerator ()
+    {  
+        $length = 8;
+        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789";
+        
+        return substr(str_shuffle(str_repeat($chars, $length)),0,$length);
     }
 }
