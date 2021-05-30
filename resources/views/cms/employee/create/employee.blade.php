@@ -44,7 +44,7 @@
                             </div>
                             <div class="row clearfix">
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <label for="employee_department">Department *</label>
+                                    <label for="employee_department">Department/School *</label>
                                     <div class="form-group">
                                         <select class="form-control show-tick" name="employee_department" id="employee_department" title="Select employee department" required>
                                             <option value="SDO">School District Board Office</option>
@@ -61,9 +61,14 @@
                                     <label for="employee_role">Role *</label>
                                     <div class="form-group">
                                         <select class="form-control show-tick" name="employee_role" id="employee_role" title="Select employee role" required>
-                                            <option value="teacher">Teacher</option>
-                                            <option value="nonteacher">Non-teaching Staff</option>
-                                            <option value="admin">Administrator</option>
+                                            {{-- SDO Options --}}
+                                            <option value="SDO">School District Board Office</option>
+                                            {{-- TechOffice Options --}}
+                                            {{-- Maintenance Options --}}
+                                            {{-- AAMES Options --}}
+                                            {{-- GES Options --}}
+                                            {{-- NESS Options --}}
+                                            {{-- NBES Options --}}
                                         </select>
                                     </div>
                                 </div>
@@ -81,5 +86,9 @@
         </div>
     </div>
 </div>
+
+<script>
+
+</script>
 
 @endsection
