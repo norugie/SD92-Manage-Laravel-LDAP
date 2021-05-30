@@ -12,12 +12,12 @@ class EmployeeController extends Controller
 {
     public function index ()
     {
-        $employees = Group::find('CN=employee,CN=Users,DC=nisgaa,DC=bc,DC=ca')->members()->get();
-        // return view ( 'cms.employee.employee',[
-        //     'employees' => $employees
-        // ]);
-        var_dump($employees);
-        exit();
+        $employees = Group::findBy('cn', 'employee')->members()->get();
+        return view ( 'cms.employee.employee',[
+            'employees' => $employees
+        ]);
+        // var_dump($employees);
+        // exit();
     }
 
     public function createEmployeeForm ()
@@ -28,6 +28,8 @@ class EmployeeController extends Controller
     public function createEmployee (Request $request)
     {
         // Username check
+        $firstname = $request->employee_firstname;
+        $lastname = $request->employee_lastname;
         $username = strtolower(substr($firstname, 0, 1) . $lastname);
         $usernamectr = User::whereContains('cn', $username)->get();
         if(count($usernamectr) >= 1) {
@@ -35,8 +37,6 @@ class EmployeeController extends Controller
             $username = $username . $ctr++;
         }
 
-        $firstname = $request->employee_firstname;
-        $lastname = $request->employee_lastname;
         $fullname = $firstname . " " . $lastname;
         $email = $username . "@nisgaa.bc.ca";
         $password = "SD924now!";
@@ -53,7 +53,7 @@ class EmployeeController extends Controller
         $employee->givenname = $firstname;
         $employee->sn = $lastname;
         $employee->mail = $email;
-        // $employee->unicodePwd = Password::encode($password); // Will work on this again once I have a server for this webapp with that goes through SSL connection
+        // $employee->unicodePwd = Password::encode($password); // Will work on this again once I have a server for this webapp that goes through SSL connection
         $employee->company = $company;
         $employee->department = $department;
         $employee->proxyaddresses = "SMTP:" . $email;
@@ -62,11 +62,12 @@ class EmployeeController extends Controller
 
         $employee->refresh();
 
-        // Enable the user.
-        $employee->userAccountControl = 512;
+        // Enable the user. Try again with SSL connection in the future
+        // $employee->userAccountControl = 512;
+        // $employee->save();
 
         // Adding to employee group
-        $employee_group = Group::find('CN=employee,CN=Users,DC=nisgaa,DC=bc,DC=ca');
+        $employee_group = Group::findBy('cn', 'employee');
         $employee->groups()->attach($employee_group);
 
         echo $fullname . "<br>" . $username . "<br>" . $email . "<br>" . $password . "<br>" . $department . "<br>" . $company;
