@@ -62,7 +62,6 @@
                                     <div class="form-group">
                                         <select class="form-control show-tick" name="employee_role" id="employee_role" title="Select employee role" required>
                                             {{-- SDO Options --}}
-                                            <option value="SDO">School District Board Office</option>
                                             {{-- TechOffice Options --}}
                                             {{-- Maintenance Options --}}
                                             {{-- AAMES Options --}}
@@ -87,8 +86,26 @@
     </div>
 </div>
 
-<script>
+@endsection
 
+@section( 'custom' )
+
+<script>
+    (function () {
+        $('#employee_department').change(function(){
+            setRoles($(this).val());
+        });
+
+        function setRoles(department){
+            $('#employee_role').find('option').remove().end();
+            $.getJSON('/cms/groups/' + department + '.json', function( data ) {
+                $.each(data, function(key, value) {
+                    $('#employee_role').append('<option value="'+ key +'">' + data[key] + '</option>');
+                });
+                $.AdminBSB.select.refresh();
+            });
+        }
+    })();
 </script>
 
 @endsection
