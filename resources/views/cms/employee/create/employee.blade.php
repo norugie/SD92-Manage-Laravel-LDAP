@@ -80,28 +80,27 @@
 
 <script>
     (function () {
-
         var departments = "/cms/departments/departments.json";
 
         setDepartment();
+        setRole();
 
-        $('#employee_department').change(function(){
-            setRole($(this).val());
-        });
+        // $('#employee_department').change(function(){
+        //     setRole($(this).val());
+        // });
 
         function setDepartment(){
             $.getJSON(departments, function( data ) {
-                $.each(data, function(key, value) {
-                    $('#employee_department').append('<option value="'+ key +'">' + data[key]['name'] + '</option>');
+                $.each(data['departments'], function(key, value) {
+                    $('#employee_department').append('<option value="'+ key +'">' + value['name'] + '</option>');
                 });
                 $.AdminBSB.select.refresh();
             });
         }
 
-        function setRole(department){
-            $('#employee_role').find('option').remove().end();
+        function setRole(){
             $.getJSON(departments, function( data ) {
-                $.each(data[department]['groups'], function(key, value) {
+                $.each(data['global'], function(key, value) {
                     $('#employee_role').append('<option value="'+ key +'">' + value + '</option>');
                 });
                 $.AdminBSB.select.refresh();
