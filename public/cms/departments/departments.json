@@ -1,47 +1,51 @@
 {
-    "SDO": {
-        "name": "School District Office",
-        "groups": {
-            "teacher": "Teacher",
-            "nonteacher": "Non-Teacher Staff",
-            "admin": "Administrator"
-        }
-    },
-    "TechOffice": {
-        "name": "IT Department",
-        "groups": {
+    "departments": {
+        "SDO": {
+            "name": "School District Office",
+            "local": {
+                
+            }
+        },
+        "TechOffice": {
+            "name": "IT Department",
+            "local": {
 
+            }
+        },
+        "Maintenance": {
+            "name": "Maintenance Department",
+            "local": {
+
+            }
+        },
+        "AAMES": {
+            "name": "AAMES",
+            "local": {
+
+            }
+        },
+        "GES": {
+            "name": "GES",
+            "local": {
+
+            }
+        },
+        "NESS": {
+            "name": "NESS",
+            "local": {
+
+            }
+        },
+        "NBES": {
+            "name": "NBES",
+            "local": {
+
+            }
         }
     },
-    "Maintenance": {
-        "name": "Maintenance Department",
-        "groups": {
-            
-        }
-    },
-    "AAMES": {
-        "name": "AAMES",
-        "groups": {
-            
-        }
-    },
-    "GES": {
-        "name": "GES",
-        "groups": {
-            
-        }
-    },
-    "NESS": {
-        "name": "NESS",
-        "groups": {
-            "teacher": "Teacher",
-            "nonteacher": "Non-Teacher Staff"
-        }
-    },
-    "NBES": {
-        "name": "NBES",
-        "groups": {
-            
-        }
+    "global": {
+        "teacher": "Teacher",
+        "admin": "Administrator",
+        "custodian": "Custodian"
     }
 }
