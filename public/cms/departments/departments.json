@@ -1,0 +1,47 @@
+{
+    "SDO": {
+        "name": "School District Office",
+        "groups": {
+            "teacher": "Teacher",
+            "nonteacher": "Non-Teacher Staff",
+            "admin": "Administrator"
+        }
+    },
+    "TechOffice": {
+        "name": "IT Department",
+        "groups": {
+
+        }
+    },
+    "Maintenance": {
+        "name": "Maintenance Department",
+        "groups": {
+            
+        }
+    },
+    "AAMES": {
+        "name": "AAMES",
+        "groups": {
+            
+        }
+    },
+    "GES": {
+        "name": "GES",
+        "groups": {
+            
+        }
+    },
+    "NESS": {
+        "name": "NESS",
+        "groups": {
+            "teacher": "Teacher",
+            "nonteacher": "Non-Teacher Staff"
+        }
+    },
+    "NBES": {
+        "name": "NBES",
+        "groups": {
+            
+        }
+    }
+}
