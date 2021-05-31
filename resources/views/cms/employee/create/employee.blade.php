@@ -47,13 +47,7 @@
                                     <label for="employee_department">Department/School *</label>
                                     <div class="form-group">
                                         <select class="form-control show-tick" name="employee_department" id="employee_department" title="Select employee department" required>
-                                            <option value="SDO">School District Board Office</option>
-                                            <option value="TechOffice">IT Department</option>
-                                            <option value="Maintenance">Maintenance Department</option>
-                                            <option value="AAMES">AAMES</option>
-                                            <option value="GES">GES</option>
-                                            <option value="NESS">NESS</option>
-                                            <option value="NBES">NBES</option>
+                                            {{-- Department Options --}}
                                         </select>
                                     </div>
                                 </div>
@@ -61,13 +55,7 @@
                                     <label for="employee_role">Role *</label>
                                     <div class="form-group">
                                         <select class="form-control show-tick" name="employee_role" id="employee_role" title="Select employee role" required>
-                                            {{-- SDO Options --}}
-                                            {{-- TechOffice Options --}}
-                                            {{-- Maintenance Options --}}
-                                            {{-- AAMES Options --}}
-                                            {{-- GES Options --}}
-                                            {{-- NESS Options --}}
-                                            {{-- NBES Options --}}
+                                            {{-- Role Options --}}
                                         </select>
                                     </div>
                                 </div>
@@ -92,15 +80,29 @@
 
 <script>
     (function () {
+
+        var departments = "/cms/departments/departments.json";
+
+        setDepartment();
+
         $('#employee_department').change(function(){
-            setRoles($(this).val());
+            setRole($(this).val());
         });
 
-        function setRoles(department){
-            $('#employee_role').find('option').remove().end();
-            $.getJSON('/cms/groups/' + department + '.json', function( data ) {
+        function setDepartment(){
+            $.getJSON(departments, function( data ) {
                 $.each(data, function(key, value) {
-                    $('#employee_role').append('<option value="'+ key +'">' + data[key] + '</option>');
+                    $('#employee_department').append('<option value="'+ key +'">' + data[key]['name'] + '</option>');
+                });
+                $.AdminBSB.select.refresh();
+            });
+        }
+
+        function setRole(department){
+            $('#employee_role').find('option').remove().end();
+            $.getJSON(departments, function( data ) {
+                $.each(data[department]['groups'], function(key, value) {
+                    $('#employee_role').append('<option value="'+ key +'">' + value + '</option>');
                 });
                 $.AdminBSB.select.refresh();
             });
