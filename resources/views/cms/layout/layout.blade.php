@@ -24,8 +24,8 @@
         <!-- Bootstrap Select Css -->
         <link href="/cms/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
 
-        {{-- <!-- JQuery DataTable Css -->
-        <link href="/cms/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet"> --}}
+        <!-- JQuery DataTable Css -->
+        <link href="/cms/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet">
 
         <!-- Custom Css -->
         <link href="/cms/css/style.css" rel="stylesheet">
@@ -42,7 +42,7 @@
         <!-- CMS Content -->
 
         <!-- Page Loader -->
-        {{-- <div class="page-loader-wrapper">
+        <div class="page-loader-wrapper">
             <div class="loader">
                 <div class="preloader">
                     <div class="spinner-layer pl-blue-grey">
@@ -56,7 +56,7 @@
                 </div>
                 <p>Please wait...</p>
             </div>
-        </div> --}}
+        </div>
         <!-- END - Page Loader -->
 
         <!-- Page Sidebar Overlay -->
@@ -129,7 +129,7 @@
         <!-- Main Content -->
         <section class="content">
             <div class="container-fluid">
-                @yield ( 'notice' )
+                @include( 'cms.layout.notification' )
                 <div class="block-header">
                     <h2>{{ strtoupper($data->pageSection) }} @isset($data->pageSubSection) {{ " - " . strtoupper($data->pageSubSection) }} @endisset</h2>
                 </div>
@@ -152,7 +152,7 @@
         <!-- Waves Effect Plugin Js -->
         <script src="/cms/plugins/node-waves/waves.js"></script>
 
-        {{-- <!-- Jquery DataTable Plugin Js -->
+        <!-- Jquery DataTable Plugin Js -->
         <script src="/cms/plugins/jquery-datatable/jquery.dataTables.js"></script>
         <script src="/cms/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
         <script src="/cms/plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
@@ -161,7 +161,7 @@
         <script src="/cms/plugins/jquery-datatable/extensions/export/pdfmake.min.js"></script>
         <script src="/cms/plugins/jquery-datatable/extensions/export/vfs_fonts.js"></script>
         <script src="/cms/plugins/jquery-datatable/extensions/export/buttons.html5.min.js"></script>
-        <script src="/cms/plugins/jquery-datatable/extensions/export/buttons.print.min.js"></script> --}}
+        <script src="/cms/plugins/jquery-datatable/extensions/export/buttons.print.min.js"></script>
 
         <!-- Select Plugin Js -->
         <script src="/cms/plugins/bootstrap-select/js/bootstrap-select.js"></script>
@@ -171,7 +171,7 @@
 
         <!-- Custom Js -->
         <script src="/cms/js/admin.js"></script>
-        {{-- <script src="/cms/js/custom.js"></script> --}}
+        <script src="/cms/js/custom.js"></script>
         @yield( 'custom' )
         <!-- END - Page Footer -->
     </body>

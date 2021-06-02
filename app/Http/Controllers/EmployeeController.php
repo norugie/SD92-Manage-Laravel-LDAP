@@ -70,8 +70,10 @@ class EmployeeController extends Controller
         $employee_group = Group::findBy('cn', 'employee');
         $employee->groups()->attach($employee_group);
 
-        echo $fullname . "<br>" . $username . "<br>" . $email . "<br>" . $password . "<br>" . $department . "<br>" . $company;
+        // echo $fullname . "<br>" . $username . "<br>" . $email . "<br>" . $password . "<br>" . $department . "<br>" . $company;
         // exit();
+        $message = 'An account for <b>' . $fullname . '</b> has been created successfully. <a href="/cms/employees/' . $username . '"><b>See account details here</b>.</a>';
+        return redirect('/cms/employees')->with('message', $message);
 
     }
 
