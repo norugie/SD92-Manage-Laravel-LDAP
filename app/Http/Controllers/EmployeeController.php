@@ -37,10 +37,10 @@ class EmployeeController extends Controller
             $username = $username . $ctr++;
         }
 
-        $fullname = $firstname . " " . $lastname;
-        $email = $username . "@nisgaa.bc.ca";
-        $password = "SD924now!";
-        $company = "SD92";
+        $fullname = $firstname . ' ' . $lastname;
+        $email = $username . '@nisgaa.bc.ca';
+        $password = $this->stringGenerator();
+        $company = 'SD92';
         $department = $request->employee_department;
 
         // Setting employee object values
@@ -56,7 +56,7 @@ class EmployeeController extends Controller
         // $employee->unicodePwd = Password::encode($password); // Will work on this again once I have a server for this webapp that goes through SSL connection
         $employee->company = $company;
         $employee->department = $department;
-        $employee->proxyaddresses = "SMTP:" . $email;
+        $employee->proxyaddresses = 'SMTP:' . $email;
 
         $employee->save();
 
@@ -70,18 +70,19 @@ class EmployeeController extends Controller
         $employee_group = Group::findBy('cn', 'employee');
         $employee->groups()->attach($employee_group);
 
-        // echo $fullname . "<br>" . $username . "<br>" . $email . "<br>" . $password . "<br>" . $department . "<br>" . $company;
-        // exit();
-        $message = 'An account for <b>' . $fullname . '</b> has been created successfully. <a href="/cms/employees/' . $username . '"><b>See account details here</b>.</a>';
-        return redirect('/cms/employees')->with('message', $message);
+        $message = 'An account for <b>' . $fullname . '</b> has been created successfully. <a href="/cms/employees/' . $username . '" class="alert-link">See account details here</a>.';
+        
+        return redirect('/cms/employees')
+            ->with('status', 'success')
+            ->with('message', $message);
 
     }
 
-    // public function stringGenerator ()
-    // {  
-    //     $length = 8;
-    //     $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789";
+    public function stringGenerator ()
+    {  
+        $length = 8;
+        $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789';
         
-    //     return substr(str_shuffle(str_repeat($chars, $length)),0,$length);
-    // }
+        return substr(str_shuffle(str_repeat($chars, $length)), 0, $length);
+    }
 }

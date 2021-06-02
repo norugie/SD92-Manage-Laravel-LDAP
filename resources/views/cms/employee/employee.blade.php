@@ -53,21 +53,4 @@
         </div>
     </div>
 
-    {{-- <table>
-    <thead>
-        <tr>
-        <th>Username</th>
-        <th>Full Name</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($employees as $employee)
-        <tr>
-        <td>{{ $employee->getFirstAttribute('samaccountname') }}</td>
-        <td>{{ $employee->getFirstAttribute('displayname') }}</td>
-        </tr>
-        @endforeach
-    </tbody>
-    </table> --}}
-
 @endsection

@@ -25,6 +25,10 @@ Route::get('/error', function () {
     return view('error');
 });
 
+Route::get('/restricted', function () {
+    return view('restricted');
+});
+
 Route::get('/signin', [AuthController::class, 'signin']);
 Route::get('/callback', [AuthController::class, 'callback']);
 Route::get('/signout', [AuthController::class, 'signout']);
