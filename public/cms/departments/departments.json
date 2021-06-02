@@ -3,13 +3,15 @@
         "SDO": {
             "name": "School District Office",
             "local": {
-                
+                "boe": "Board of Education",
+                "counselor": "District Counselor",
+                "nlc": "Nisga'a Language and Culture Principal"
             }
         },
         "TechOffice": {
             "name": "IT Department",
             "local": {
-
+                "supertech": "Tech Administrator"
             }
         },
         "Maintenance": {
@@ -44,8 +46,12 @@
         }
     },
     "global": {
-        "teacher": "Teacher",
         "admin": "Administrator",
+        "manager": "Manager",
+        "sds": "SDS User Group",
+        "secretary": "Secretary",
+        "cupe": "CUPE",
+        "teacher": "Teacher",
         "custodian": "Custodian"
     }
 }

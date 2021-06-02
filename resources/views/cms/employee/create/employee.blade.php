@@ -52,9 +52,19 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <label for="employee_role">Role *</label>
+                                    <label for="employee_locations">Locations *</label>
                                     <div class="form-group">
-                                        <select class="form-control show-tick" name="employee_role" id="employee_role" title="Select employee role" required>
+                                        <select class="form-control show-tick" multiple name="employee_locations[]" id="employee_locations" title="Select employee locations" required>
+                                            {{-- Location Options --}}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <label for="employee_roles">Roles *</label>
+                                    <div class="form-group">
+                                        <select class="form-control show-tick" multiple name="employee_roles[]" id="employee_roles" title="Select employee roles" required>
                                             {{-- Role Options --}}
                                         </select>
                                     </div>
@@ -83,14 +93,33 @@
         var departments = "/cms/departments/departments.json";
 
         setDepartment();
-        setRole();
+        setLocations();
+        setRoles();
 
-        // $('#employee_department').change(function(){
-        //     setRole($(this).val());
-        // });
+        $('#employee_locations').change(function(){
+            $('#employee_roles').empty();
+            var local = $(this).val();
+
+            setRoles();
+
+            $.each(local, function(key, value){
+                var optgroup = '<optgroup label="'+ value +'">';
+                
+                $.getJSON(departments, function(data) {
+                    $.each(data['departments'][value]['local'], function(key, value) {
+                        optgroup += '<option value="'+ key +'">'+ value +'</option>';
+                    });
+
+                    optgroup += "</optgroup>";
+
+                    $('#employee_roles').append(optgroup);
+                    $.AdminBSB.select.refresh();
+                });
+            });
+        });
 
         function setDepartment(){
-            $.getJSON(departments, function( data ) {
+            $.getJSON(departments, function(data) {
                 $.each(data['departments'], function(key, value) {
                     $('#employee_department').append('<option value="'+ key +'">' + value['name'] + '</option>');
                 });
@@ -98,11 +127,23 @@
             });
         }
 
-        function setRole(){
-            $.getJSON(departments, function( data ) {
-                $.each(data['global'], function(key, value) {
-                    $('#employee_role').append('<option value="'+ key +'">' + value + '</option>');
+        function setLocations(){
+            $.getJSON(departments, function(data) {
+                $.each(data['departments'], function(key, value) {
+                    $('#employee_locations').append('<option value="'+ key +'">' + value['name'] + '</option>');
                 });
+                $.AdminBSB.select.refresh();
+            });
+        }
+
+        function setRoles(){
+            var optgroup = '<optgroup label="General Roles">';
+            $.getJSON(departments, function(data) {
+                $.each(data['global'], function(key, value) {
+                    optgroup += '<option value="'+ key +'">' + value + '</option>';
+                });
+                optgroup += "</optgroup>";
+                $('#employee_roles').append(optgroup);
                 $.AdminBSB.select.refresh();
             });
         }

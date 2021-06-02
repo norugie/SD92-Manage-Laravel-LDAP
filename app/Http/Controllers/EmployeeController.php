@@ -42,39 +42,43 @@ class EmployeeController extends Controller
         $password = $this->stringGenerator();
         $company = 'SD92';
         $department = $request->employee_department;
+        $locations = $request->employee_locations;
 
-        // Setting employee object values
-        $employee = new User();
+        echo $fullname . "<br>" . $username . "<br>" . $email . "<br>" . $password . "<br>department: " . $department . "<br>locations: ";
+        var_dump($locations);
+
+        // // Setting employee object values
+        // $employee = new User();
         
-        $employee->cn = $username;
-        $employee->name = $username;
-        $employee->samaccountname = $username;
-        $employee->displayname = $fullname;
-        $employee->givenname = $firstname;
-        $employee->sn = $lastname;
-        $employee->mail = $email;
-        // $employee->unicodePwd = Password::encode($password); // Will work on this again once I have a server for this webapp that goes through SSL connection
-        $employee->company = $company;
-        $employee->department = $department;
-        $employee->proxyaddresses = 'SMTP:' . $email;
+        // $employee->cn = $username;
+        // $employee->name = $username;
+        // $employee->samaccountname = $username;
+        // $employee->displayname = $fullname;
+        // $employee->givenname = $firstname;
+        // $employee->sn = $lastname;
+        // $employee->mail = $email;
+        // // $employee->unicodePwd = Password::encode($password); // Will work on this again once I have a server for this webapp that goes through SSL connection
+        // $employee->company = $company;
+        // $employee->department = $department;
+        // $employee->proxyaddresses = 'SMTP:' . $email;
 
-        $employee->save();
-
-        $employee->refresh();
-
-        // Enable the user. Try again with SSL connection in the future
-        // $employee->userAccountControl = 512;
         // $employee->save();
 
-        // Adding to employee group
-        $employee_group = Group::findBy('cn', 'employee');
-        $employee->groups()->attach($employee_group);
+        // $employee->refresh();
 
-        $message = 'An account for <b>' . $fullname . '</b> has been created successfully. <a href="/cms/employees/' . $username . '" class="alert-link">See account details here</a>.';
+        // // Enable the user. Try again with SSL connection in the future
+        // // $employee->userAccountControl = 512;
+        // // $employee->save();
+
+        // // Adding to employee group
+        // $employee_group = Group::findBy('cn', 'employee');
+        // $employee->groups()->attach($employee_group);
+
+        // $message = 'An account for <b>' . $fullname . '</b> has been created successfully. <a href="/cms/employees/' . $username . '" class="alert-link">See account details here</a>.';
         
-        return redirect('/cms/employees')
-            ->with('status', 'success')
-            ->with('message', $message);
+        // return redirect('/cms/employees')
+        //     ->with('status', 'success')
+        //     ->with('message', $message);
 
     }
 
