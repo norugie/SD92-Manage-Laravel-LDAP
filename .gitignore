@@ -11,3 +11,8 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
