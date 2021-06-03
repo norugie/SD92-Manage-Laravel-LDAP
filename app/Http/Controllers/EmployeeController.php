@@ -42,10 +42,14 @@ class EmployeeController extends Controller
         $password = $this->stringGenerator();
         $company = 'SD92';
         $department = $request->employee_department;
+        $locations = $request->employee_locations;
+
+        // echo $fullname . "<br>" . $username . "<br>" . $email . "<br>" . $password . "<br>department: " . $department . "<br>locations: ";
+        // var_dump($locations);
 
         // Setting employee object values
         $employee = new User();
-        
+
         $employee->cn = $username;
         $employee->name = $username;
         $employee->samaccountname = $username;
@@ -57,6 +61,8 @@ class EmployeeController extends Controller
         $employee->company = $company;
         $employee->department = $department;
         $employee->proxyaddresses = 'SMTP:' . $email;
+
+        $employee->setDn('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
 
         $employee->save();
 
@@ -76,6 +82,10 @@ class EmployeeController extends Controller
             ->with('status', 'success')
             ->with('message', $message);
 
+    }
+
+    public function viewEmployeeProfile( String $username ){
+        return view( 'cms.employee.profile' );
     }
 
     public function stringGenerator ()

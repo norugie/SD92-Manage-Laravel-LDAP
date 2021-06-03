@@ -3,13 +3,19 @@
         "SDO": {
             "name": "School District Office",
             "local": {
-                
+                "boe": "Board of Education",
+                "districtcounselor": "District Counselor",
+                "nlcprincipal": "Nisga'a Language and Culture Principal",
+                "Accounting": "Accounting",
+                "PayrollDept": "Payroll Staff",
+                "Finance": "Finance Staff",
+                "HR": "HR Staff"
             }
         },
         "TechOffice": {
             "name": "IT Department",
             "local": {
-
+                "supertech": "Tech Administrator"
             }
         },
         "Maintenance": {
@@ -44,8 +50,12 @@
         }
     },
     "global": {
+        "admins": "Administrators",
+        "manager": "Managers",
+        "sdsusers": "SDS User Group",
+        "secretary": "Secretary",
+        "cupe": "CUPE",
         "teacher": "Teacher",
-        "admin": "Administrator",
         "custodian": "Custodian"
     }
 }

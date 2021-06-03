@@ -25,7 +25,7 @@
                                     <th>Name</th>
                                     <th>Username</th>
                                     <th>Email Address</th>
-                                    <th>Department</th>
+                                    <th>School/Department</th>
                                 </tr>
                             </thead>
                             <tfoot>
@@ -33,7 +33,7 @@
                                     <th>Name</th>
                                     <th>Username</th>
                                     <th>Email Address</th>
-                                    <th>Department</th>
+                                    <th>School/Department</th>
                                 </tr>
                             </tfoot>
                             <tbody>
