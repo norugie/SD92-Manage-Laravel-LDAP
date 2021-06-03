@@ -4,8 +4,12 @@
             "name": "School District Office",
             "local": {
                 "boe": "Board of Education",
-                "counselor": "District Counselor",
-                "nlc": "Nisga'a Language and Culture Principal"
+                "districtcounselor": "District Counselor",
+                "nlcprincipal": "Nisga'a Language and Culture Principal",
+                "Accounting": "Accounting",
+                "PayrollDept": "Payroll Staff",
+                "Finance": "Finance Staff",
+                "HR": "HR Staff"
             }
         },
         "TechOffice": {
@@ -46,9 +50,9 @@
         }
     },
     "global": {
-        "admin": "Administrator",
-        "manager": "Manager",
-        "sds": "SDS User Group",
+        "admins": "Administrators",
+        "manager": "Managers",
+        "sdsusers": "SDS User Group",
         "secretary": "Secretary",
         "cupe": "CUPE",
         "teacher": "Teacher",
