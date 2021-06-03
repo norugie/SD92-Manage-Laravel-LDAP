@@ -1,0 +1,85 @@
+{
+    "locations": {
+        "SDO": {
+            "name": "School District Office",
+            "local_roles": {
+                "adminasst": "Administrative Assistant",
+                "boe": "Board of Education Member",
+                "districtcounselor": "District Counselor",
+                "superintendent": "District Superintendent",
+                "nlcprincipal": "Nisga'a Language and Culture Principal"
+            },
+            "departments": {
+                "Accounting": "Accounting Department",
+                "Accounts Payable": "Accounts Payable Department",
+                "Finance Department": "Finance Department",
+                "HR": "HR Department",
+                "PayrollDept": "Payroll Department"
+            }
+        },
+        "TechOffice": {
+            "name": "IT Department",
+            "local_roles": {
+                "supertech": "Tech Administrator"
+            },
+            "departments": {
+
+            }
+        },
+        "Maintenance": {
+            "name": "Maintenance Department",
+            "local_roles": {
+                "driver": "Bus Driver",
+                "custodian": "Custodian"
+            },
+            "departments": {
+                
+            }
+        },
+        "AAMES": {
+            "name": "AAMES",
+            "local_roles": {
+
+            },
+            "departments": {
+                
+            }
+        },
+        "GES": {
+            "name": "GES",
+            "local_roles": {
+
+            },
+            "departments": {
+                
+            }
+        },
+        "NESS": {
+            "name": "NESS",
+            "local_roles": {
+
+            },
+            "departments": {
+                
+            }
+        },
+        "NBES": {
+            "name": "NBES",
+            "local_roles": {
+
+            },
+            "departments": {
+                
+            }
+        }
+    },
+    "global_roles": {
+        "admins": "Administrator",
+        "manager": "Manager",
+        "sdsusers": "SDS User",
+        "secretary": "Secretary",
+        "cupe": "CUPE",
+        "teacher": "Teacher",
+        "nlc": "Nisga'a Language and Culture"
+    }
+}
