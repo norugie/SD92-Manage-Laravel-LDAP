@@ -39,7 +39,15 @@
         "AAMES": {
             "name": "AAMES",
             "local_roles": {
-
+                "aamesK": "AAMES - Kindergarten",
+                "aames01": "AAMES - Grade 1",
+                "aames02": "AAMES - Grade 2",
+                "aames03": "AAMES - Grade 3",
+                "aames04": "AAMES - Grade 4",
+                "aames05": "AAMES - Grade 5",
+                "aames06": "AAMES - Grade 6",
+                "aames07": "AAMES - Grade 7",
+                "aamessadult": "AAMES - Adult Ed"
             },
             "departments": {
                 
@@ -48,7 +56,15 @@
         "GES": {
             "name": "GES",
             "local_roles": {
-
+                "gesK": "GES - Kindergarten",
+                "ges01": "GES - Grade 1",
+                "ges02": "GES - Grade 2",
+                "ges03": "GES - Grade 3",
+                "ges04": "GES - Grade 4",
+                "ges05": "GES - Grade 5",
+                "ges06": "GES - Grade 6",
+                "ges07": "GES - Grade 7",
+                "gesadult": "GES - Adult Ed"
             },
             "departments": {
                 
@@ -57,7 +73,21 @@
         "NESS": {
             "name": "NESS",
             "local_roles": {
-
+                "nessK": "NESS - Kindergarten",
+                "ness01": "NESS - Grade 1",
+                "ness02": "NESS - Grade 2",
+                "ness03": "NESS - Grade 3",
+                "ness04": "NESS - Grade 4",
+                "ness05": "NESS - Grade 5",
+                "ness06": "NESS - Grade 6",
+                "ness07": "NESS - Grade 7",
+                "ness08": "NESS - Grade 8",
+                "ness09": "NESS - Grade 9",
+                "ness10": "NESS - Grade 10",
+                "ness11": "NESS - Grade 11",
+                "ness12": "NESS - Grade 12",
+                "nessAlt": "NESS - Alternative Ed",
+                "nessadult": "NESS - Adult Ed"
             },
             "departments": {
                 
@@ -66,7 +96,15 @@
         "NBES": {
             "name": "NBES",
             "local_roles": {
-
+                "nbesK": "NBES - Kindergarten",
+                "nbes01": "NBES - Grade 1",
+                "nbes02": "NBES - Grade 2",
+                "nbes03": "NBES - Grade 3",
+                "nbes04": "NBES - Grade 4",
+                "nbes05": "NBES - Grade 5",
+                "nbes06": "NBES - Grade 6",
+                "nbes07": "NBES - Grade 7",
+                "nbesadult": "NBES - Adult Ed"
             },
             "departments": {
                 

@@ -11,7 +11,7 @@
 
         setRoles();
 
-        var optgrouproles = '<optgroup label="'+ local +' Roles">';
+        var optgrouproles = '<optgroup label="'+ local +' Specific Roles">';
         var optgroupdept = '<optgroup label="'+ local +' Sub-Departments">';
         
         $.getJSON(config, function(data) {
@@ -27,8 +27,7 @@
 
             optgroupdept += "</optgroup>";
 
-            $('#employee_roles').append(optgrouproles);
-            $('#employee_roles').append(optgroupdept);
+            $('#employee_roles').append(optgrouproles).append(optgroupdept);
             $.AdminBSB.select.refresh();
         });
     });
