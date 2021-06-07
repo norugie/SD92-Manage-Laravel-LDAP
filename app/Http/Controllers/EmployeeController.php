@@ -119,8 +119,22 @@ class EmployeeController extends Controller
 
     }
 
-    public function viewEmployeeProfile( String $username ){
-        return view( 'cms.employee.profile' );
+    public function viewEmployeeProfile ( String $username )
+    {
+        $user = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
+        return view( 'cms.employee.profile', [
+            'user' => $user
+        ]);
+    }
+
+    public function viewEmployeeProfileUpdateForm ( String $username ){
+        $user = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
+        $groups = $user->groups()->recursive()->get();
+
+        return view( 'cms.employee.update.employee', [
+            'user' => $user,
+            'groups' => $groups
+        ]);
     }
 
     public function stringGenerator ()
