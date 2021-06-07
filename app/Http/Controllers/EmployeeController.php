@@ -52,51 +52,70 @@ class EmployeeController extends Controller
                 array_push($roles, $i);
             } else {
                 $i = substr_replace($i, '', 0, 5);
-                array_push($sub_department, $i);
+                array_push($sub_departments, $i);
             }
         endforeach;
 
-        echo $fullname . "<br>" . $username . "<br>" . $email . "<br>" . $password . "<br>department: " . $department . "<br>locations: ";
-        var_dump($locations);
-        echo "<br>roles: ";
-        var_dump($roles);
-        echo "<br>sub-departments: ";
-        var_dump($sub_department);
-
         // Setting employee object values
-        // $employee = new User();
+        $employee = new User();
 
-        // $employee->cn = $username;
-        // $employee->name = $username;
-        // $employee->samaccountname = $username;
-        // $employee->displayname = $fullname;
-        // $employee->givenname = $firstname;
-        // $employee->sn = $lastname;
-        // $employee->mail = $email;
-        // // $employee->unicodePwd = Password::encode($password); // Will work on this again once I have a server for this webapp that goes through SSL connection
-        // $employee->company = $company;
-        // $employee->department = $department;
-        // $employee->proxyaddresses = 'SMTP:' . $email;
+        $employee->cn = $username;
+        $employee->name = $username;
+        $employee->samaccountname = $username;
+        $employee->displayname = $fullname;
+        $employee->givenname = $firstname;
+        $employee->sn = $lastname;
+        $employee->mail = $email;
+        // $employee->unicodePwd = Password::encode($password); // Will work on this again once I have a server for this webapp that goes through SSL connection
+        $employee->company = $company;
+        $employee->department = $department;
+        $employee->description = $department . " employee";
+        $employee->proxyaddresses = 'SMTP:' . $email;
 
-        // $employee->setDn('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
+        $employee->setDn('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
 
+        $employee->save();
+
+        $employee->refresh();
+
+        // Enable the user. Try again with SSL connection in the future
+        // $employee->userAccountControl = 512;
         // $employee->save();
 
-        // $employee->refresh();
+        // Adding to employee group
+        $employee_group = Group::findBy('cn', 'employee');
+        $employee->groups()->attach($employee_group);
 
-        // // Enable the user. Try again with SSL connection in the future
-        // // $employee->userAccountControl = 512;
-        // // $employee->save();
+        // Adding to location groups
+        foreach($locations as $location): 
+            $employee_group = Group::findBy('cn', $location);
+            $employee->groups()->attach($employee_group);
+        endforeach;
 
-        // // Adding to employee group
-        // $employee_group = Group::findBy('cn', 'employee');
-        // $employee->groups()->attach($employee_group);
+        // Adding role groups
+        foreach($roles as $role): 
+            $employee_group = Group::findBy('cn', $role);
+            $employee->groups()->attach($employee_group);
+        endforeach;
 
-        // $message = 'An account for <b>' . $fullname . '</b> has been created successfully. <a href="/cms/employees/' . $username . '" class="alert-link">See account details here</a>.';
+        // Adding sub-department groups
+        foreach($sub_departments as $sub): 
+            $employee_group = Group::findBy('cn', $sub);
+            $employee->groups()->attach($employee_group);
+        endforeach;
+
+        // echo $fullname . "<br>" . $username . "<br>" . $email . "<br>" . $password . "<br>department: " . $department . "<br>locations: ";
+        // var_dump($locations);
+        // echo "<br>roles: ";
+        // var_dump($roles);
+        // echo "<br>sub-departments: ";
+        // var_dump($sub_departments);
+
+        $message = 'An account for <b>' . $fullname . '</b> has been created successfully. <a href="/cms/employees/' . $username . '" class="alert-link">See account details here</a>.';
         
-        // return redirect('/cms/employees')
-        //     ->with('status', 'success')
-        //     ->with('message', $message);
+        return redirect('/cms/employees')
+            ->with('status', 'success')
+            ->with('message', $message);
 
     }
 
