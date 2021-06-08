@@ -48,6 +48,9 @@
                                     <div class="form-group">
                                         <select class="form-control show-tick" name="employee_department" id="employee_department" title="Select employee department/school" required>
                                             {{-- Department Options --}}
+                                            @foreach($config['locations'] as $key => $value)
+                                                <option value="{{ $key }}">{{ $value['name'] }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -56,6 +59,9 @@
                                     <div class="form-group">
                                         <select class="form-control show-tick" multiple name="employee_locations[]" id="employee_locations" title="Select employee locations">
                                             {{-- Location Options --}}
+                                            @foreach($config['locations'] as $key => $value)
+                                                <option value="{{ $key }}">{{ $value['name'] }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -64,6 +70,11 @@
                                     <div class="form-group">
                                         <select class="form-control show-tick" multiple name="employee_roles[]" id="employee_roles" title="Select employee roles">
                                             {{-- Role Options --}}
+                                            <optgroup label="General Roles">
+                                                @foreach($config['global_roles'] as $key => $value)
+                                                    <option value="{{ $key }}">{{ $value }}</option>
+                                                @endforeach
+                                            </optgroup>
                                         </select>
                                     </div>
                                 </div>

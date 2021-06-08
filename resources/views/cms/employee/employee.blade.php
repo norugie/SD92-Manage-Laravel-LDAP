@@ -25,7 +25,8 @@
                                     <th>Name</th>
                                     <th>Username</th>
                                     <th>Email Address</th>
-                                    <th>School/Department</th>
+                                    <th>Main School/Department</th>
+                                    <th>Options</th>
                                 </tr>
                             </thead>
                             <tfoot>
@@ -33,7 +34,8 @@
                                     <th>Name</th>
                                     <th>Username</th>
                                     <th>Email Address</th>
-                                    <th>School/Department</th>
+                                    <th>Main School/Department</th>
+                                    <th>Options</th>
                                 </tr>
                             </tfoot>
                             <tbody>
@@ -43,6 +45,21 @@
                                     <td>{{ $employee->getFirstAttribute('samaccountname') }}</td>
                                     <td>{{ $employee->getFirstAttribute('mail') }}</td>
                                     <td>{{ $employee->getFirstAttribute('department') }}</td>
+                                    <td>
+                                        <center>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="material-icons">more_horiz</i><span>OPTIONS</span> <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="/cms/employees/{{ $employee->getFirstAttribute('samaccountname')  }}">View Profile</a></li>
+                                                    <li><a href="/cms/employees/{{ $employee->getFirstAttribute('samaccountname')  }}/update">Update Profile</a></li>
+                                                    <li role="separator" class="divider"></li>
+                                                    <li><a href="/cms/employees/{{ $employee->getFirstAttribute('samaccountname')  }}/deactivate">Deactivate Profile</a></li>
+                                                </ul>
+                                            </div>
+                                        </center>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
