@@ -13,7 +13,7 @@ class EmployeeController extends Controller
     public function index ()
     {
         $employees = Group::findBy('cn', 'employee')->members()->get();
-        return view ( 'cms.employee.employee',[
+        return view ( 'cms.employee.employee', [
             'employees' => $employees
         ]);
         // var_dump($employees);
@@ -22,7 +22,11 @@ class EmployeeController extends Controller
 
     public function createEmployeeForm ()
     {
-        return view ( 'cms.employee.create.employee' );
+        $json = file_get_contents('cms/config.json');
+        $config = json_decode($json, true);
+        return view ( 'cms.employee.create.employee', [
+            'config' => $config
+        ]);
     }
 
     public function createEmployee (Request $request)
@@ -129,11 +133,30 @@ class EmployeeController extends Controller
 
     public function viewEmployeeProfileUpdateForm ( String $username ){
         $user = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
-        $groups = $user->groups()->recursive()->get();
+        $groups = $user->groups()->get();
+        $locations = [];
+        $sub_departments = [];
+        $check = [];
+
+        $json = file_get_contents('cms/config.json');
+        $config = json_decode($json, true);
+
+        foreach($config['locations'] as $key => $value): 
+            array_push($check, $key);
+        endforeach;
+
+        foreach($groups as $group):
+            $group = $group->getName();
+            if(in_array($group, $check) ? array_push($locations, $group) : array_push($sub_departments, $group));
+        endforeach;
+
+        $sub_departments = array_diff($sub_departments, ['employee']);
 
         return view( 'cms.employee.update.employee', [
             'user' => $user,
-            'groups' => $groups
+            'config' => $config,
+            'locations' => $locations,
+            'sub_departments' => $sub_departments
         ]);
     }
 
