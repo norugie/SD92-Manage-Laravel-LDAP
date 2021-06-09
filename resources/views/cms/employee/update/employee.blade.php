@@ -8,11 +8,11 @@
             <div class="header">
                 <div class="row clearfix">
                     <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 text-xs-sm-center">
-                        <h4>USER INFORMATION: {{ $user->getFirstAttribute('displayname') }}</h4>      
+                        <h4>USER INFORMATION: {{ $employee->getFirstAttribute('displayname') }}</h4>      
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                         <center>
-                            <a href="/cms/employees/{{ $user->getFirstAttribute('samaccountname') }}" type="button" class="btn bg-blue waves-effect" style="display: inline-block;"><i class="material-icons">person</i><span>VIEW EMPLOYEE INFO</span></a>
+                            <a href="/cms/employees/{{ $employee->getFirstAttribute('samaccountname') }}" type="button" class="btn bg-blue waves-effect" style="display: inline-block;"><i class="material-icons">person</i><span>VIEW EMPLOYEE INFO</span></a>
                             <a href="/cms/employees" type="button" class="btn bg-blue waves-effect" style="display: inline-block;"><i class="material-icons">list</i><span>EMPLOYEE LIST</span></a>
                         </center>
                     </div>
@@ -23,14 +23,14 @@
                 <!-- Inline Layout -->
                 <div class="row clearfix">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <form class="new_form_validate" action="/cms/employees/create" method="POST">
+                        <form class="new_form_validate" action="/cms/employees/{{ $employee->getFirstAttribute('samaccountname') }}/update" method="POST">
                             @csrf
                             <div class="row clearfix">
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                     <label for="employee_firstname">First Name *</label>
                                     <div class="form-group">
                                         <div class="form-line">
-                                            <input type="text" class="form-control" id="employee_firstname" name="employee_firstname" value="{{ $user->getFirstAttribute('givenname') }}" required>
+                                            <input type="text" class="form-control" id="employee_firstname" name="employee_firstname" value="{{ $employee->getFirstAttribute('givenname') }}" required>
                                         </div>
                                     </div>
                                 </div>
@@ -38,7 +38,7 @@
                                     <label for="employee_lastname">Last Name *</label>
                                     <div class="form-group">
                                         <div class="form-line">
-                                            <input type="text" class="form-control" id="employee_lastname" name="employee_lastname" value="{{ $user->getFirstAttribute('sn') }}" required>
+                                            <input type="text" class="form-control" id="employee_lastname" name="employee_lastname" value="{{ $employee->getFirstAttribute('sn') }}" required>
                                         </div>
                                     </div>
                                 </div>
@@ -50,7 +50,7 @@
                                         <select class="form-control show-tick" name="employee_department" id="employee_department" title="Select employee department/school" required>
                                             {{-- Department Options --}}
                                             @foreach($config['locations'] as $key => $value)
-                                                <option value="{{ $key }}" @if($key === $user->getFirstAttribute('department')) selected @endif>{{ $value['name'] }}</option>
+                                                <option value="{{ $key }}" @if($key === $employee->getFirstAttribute('department')) selected @endif>{{ $value['name'] }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -76,13 +76,13 @@
                                                     <option value="{{ $key }}" @if(in_array($key, $sub_departments)) selected @endif>{{ $value }}</option>
                                                 @endforeach
                                             </optgroup>
-                                            <optgroup label="{{ $user->getFirstAttribute('department') }} Specific Roles">
-                                                @foreach($config['locations'][$user->getFirstAttribute('department')]['local_roles'] as $key => $value)
+                                            <optgroup label="{{ $employee->getFirstAttribute('department') }} Specific Roles">
+                                                @foreach($config['locations'][$employee->getFirstAttribute('department')]['local_roles'] as $key => $value)
                                                     <option value="{{ $key }}" @if(in_array($key, $sub_departments)) selected @endif>{{ $value }}</option>
                                                 @endforeach
                                             </optgroup>
-                                            <optgroup label="{{ $user->getFirstAttribute('department') }} Sub-Departments">
-                                                @foreach($config['locations'][$user->getFirstAttribute('department')]['departments'] as $key => $value)
+                                            <optgroup label="{{ $employee->getFirstAttribute('department') }} Sub-Departments">
+                                                @foreach($config['locations'][$employee->getFirstAttribute('department')]['departments'] as $key => $value)
                                                     <option value="dept-{{ $key }}" @if(in_array($key, $sub_departments)) selected @endif>{{ $value }}</option>
                                                 @endforeach
                                             </optgroup>
