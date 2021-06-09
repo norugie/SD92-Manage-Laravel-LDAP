@@ -90,6 +90,10 @@ class EmployeeController extends Controller
         $employee_group = Group::findBy('cn', 'employee');
         $employee->groups()->attach($employee_group);
 
+        // Adding to employee group
+        $employee_group = Group::findBy('cn', 'activestaff');
+        $employee->groups()->attach($employee_group);
+
         // Adding to location groups
         foreach($locations as $location): 
             $employee_group = Group::findBy('cn', $location);
@@ -150,7 +154,7 @@ class EmployeeController extends Controller
             if(in_array($group, $check) ? array_push($locations, $group) : array_push($sub_departments, $group));
         endforeach;
 
-        $sub_departments = array_diff($sub_departments, ['employee']);
+        $sub_departments = array_diff($sub_departments, ['employee', 'activestaff']);
 
         return view( 'cms.employee.update.employee', [
             'user' => $user,
