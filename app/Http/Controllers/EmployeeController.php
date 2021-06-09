@@ -129,15 +129,15 @@ class EmployeeController extends Controller
 
     public function viewEmployeeProfile ( String $username )
     {
-        $user = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
+        $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
         return view( 'cms.employee.profile', [
-            'user' => $user
+            'employee' => $employee
         ]);
     }
 
     public function viewEmployeeProfileUpdateForm ( String $username ){
-        $user = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
-        $groups = $user->groups()->get();
+        $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
+        $groups = $employee->groups()->get();
         $locations = [];
         $sub_departments = [];
         $check = [];
@@ -157,11 +157,90 @@ class EmployeeController extends Controller
         $sub_departments = array_diff($sub_departments, ['employee', 'activestaff']);
 
         return view( 'cms.employee.update.employee', [
-            'user' => $user,
+            'employee' => $employee,
             'config' => $config,
             'locations' => $locations,
             'sub_departments' => $sub_departments
         ]);
+    }
+
+    public function updateEmployeeProfile (String $username, Request $request)
+    {
+        $firstname = $request->employee_firstname;
+        $lastname = $request->employee_lastname;
+
+        $fullname = $firstname . ' ' . $lastname;
+        $company = 'SD92';
+        $department = $request->employee_department;
+        $locations = $request->employee_locations;
+        $roles = []; 
+        $sub_departments = [];
+
+        // Separate roles from sub-departments
+        foreach($request->employee_roles as $i):
+            if(strpos($i, 'dept-') === FALSE){
+                array_push($roles, $i);
+            } else {
+                $i = substr_replace($i, '', 0, 5);
+                array_push($sub_departments, $i);
+            }
+        endforeach;
+
+        // Setting employee object values
+        $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
+
+        $employee->displayname = $fullname;
+        $employee->givenname = $firstname;
+        $employee->sn = $lastname;
+        $employee->department = $department;
+        $employee->description = $department . " employee";
+
+        $employee->save();
+
+        $employee->refresh();
+
+        // Remove all groups
+        $employee->groups()->detachAll();
+
+        // Adding to employee group
+        $employee_group = Group::findBy('cn', 'employee');
+        $employee->groups()->attach($employee_group);
+
+        // Adding to employee group
+        $employee_group = Group::findBy('cn', 'activestaff');
+        $employee->groups()->attach($employee_group);
+
+        // Adding to location groups
+        foreach($locations as $location): 
+            $employee_group = Group::findBy('cn', $location);
+            $employee->groups()->attach($employee_group);
+        endforeach;
+
+        // Adding role groups
+        foreach($roles as $role): 
+            $employee_group = Group::findBy('cn', $role);
+            $employee->groups()->attach($employee_group);
+        endforeach;
+
+        // Adding sub-department groups
+        foreach($sub_departments as $sub): 
+            $employee_group = Group::findBy('cn', $sub);
+            $employee->groups()->attach($employee_group);
+        endforeach;
+
+        $message = 'The account for <b>' . $fullname . '</b> has been updated successfully. <a href="/cms/employees/' . $username . '" class="alert-link">See account details here</a>.';
+        
+        return redirect('/cms/employees/' . $username)
+            ->with('status', 'success')
+            ->with('message', $message);
+
+        // echo $fullname . "<br>" . $username . "<br>" . $department . "<br>locations: ";
+        // var_dump($locations);
+        // echo "<br>roles: ";
+        // var_dump($roles);
+        // echo "<br>sub-departments: ";
+        // var_dump($sub_departments);
+
     }
 
     public function stringGenerator ()

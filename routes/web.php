@@ -42,5 +42,6 @@ Route::group(['middleware' => 'authAD', 'prefix' => 'cms'], function (){
         Route::get('/{username}', [EmployeeController::class, 'viewEmployeeProfile']);
         Route::get('/{username}/update', [EmployeeController::class, 'viewEmployeeProfileUpdateForm']);
         Route::post('/create', [EmployeeController::class, 'createEmployee']);
+        Route::post('/{username}/update', [EmployeeController::class, 'updateEmployeeProfile']);
     });
 });
