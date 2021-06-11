@@ -119,9 +119,9 @@ class EmployeeController extends Controller
         // echo "<br>sub-departments: ";
         // var_dump($sub_departments);
 
-        $message = 'An account for <b>' . $fullname . '</b> has been created successfully. <a href="/cms/employees/' . $username . '" class="alert-link">See account details here</a>.';
+        $message = 'An account for <b>' . $fullname . '</b> has been created successfully.';
         
-        return redirect('/cms/employees')
+        return redirect('/cms/employees/' . $username)
             ->with('status', 'success')
             ->with('message', $message);
 
@@ -186,6 +186,8 @@ class EmployeeController extends Controller
             }
         endforeach;
 
+        array_push($roles, 'employee', 'activestaff');
+
         // Setting employee object values
         $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
 
@@ -199,48 +201,55 @@ class EmployeeController extends Controller
 
         $employee->refresh();
 
-        // Remove all groups
-        $employee->groups()->detachAll();
+        $employee_groups = $employee->groups()->get();
 
-        // Adding to employee group
-        $employee_group = Group::findBy('cn', 'employee');
-        $employee->groups()->attach($employee_group);
+        // echo $fullname . "<br>" . $username . "<br>" . $department . "<br>locations: ";
+        // var_dump($locations);
+        // echo "<br>roles: <br>";
+        // var_dump($roles);
+        // echo "<br>sub-departments: <br>";
+        // var_dump($sub_departments);
 
-        // Adding to employee group
-        $employee_group = Group::findBy('cn', 'activestaff');
-        $employee->groups()->attach($employee_group);
+        // Set array for current groups
+        $current_groups = [];
+        foreach($employee_groups as $eg):
+            array_push($current_groups, $eg->getName());
+            // Remove from user's employee groups if not a part of updated locations, roles, and sub-departments
+            if(!in_array($eg->getName(), $locations) && !in_array($eg->getName(), $roles) && !in_array($eg->getName(), $sub_departments)) {
+                $employee_group = Group::findBy('cn', $eg->getName());
+                $employee->groups()->detach($employee_group);
+            }
+        endforeach;
 
-        // Adding to location groups
+        // Adding to location groups if not already a part of the user's group
         foreach($locations as $location): 
-            $employee_group = Group::findBy('cn', $location);
-            $employee->groups()->attach($employee_group);
+            if(!in_array($location, $current_groups)) {
+                $employee_group = Group::findBy('cn', $location);
+                $employee->groups()->attach($employee_group);
+            }
         endforeach;
 
-        // Adding role groups
+        // Adding role groups if not already a part of the user's group
         foreach($roles as $role): 
-            $employee_group = Group::findBy('cn', $role);
-            $employee->groups()->attach($employee_group);
+            if(!in_array($role, $current_groups)) {
+                $employee_group = Group::findBy('cn', $role);
+                $employee->groups()->attach($employee_group);
+            }
         endforeach;
 
-        // Adding sub-department groups
+        // Adding sub-department groups if not already a part of the user's group
         foreach($sub_departments as $sub): 
-            $employee_group = Group::findBy('cn', $sub);
-            $employee->groups()->attach($employee_group);
+            if(!in_array($sub, $current_groups)) {
+                $employee_group = Group::findBy('cn', $sub);
+                $employee->groups()->attach($employee_group);
+            }
         endforeach;
 
-        $message = 'The account for <b>' . $fullname . '</b> has been updated successfully. <a href="/cms/employees/' . $username . '" class="alert-link">See account details here</a>.';
+        $message = 'The account for <b>' . $fullname . '</b> has been updated successfully.';
         
         return redirect('/cms/employees/' . $username)
             ->with('status', 'success')
             ->with('message', $message);
-
-        // echo $fullname . "<br>" . $username . "<br>" . $department . "<br>locations: ";
-        // var_dump($locations);
-        // echo "<br>roles: ";
-        // var_dump($roles);
-        // echo "<br>sub-departments: ";
-        // var_dump($sub_departments);
-
     }
 
     public function stringGenerator ()
