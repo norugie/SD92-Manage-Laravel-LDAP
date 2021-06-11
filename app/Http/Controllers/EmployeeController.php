@@ -118,8 +118,11 @@ class EmployeeController extends Controller
         // var_dump($roles);
         // echo "<br>sub-departments: ";
         // var_dump($sub_departments);
+        // echo "<br>Log by: " . session('userName');
+        
+        $message = 'An account for <b><a href="/cms/employees/' . $username . '"' . $fullname . '</a></b> has been created successfully.';
 
-        $message = 'An account for <b>' . $fullname . '</b> has been created successfully.';
+        $this->inputLog(session('userName'), $message);
         
         return redirect('/cms/employees/' . $username)
             ->with('status', 'success')
@@ -175,6 +178,7 @@ class EmployeeController extends Controller
         $locations = $request->employee_locations;
         $roles = []; 
         $sub_departments = [];
+        $current_groups = [];
 
         // Separate roles from sub-departments
         foreach($request->employee_roles as $i):
@@ -210,8 +214,6 @@ class EmployeeController extends Controller
         // echo "<br>sub-departments: <br>";
         // var_dump($sub_departments);
 
-        // Set array for current groups
-        $current_groups = [];
         foreach($employee_groups as $eg):
             array_push($current_groups, $eg->getName());
             // Remove from user's employee groups if not a part of updated locations, roles, and sub-departments
@@ -245,7 +247,9 @@ class EmployeeController extends Controller
             }
         endforeach;
 
-        $message = 'The account for <b>' . $fullname . '</b> has been updated successfully.';
+        $message = 'The account for <b><a href="/cms/employees/' . $username . '"' . $fullname . '</a></b> has been updated successfully.';
+
+        $this->inputLog(session('userName'), $message);
         
         return redirect('/cms/employees/' . $username)
             ->with('status', 'success')
