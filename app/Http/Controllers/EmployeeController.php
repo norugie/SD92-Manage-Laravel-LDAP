@@ -120,7 +120,7 @@ class EmployeeController extends Controller
         // var_dump($sub_departments);
         // echo "<br>Log by: " . session('userName');
         
-        $message = 'An account for <b><a href="/cms/employees/' . $username . '"' . $fullname . '</a></b> has been created successfully.';
+        $message = 'An account for <b><a href="/cms/employees/' . $username . '">' . $fullname . '</a></b> has been created successfully.';
 
         $this->inputLog(session('userName'), $message);
         
@@ -247,7 +247,7 @@ class EmployeeController extends Controller
             }
         endforeach;
 
-        $message = 'The account for <b><a href="/cms/employees/' . $username . '"' . $fullname . '</a></b> has been updated successfully.';
+        $message = 'The account for <b><a href="/cms/employees/' . $username . '">' . $fullname . '</a></b> has been updated successfully.';
 
         $this->inputLog(session('userName'), $message);
         
