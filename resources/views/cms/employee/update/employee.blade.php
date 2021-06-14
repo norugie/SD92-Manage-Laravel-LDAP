@@ -76,16 +76,18 @@
                                                         <option value="{{ $key }}" @if(in_array($key, $sub_departments)) selected @endif>{{ $value }}</option>
                                                     @endforeach
                                                 </optgroup>
-                                                <optgroup label="{{ $employee->getFirstAttribute('department') }} Specific Roles">
-                                                    @foreach($config['locations'][$employee->getFirstAttribute('department')]['local_roles'] as $key => $value)
-                                                        <option value="{{ $key }}" @if(in_array($key, $sub_departments)) selected @endif>{{ $value }}</option>
-                                                    @endforeach
-                                                </optgroup>
-                                                <optgroup label="{{ $employee->getFirstAttribute('department') }} Sub-Departments">
-                                                    @foreach($config['locations'][$employee->getFirstAttribute('department')]['departments'] as $key => $value)
-                                                        <option value="dept-{{ $key }}" @if(in_array($key, $sub_departments)) selected @endif>{{ $value }}</option>
-                                                    @endforeach
-                                                </optgroup>
+                                                @if($employee->getFirstAttribute('department') !== NULL)
+                                                    <optgroup label="{{ $employee->getFirstAttribute('department') }} Specific Roles">
+                                                        @foreach($config['locations'][$employee->getFirstAttribute('department')]['local_roles'] as $key => $value)
+                                                            <option value="{{ $key }}" @if(in_array($key, $sub_departments)) selected @endif>{{ $value }}</option>
+                                                        @endforeach
+                                                    </optgroup>
+                                                    <optgroup label="{{ $employee->getFirstAttribute('department') }} Sub-Departments">
+                                                        @foreach($config['locations'][$employee->getFirstAttribute('department')]['departments'] as $key => $value)
+                                                            <option value="dept-{{ $key }}" @if(in_array($key, $sub_departments)) selected @endif>{{ $value }}</option>
+                                                        @endforeach
+                                                    </optgroup>
+                                                @endif
                                             </select>
                                         </div>
                                     </div>
