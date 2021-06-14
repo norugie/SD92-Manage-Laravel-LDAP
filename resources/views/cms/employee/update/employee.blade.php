@@ -12,7 +12,7 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                             <center>
-                                <a href="/cms/employees/{{ $employee->getFirstAttribute('samaccountname') }}" type="button" class="btn bg-blue waves-effect" style="display: inline-block;"><i class="material-icons">person</i><span>VIEW EMPLOYEE INFO</span></a>
+                                <a href="/cms/employees/{{ $employee->getFirstAttribute('samaccountname') }}/view" type="button" class="btn bg-blue waves-effect" style="display: inline-block;"><i class="material-icons">person</i><span>VIEW EMPLOYEE</span></a>
                                 <a href="/cms/employees" type="button" class="btn bg-blue waves-effect" style="display: inline-block;"><i class="material-icons">list</i><span>EMPLOYEE LIST</span></a>
                             </center>
                         </div>
