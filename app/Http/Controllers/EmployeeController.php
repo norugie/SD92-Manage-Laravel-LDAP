@@ -120,25 +120,25 @@ class EmployeeController extends Controller
         // var_dump($sub_departments);
         // echo "<br>Log by: " . session('userName');
         
-        $message = 'An account for <b><a href="/cms/employees/' . $username . '">' . $fullname . '</a></b> has been created successfully.';
+        $message = 'An account for <b><a href="/cms/employees/' . $username . '/view" class="alert-link">' . $fullname . '</a></b> has been created successfully.';
 
         $this->inputLog(session('userName'), $message);
         
-        return redirect('/cms/employees/' . $username)
+        return redirect('/cms/employees/' . $username . '/view')
             ->with('status', 'success')
             ->with('message', $message);
 
     }
 
-    public function viewEmployeeProfile ( String $username )
-    {
-        $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
-        return view( 'cms.employee.profile', [
-            'employee' => $employee
-        ]);
-    }
+    // public function viewEmployeeProfile ( String $username )
+    // {
+    //     $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
+    //     return view( 'cms.employee.profile', [
+    //         'employee' => $employee
+    //     ]);
+    // }
 
-    public function viewEmployeeProfileUpdateForm ( String $username ){
+    public function viewEmployeeProfileUpdate ( String $username, String $action ){
         $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
         $groups = $employee->groups()->get();
         $locations = [];
@@ -159,7 +159,9 @@ class EmployeeController extends Controller
 
         $sub_departments = array_diff($sub_departments, ['employee', 'activestaff']);
 
-        return view( 'cms.employee.update.employee', [
+        if(isset($action) && !empty($action) && $action == 'update' ? $path = 'update.employee' : $path = 'profile');
+
+        return view( 'cms.employee.' . $path, [
             'employee' => $employee,
             'config' => $config,
             'locations' => $locations,
@@ -247,13 +249,18 @@ class EmployeeController extends Controller
             }
         endforeach;
 
-        $message = 'The account for <b><a href="/cms/employees/' . $username . '">' . $fullname . '</a></b> has been updated successfully.';
+        $message = 'The account for <b><a href="/cms/employees/' . $username . '/view" class="alert-link">' . $fullname . '</a></b> has been updated successfully.';
 
         $this->inputLog(session('userName'), $message);
         
-        return redirect('/cms/employees/' . $username)
+        return redirect('/cms/employees/' . $username . '/view')
             ->with('status', 'success')
             ->with('message', $message);
+    }
+
+    public function disableEmployeeProfile ()
+    {
+        // 
     }
 
     public function stringGenerator ()

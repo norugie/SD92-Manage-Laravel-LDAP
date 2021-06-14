@@ -7,10 +7,10 @@
             <div class="card">
                     <div class="header">
                         <div class="row clearfix">
-                            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 text-xs-sm-center">
+                            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 text-xs-sm-center">
                                 <h4>EMPLOYEE LIST</h4>      
                             </div>
-                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                 <center>
                                     <a href="/cms/employees/create" type="button" class="btn bg-blue waves-effect" style="display: inline-block;"><i class="material-icons">add</i><span>NEW EMPLOYEE</span></a>
                                 </center>
@@ -41,7 +41,7 @@
                             <tbody>
                                 @foreach($employees as $employee)
                                 <tr>
-                                    <td>{{ $employee->getFirstAttribute('displayname') }}</td>
+                                    <td><a href="/cms/employees/{{ $employee->getFirstAttribute('samaccountname') }}/view">{{ $employee->getFirstAttribute('displayname') }}</a></td>
                                     <td>{{ $employee->getFirstAttribute('samaccountname') }}</td>
                                     <td>{{ $employee->getFirstAttribute('mail') }}</td>
                                     <td>{{ $employee->getFirstAttribute('department') }}</td>
@@ -52,10 +52,10 @@
                                                     <i class="material-icons">more_horiz</i><span>OPTIONS</span> <span class="caret"></span>
                                                 </button>
                                                 <ul class="dropdown-menu">
-                                                    <li><a href="/cms/employees/{{ $employee->getFirstAttribute('samaccountname')  }}">View Profile</a></li>
-                                                    <li><a href="/cms/employees/{{ $employee->getFirstAttribute('samaccountname')  }}/update">Update Profile</a></li>
+                                                    <li><a href="/cms/employees/{{ $employee->getFirstAttribute('samaccountname') }}/view">View Employee</a></li>
+                                                    <li><a href="/cms/employees/{{ $employee->getFirstAttribute('samaccountname') }}/update">Update Employee</a></li>
                                                     <li role="separator" class="divider"></li>
-                                                    <li><a href="/cms/employees/{{ $employee->getFirstAttribute('samaccountname')  }}/deactivate">Deactivate Profile</a></li>
+                                                    <li><a href="/cms/employees/{{ $employee->getFirstAttribute('samaccountname') }}/disable">Disable Employee</a></li>
                                                 </ul>
                                             </div>
                                         </center>
