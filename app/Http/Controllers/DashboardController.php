@@ -9,6 +9,8 @@ class DashboardController extends Controller
 {
     public function index ()
     {
-        return view ( 'cms.dashboard.dashboard' );
+        return view ( 'cms.dashboard.dashboard', [
+            'logs' => $this->requestLog()
+        ]);
     }
 }
