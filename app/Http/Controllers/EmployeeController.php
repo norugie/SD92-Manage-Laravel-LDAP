@@ -90,10 +90,6 @@ class EmployeeController extends Controller
         $employee_group = Group::findBy('cn', 'employee');
         $employee->groups()->attach($employee_group);
 
-        // Adding to employee group
-        $employee_group = Group::findBy('cn', 'activestaff');
-        $employee->groups()->attach($employee_group);
-
         // Adding to location groups
         foreach($locations as $location): 
             $employee_group = Group::findBy('cn', $location);
@@ -140,6 +136,13 @@ class EmployeeController extends Controller
 
     public function viewEmployeeProfileUpdate ( String $username, String $action ){
         $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
+
+        // Redirect to employee list if employee is NULL
+        if($employee === NULL) 
+            return redirect('/cms/employees')
+                ->with('status', 'danger')
+                ->with('message', 'The user you are looking for does not exist in our directory.');
+
         $groups = $employee->groups()->get();
         $locations = [];
         $sub_departments = [];
@@ -157,7 +160,7 @@ class EmployeeController extends Controller
             if(in_array($group, $check) ? array_push($locations, $group) : array_push($sub_departments, $group));
         endforeach;
 
-        $sub_departments = array_diff($sub_departments, ['employee', 'activestaff']);
+        $sub_departments = array_diff($sub_departments, ['employee']);
 
         if(isset($action) && !empty($action) && $action == 'update' ? $path = 'update.employee' : $path = 'profile');
 

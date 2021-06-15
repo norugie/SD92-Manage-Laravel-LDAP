@@ -38,9 +38,29 @@
                                 <p><b>District Email Address: </b>{{ $employee->getFirstAttribute('mail') }}</p>
                                 <p><b>District Username: </b>{{ $employee->getFirstAttribute('samaccountname') }}</p>
                                 <p><b>Department/School: </b>{{ $employee->getFirstAttribute('department') }}</p>
-                                <p><b>Sub-Department(s): </b></p>
-                                <p><b>Location Access: </b></p>
-                                <p><b>Miscellaneous Groups: </b></p>
+                                {{-- Note: Code below could be shorter if decided to use actual names of AD groups instead of user-friendly names --}}
+                                <p><b>Sub-Department(s): </b>
+                                    @if($employee->getFirstAttribute('department') !== NULL)
+                                        @foreach($config['locations'][$employee->getFirstAttribute('department')]['departments'] as $key => $value)
+                                            @if(in_array($key, $sub_departments)) {{ $value }},  @endif>
+                                        @endforeach
+                                    @endif
+                                </p>
+                                <p><b>Location Access: </b>
+                                    @foreach($config['locations'] as $key => $value)
+                                        @if(in_array($key, $locations)) {{ $value['name'] }},  @endif
+                                    @endforeach
+                                </p>
+                                <p><b>Miscellaneous Groups: </b>
+                                    @foreach($config['global_roles'] as $key => $value)
+                                        @if(in_array($key, $sub_departments)) {{ $value }},  @endif
+                                    @endforeach
+                                    @if($employee->getFirstAttribute('department') !== NULL)
+                                        @foreach($config['locations'][$employee->getFirstAttribute('department')]['local_roles'] as $key => $value)
+                                            @if(in_array($key, $sub_departments)) {{ $value }},  @endif
+                                        @endforeach
+                                    @endif
+                                </p>
                             </div>
                             <div role="tabpanel" class="tab-pane fade in" id="id_card">
                                 {{-- ID card settings --}}
