@@ -18,7 +18,7 @@
                     </div>
                     <div class="content-area">
                         <h3>{{ $employee->getFirstAttribute('displayname') }}</h3>
-                        <p>{{ $employee->getFirstAttribute('department') }}</p>
+                        <p>{{ $config['locations'][$employee->getFirstAttribute('department')]['name'] }}</p>
                     </div>
                 </div>
                 <div class="profile-footer">
