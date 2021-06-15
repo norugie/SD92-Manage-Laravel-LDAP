@@ -31,6 +31,7 @@
         <link href="/cms/css/style.css" rel="stylesheet">
         <link href="/cms/css/themes/theme-blue-grey.css" rel="stylesheet" />
         <link href="/cms/css/custom-backend.css" rel="stylesheet">
+        @yield('custom-css')
 
         <!-- Jquery Core Js -->
         <script src="/cms/plugins/jquery/jquery.min.js"></script>
@@ -172,7 +173,7 @@
         <!-- Custom Js -->
         <script src="/cms/js/admin.js"></script>
         <script src="/cms/js/custom.js"></script>
-        @yield( 'custom' )
+        @yield( 'custom-js' )
         <!-- END - Page Footer -->
     </body>
 </html>

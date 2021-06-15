@@ -1,5 +1,11 @@
 @extends ( 'cms.layout.layout' )
 
+@section( 'custom-css' )
+
+    <link href="/cms/css/card.css" rel="stylesheet" />
+
+@endsection
+
 @section ( 'content' )
 
     <div class="row clearfix">
@@ -37,12 +43,12 @@
                                 <p><b>Employee Name: </b>{{ $employee->getFirstAttribute('displayname') }}</p>
                                 <p><b>District Email Address: </b>{{ $employee->getFirstAttribute('mail') }}</p>
                                 <p><b>District Username: </b>{{ $employee->getFirstAttribute('samaccountname') }}</p>
-                                <p><b>Department/School: </b>{{ $employee->getFirstAttribute('department') }}</p>
+                                <p><b>Department/School: </b>{{ $config['locations'][$employee->getFirstAttribute('department')]['name'] }}</p>
                                 {{-- Note: Code below could be shorter if decided to use actual names of AD groups instead of user-friendly names --}}
                                 <p><b>Sub-Department(s): </b>
                                     @if($employee->getFirstAttribute('department') !== NULL)
                                         @foreach($config['locations'][$employee->getFirstAttribute('department')]['departments'] as $key => $value)
-                                            @if(in_array($key, $sub_departments)) {{ $value }},  @endif>
+                                            @if(in_array($key, $sub_departments)) {{ $value }},  @endif
                                         @endforeach
                                     @endif
                                 </p>
@@ -64,6 +70,57 @@
                             </div>
                             <div role="tabpanel" class="tab-pane fade in" id="id_card">
                                 {{-- ID card settings --}}
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p class="font-12"><i><b>Note:</b> Fields marked with an asterisk are required. The displayed card is only a rough preview. The final card may have slightly different layout.</i></p><br>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="card-id">
+                                            <div class="card-top">
+                                                <div class="card-title">EMPLOYEE</div>
+                                                <div class="card-img">
+                                                    <img src="/cms/images/users/user-placeholder.png" alt="">
+                                                </div>
+                                                <div class="card-top-display">
+                                                    <div class="card-logo">
+                                                        <img src="/nisgaa-icon.png" alt="" width="57" height="90">
+                                                    </div>
+                                                    <div class="card-department">
+                                                        {{ $config['locations'][$employee->getFirstAttribute('department')]['name'] }} <br>
+                                                        School District No. 92 (Nisga'a)<br>
+                                                        
+                                                        @if( $config['locations'][$employee->getFirstAttribute('department')]['address'] !== "" )
+                                                        {{-- {{ $config['locations'][$employee->getFirstAttribute('department')]['address'] . ",<br>" . 
+                                                            $config['locations'][$employee->getFirstAttribute('department')]['city'] . ", " . 
+                                                            $config['locations'][$employee->getFirstAttribute('department')]['province'] . " " . 
+                                                            $config['locations'][$employee->getFirstAttribute('department')]['postal_code'] . "<br>"
+                                                        }} --}}
+    
+                                                        {!! 
+                                                            $config['locations'][$employee->getFirstAttribute('department')]['address'] . ",<br>" .
+                                                            $config['locations'][$employee->getFirstAttribute('department')]['city'] . ", " . 
+                                                            $config['locations'][$employee->getFirstAttribute('department')]['province'] . " " . 
+                                                            $config['locations'][$employee->getFirstAttribute('department')]['postal_code'] . "<br>"
+                                                        !!}
+                                                        @endif
+                                                        {{ $config['locations'][$employee->getFirstAttribute('department')]['phone'] }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-mid">
+                                                <div class="card-mid-text">
+                                                    <br>
+                                                    {{ $employee->getFirstAttribute('displayname') }}
+                                                    <br>
+                                                    <img src="/cms/images/barcode.png" alt="" height="50">
+                                                </div>
+                                            </div>
+                                            <div class="card-bottom"></div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div role="tabpanel" class="tab-pane fade in" id="access_settings">
                                 {{-- Access control settings --}}
