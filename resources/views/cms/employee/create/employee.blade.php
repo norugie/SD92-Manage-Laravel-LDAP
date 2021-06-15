@@ -98,7 +98,7 @@
 
 @endsection
 
-@section( 'custom' )
+@section( 'custom-js' )
 
     <script src="/cms/js/emp-form.js"></script>
 

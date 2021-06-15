@@ -2,6 +2,11 @@
     "locations": {
         "SDO": {
             "name": "School District Office",
+            "address": "",
+            "city": "",
+            "province": "",
+            "postal_code": "",
+            "phone": "+1 (250) 633-2228",
             "local_roles": {
                 "adminasst": "Administrative Assistant",
                 "boe": "Board of Education Member",
@@ -19,6 +24,11 @@
         },
         "TechOffice": {
             "name": "IT Department",
+            "address": "",
+            "city": "",
+            "province": "",
+            "postal_code": "",
+            "phone": "+1 (250) 633-2937",
             "local_roles": {
                 "supertech": "Tech Administrator"
             },
@@ -28,6 +38,11 @@
         },
         "Maintenance": {
             "name": "Maintenance Department",
+            "address": "",
+            "city": "",
+            "province": "",
+            "postal_code": "",
+            "phone": "+1 (250) 633-2228",
             "local_roles": {
                 "driver": "Bus Driver",
                 "custodian": "Custodian"
@@ -37,7 +52,12 @@
             }
         },
         "AAMES": {
-            "name": "AAMES",
+            "name": "Alvin A. McKay Elementary School",
+            "address": "311 Church St., PO Box 220",
+            "city": "Laxgalts'ap",
+            "province": "BC",
+            "postal_code": "V0J 1X0",
+            "phone": "+1 (250) 621-3277",
             "local_roles": {
                 "aamesK": "AAMES - Kindergarten",
                 "aames01": "AAMES - Grade 1",
@@ -54,7 +74,12 @@
             }
         },
         "GES": {
-            "name": "GES",
+            "name": "Gitwinksihlkw Elementary School",
+            "address": "3000 Lisims Avenue, PO Box 077",
+            "city": "Gitwinksihlkw",
+            "province": "BC",
+            "postal_code": "V0J 3T0",
+            "phone": "+1 (250) 633-2688",
             "local_roles": {
                 "gesK": "GES - Kindergarten",
                 "ges01": "GES - Grade 1",
@@ -71,7 +96,12 @@
             }
         },
         "NESS": {
-            "name": "NESS",
+            "name": "Nisga'a Elementary Secondary School",
+            "address": "5000 Skateen Avenue, PO Box 239",
+            "city": "Gitlaxt'aamiks",
+            "province": "BC",
+            "postal_code": "V0J 1A0",
+            "phone": "+1 (250) 633-2225",
             "local_roles": {
                 "nessK": "NESS - Kindergarten",
                 "ness01": "NESS - Grade 1",
@@ -94,7 +124,12 @@
             }
         },
         "NBES": {
-            "name": "NBES",
+            "name": "Nathan Barton Elementary School",
+            "address": "1310 Volunteer St.",
+            "city": "Gingolx",
+            "province": "BC",
+            "postal_code": "V0V 1B0",
+            "phone": "+1 (250) 326-4206",
             "local_roles": {
                 "nbesK": "NBES - Kindergarten",
                 "nbes01": "NBES - Grade 1",
