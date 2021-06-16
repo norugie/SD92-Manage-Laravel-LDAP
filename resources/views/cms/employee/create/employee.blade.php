@@ -68,7 +68,7 @@
                                     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                         <label for="employee_roles">Roles and Sub-Departments</label>
                                         <div class="form-group">
-                                            <select class="form-control show-tick" multiple name="employee_roles[]" id="employee_roles" title="Select employee roles">
+                                            <select class="form-control show-tick" multiple name="employee_roles[]" id="employee_roles" title="Select employee roles" data-live-search="true">
                                                 {{-- Role Options --}}
                                                 <optgroup label="General Roles">
                                                     @foreach($config['global_roles'] as $key => $value)
