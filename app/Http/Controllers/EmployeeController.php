@@ -84,8 +84,8 @@ class EmployeeController extends Controller
         $employee->refresh();
 
         // Enable the user. Try again with SSL connection in the future
-        // $employee->userAccountControl = 512;
-        // $employee->save();
+        $employee->userAccountControl = 512;
+        $employee->save();
 
         // Adding to employee group
         $employee_group = Group::findBy('cn', 'employee');
