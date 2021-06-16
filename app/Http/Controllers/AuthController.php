@@ -85,11 +85,13 @@ class AuthController extends Controller
         foreach($groups as $group):
             array_push($gs, $group->getDisplayName());
         endforeach;
-        
+
+        if(in_array('supertech', $gs) || in_array('HR', $gs) ? $redirect = '/cms/dashboard' : $redirect = '/restricted');
+
         $tokenCache = new TokenCache();
         $tokenCache->storeTokens($accessToken, $user);
         
-        return redirect('/cms/dashboard');
+        return redirect($redirect);
       }
       catch (League\OAuth2\Client\Provider\Exception\IdentityProviderException $e) {
         return redirect('/error')

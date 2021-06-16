@@ -1,1 +1,1 @@
-You're not allowed to access that.
+You're not allowed to access this service.
