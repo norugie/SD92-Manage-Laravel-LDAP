@@ -43,7 +43,8 @@ class EmployeeController extends Controller
 
         $fullname = $firstname . ' ' . $lastname;
         $email = $username . '@nisgaa.bc.ca';
-        $password = $this->stringGenerator();
+        // $password = $this->stringGenerator();
+        $password = 'SD924now';
         $company = 'SD92';
         $department = $request->employee_department;
         $locations = $request->employee_locations;
@@ -70,7 +71,7 @@ class EmployeeController extends Controller
         $employee->givenname = $firstname;
         $employee->sn = $lastname;
         $employee->mail = $email;
-        // $employee->unicodePwd = Password::encode($password); // Will work on this again once I have a server for this webapp that goes through SSL connection
+        $employee->unicodePwd = Password::encode($password); // Will work on this again once I have a server for this webapp that goes through SSL connection
         $employee->company = $company;
         $employee->department = $department;
         $employee->description = $department . " employee";
@@ -83,8 +84,8 @@ class EmployeeController extends Controller
         $employee->refresh();
 
         // Enable the user. Try again with SSL connection in the future
-        // $employee->userAccountControl = 512;
-        // $employee->save();
+        $employee->userAccountControl = 512;
+        $employee->save();
 
         // Adding to employee group
         $employee_group = Group::findBy('cn', 'employee');
