@@ -79,60 +79,51 @@ class EmployeeController extends Controller
         $employee->description = $department . " employee";
         $employee->proxyaddresses = 'SMTP:' . $email;
 
+        $employee->save();
+
+        $employee->refresh();
+
+        // Enable the user. Try again with SSL connection in the future
+        // $employee->userAccountControl = 512;
         // $employee->save();
 
-        // $employee->refresh();
+        // Adding to employee group
+        $employee_group = Group::findBy('cn', 'employee');
+        $employee->groups()->attach($employee_group);
 
-        try {
-            $employee->save();
+        // Adding to location groups
+        foreach($locations as $location): 
+            $employee_group = Group::findBy('cn', $location);
+            $employee->groups()->attach($employee_group);
+        endforeach;
 
-            $employee->refresh();
-        } catch (\LdapRecord\LdapRecordException $e) {
-            // Failed saving user.
-            var_dump($e);
-        }
+        // Adding role groups
+        foreach($roles as $role): 
+            $employee_group = Group::findBy('cn', $role);
+            $employee->groups()->attach($employee_group);
+        endforeach;
 
-        // // Enable the user. Try again with SSL connection in the future
-        // // $employee->userAccountControl = 512;
-        // // $employee->save();
+        // Adding sub-department groups
+        foreach($sub_departments as $sub): 
+            $employee_group = Group::findBy('cn', $sub);
+            $employee->groups()->attach($employee_group);
+        endforeach;
 
-        // // Adding to employee group
-        // $employee_group = Group::findBy('cn', 'employee');
-        // $employee->groups()->attach($employee_group);
-
-        // // Adding to location groups
-        // foreach($locations as $location): 
-        //     $employee_group = Group::findBy('cn', $location);
-        //     $employee->groups()->attach($employee_group);
-        // endforeach;
-
-        // // Adding role groups
-        // foreach($roles as $role): 
-        //     $employee_group = Group::findBy('cn', $role);
-        //     $employee->groups()->attach($employee_group);
-        // endforeach;
-
-        // // Adding sub-department groups
-        // foreach($sub_departments as $sub): 
-        //     $employee_group = Group::findBy('cn', $sub);
-        //     $employee->groups()->attach($employee_group);
-        // endforeach;
-
-        // // echo $fullname . "<br>" . $username . "<br>" . $email . "<br>" . $password . "<br>department: " . $department . "<br>locations: ";
-        // // var_dump($locations);
-        // // echo "<br>roles: ";
-        // // var_dump($roles);
-        // // echo "<br>sub-departments: ";
-        // // var_dump($sub_departments);
-        // // echo "<br>Log by: " . session('userName');
+        // echo $fullname . "<br>" . $username . "<br>" . $email . "<br>" . $password . "<br>department: " . $department . "<br>locations: ";
+        // var_dump($locations);
+        // echo "<br>roles: ";
+        // var_dump($roles);
+        // echo "<br>sub-departments: ";
+        // var_dump($sub_departments);
+        // echo "<br>Log by: " . session('userName');
         
-        // $message = 'An account for <b><a href="/cms/employees/' . $username . '/view" class="alert-link">' . $fullname . '</a></b> has been created successfully.';
+        $message = 'An account for <b><a href="/cms/employees/' . $username . '/view" class="alert-link">' . $fullname . '</a></b> has been created successfully.';
 
-        // $this->inputLog(session('userName'), $message);
+        $this->inputLog(session('userName'), $message);
         
-        // return redirect('/cms/employees/' . $username . '/view')
-        //     ->with('status', 'success')
-        //     ->with('message', $message);
+        return redirect('/cms/employees/' . $username . '/view')
+            ->with('status', 'success')
+            ->with('message', $message);
 
     }
 
