@@ -8,11 +8,17 @@
             "postal_code": "",
             "phone": "+1 (250) 633-2228",
             "local_roles": {
+                "accountingclerk": "Accounting Clerk",
                 "adminasst": "Administrative Assistant",
-                "boe": "Board of Education Member",
+                "boemember": "Board of Education Member",
+                "daycaremanager": "Daycare Manager",
                 "districtcounselor": "District Counselor",
-                "superintendent": "District Superintendent",
-                "nlcprincipal": "Nisga'a Language and Culture Principal"
+                "districthousingmanager": "District Housing Manager",
+                "districtprincipal": "District Principal",
+                "districtsuperintendent": "District Superintendent",
+                "payrollclerk": "Payroll Clerk",
+                "secretarytreasurer": "Secretary Treasurer",
+                "studenthousingparent": "Student Housing Parent"
             },
             "departments": {
                 "Accounting": "Accounting Department",
@@ -44,8 +50,11 @@
             "postal_code": "",
             "phone": "+1 (250) 633-2228",
             "local_roles": {
-                "driver": "Bus Driver",
-                "custodian": "Custodian"
+                "busdriver": "Bus Driver",
+                "custodian": "Custodian",
+                "electrician": "Electrician",
+                "custodiansupervisor": "Custodian Supervisor",
+                "directorofoperations": "Director of Operations"
             },
             "departments": {
                 
@@ -148,11 +157,17 @@
     },
     "global_roles": {
         "admins": "Administrator",
+        "casual": "Casual Worker",
+        "cupe": "CUPE",
+        "EA1": "Education Assistant 1",
+        "EA2": "Education Assistant 2",
+        "nla": "Nisga'a Language Assistant",
+        "nlc": "Nisga'a Language and Culture",
         "manager": "Manager",
+        "principal": "Principal",
         "sdsusers": "SDS User",
         "secretary": "Secretary",
-        "cupe": "CUPE",
         "teacher": "Teacher",
-        "nlc": "Nisga'a Language and Culture"
+        "viceprincipal": "Vice-Principal"
     }
 }
