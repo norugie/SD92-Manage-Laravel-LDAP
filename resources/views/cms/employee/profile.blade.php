@@ -18,7 +18,7 @@
                     </div>
                     <div class="content-area">
                         <h3>{{ $employee->getFirstAttribute('displayname') }}</h3>
-                        <p>{{ $config['locations'][$employee->getFirstAttribute('department')]['name'] }}</p>
+                        <p>@if($employee->getFirstAttribute('department') !== NULL) {{ $config['locations'][$employee->getFirstAttribute('department')]['name'] }} @endif</p>
                     </div>
                 </div>
                 <div class="profile-footer">
@@ -43,7 +43,7 @@
                                 <p><b>Employee Name: </b>{{ $employee->getFirstAttribute('displayname') }}</p>
                                 <p><b>District Email Address: </b>{{ $employee->getFirstAttribute('mail') }}</p>
                                 <p><b>District Username: </b>{{ $employee->getFirstAttribute('samaccountname') }}</p>
-                                <p><b>Department/School: </b>{{ $config['locations'][$employee->getFirstAttribute('department')]['name'] }}</p>
+                                <p><b>Department/School: </b>@if($employee->getFirstAttribute('department') !== NULL) {{ $config['locations'][$employee->getFirstAttribute('department')]['name'] }} @endif</p>
                                 {{-- Note: Code below could be shorter if decided to use actual names of AD groups instead of user-friendly names --}}
                                 <p><b>Sub-Department(s): </b>
                                     @if($employee->getFirstAttribute('department') !== NULL)
@@ -88,24 +88,21 @@
                                                         <img src="/nisgaa-icon.png" alt="" width="57" height="90">
                                                     </div>
                                                     <div class="card-department">
-                                                        {{ $config['locations'][$employee->getFirstAttribute('department')]['name'] }} <br>
-                                                        School District No. 92 (Nisga'a)<br>
-                                                        
-                                                        @if( $config['locations'][$employee->getFirstAttribute('department')]['address'] !== "" )
-                                                        {{-- {{ $config['locations'][$employee->getFirstAttribute('department')]['address'] . ",<br>" . 
-                                                            $config['locations'][$employee->getFirstAttribute('department')]['city'] . ", " . 
-                                                            $config['locations'][$employee->getFirstAttribute('department')]['province'] . " " . 
-                                                            $config['locations'][$employee->getFirstAttribute('department')]['postal_code'] . "<br>"
-                                                        }} --}}
-    
-                                                        {!! 
-                                                            $config['locations'][$employee->getFirstAttribute('department')]['address'] . ",<br>" .
-                                                            $config['locations'][$employee->getFirstAttribute('department')]['city'] . ", " . 
-                                                            $config['locations'][$employee->getFirstAttribute('department')]['province'] . " " . 
-                                                            $config['locations'][$employee->getFirstAttribute('department')]['postal_code'] . "<br>"
-                                                        !!}
+                                                        @if($employee->getFirstAttribute('department') !== NULL)
+                                                            {{ $config['locations'][$employee->getFirstAttribute('department')]['name'] }} <br>
                                                         @endif
-                                                        {{ $config['locations'][$employee->getFirstAttribute('department')]['phone'] }}
+                                                        School District No. 92 (Nisga'a)<br>
+                                                        @if($employee->getFirstAttribute('department') !== NULL)
+                                                            @if( $config['locations'][$employee->getFirstAttribute('department')]['address'] !== "" )
+                                                            {!! 
+                                                                $config['locations'][$employee->getFirstAttribute('department')]['address'] . ",<br>" .
+                                                                $config['locations'][$employee->getFirstAttribute('department')]['city'] . ", " . 
+                                                                $config['locations'][$employee->getFirstAttribute('department')]['province'] . " " . 
+                                                                $config['locations'][$employee->getFirstAttribute('department')]['postal_code'] . "<br>"
+                                                            !!}
+                                                            @endif
+                                                            {{ $config['locations'][$employee->getFirstAttribute('department')]['phone'] }}
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>
