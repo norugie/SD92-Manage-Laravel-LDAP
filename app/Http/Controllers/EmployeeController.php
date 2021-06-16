@@ -64,6 +64,8 @@ class EmployeeController extends Controller
         // Setting employee object values
         $employee = new User();
 
+        $employee->setDn('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
+
         $employee->cn = $username;
         $employee->name = $username;
         $employee->samaccountname = $username;
@@ -71,59 +73,66 @@ class EmployeeController extends Controller
         $employee->givenname = $firstname;
         $employee->sn = $lastname;
         $employee->mail = $email;
-        $employee->unicodePwd = Password::encode($password); // Will work on this again once I have a server for this webapp that goes through SSL connection
+        $employee->unicodepwd = $this->passwordConverter($password); // Will work on this again once I have a server for this webapp that goes through SSL connection
         $employee->company = $company;
         $employee->department = $department;
         $employee->description = $department . " employee";
         $employee->proxyaddresses = 'SMTP:' . $email;
 
-        $employee->setDn('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
+        // $employee->save();
 
-        $employee->save();
+        // $employee->refresh();
 
-        $employee->refresh();
+        try {
+            $employee->save();
 
-        // Enable the user. Try again with SSL connection in the future
-        $employee->userAccountControl = 512;
-        $employee->save();
+            $employee->refresh();
+        } catch (\LdapRecord\LdapRecordException $e) {
+            // Failed saving user.
+            var_dump($e);
+        }
 
-        // Adding to employee group
-        $employee_group = Group::findBy('cn', 'employee');
-        $employee->groups()->attach($employee_group);
+        // // Enable the user. Try again with SSL connection in the future
+        // // $employee->userAccountControl = 512;
+        // // $employee->save();
 
-        // Adding to location groups
-        foreach($locations as $location): 
-            $employee_group = Group::findBy('cn', $location);
-            $employee->groups()->attach($employee_group);
-        endforeach;
+        // // Adding to employee group
+        // $employee_group = Group::findBy('cn', 'employee');
+        // $employee->groups()->attach($employee_group);
 
-        // Adding role groups
-        foreach($roles as $role): 
-            $employee_group = Group::findBy('cn', $role);
-            $employee->groups()->attach($employee_group);
-        endforeach;
+        // // Adding to location groups
+        // foreach($locations as $location): 
+        //     $employee_group = Group::findBy('cn', $location);
+        //     $employee->groups()->attach($employee_group);
+        // endforeach;
 
-        // Adding sub-department groups
-        foreach($sub_departments as $sub): 
-            $employee_group = Group::findBy('cn', $sub);
-            $employee->groups()->attach($employee_group);
-        endforeach;
+        // // Adding role groups
+        // foreach($roles as $role): 
+        //     $employee_group = Group::findBy('cn', $role);
+        //     $employee->groups()->attach($employee_group);
+        // endforeach;
 
-        // echo $fullname . "<br>" . $username . "<br>" . $email . "<br>" . $password . "<br>department: " . $department . "<br>locations: ";
-        // var_dump($locations);
-        // echo "<br>roles: ";
-        // var_dump($roles);
-        // echo "<br>sub-departments: ";
-        // var_dump($sub_departments);
-        // echo "<br>Log by: " . session('userName');
+        // // Adding sub-department groups
+        // foreach($sub_departments as $sub): 
+        //     $employee_group = Group::findBy('cn', $sub);
+        //     $employee->groups()->attach($employee_group);
+        // endforeach;
+
+        // // echo $fullname . "<br>" . $username . "<br>" . $email . "<br>" . $password . "<br>department: " . $department . "<br>locations: ";
+        // // var_dump($locations);
+        // // echo "<br>roles: ";
+        // // var_dump($roles);
+        // // echo "<br>sub-departments: ";
+        // // var_dump($sub_departments);
+        // // echo "<br>Log by: " . session('userName');
         
-        $message = 'An account for <b><a href="/cms/employees/' . $username . '/view" class="alert-link">' . $fullname . '</a></b> has been created successfully.';
+        // $message = 'An account for <b><a href="/cms/employees/' . $username . '/view" class="alert-link">' . $fullname . '</a></b> has been created successfully.';
 
-        $this->inputLog(session('userName'), $message);
+        // $this->inputLog(session('userName'), $message);
         
-        return redirect('/cms/employees/' . $username . '/view')
-            ->with('status', 'success')
-            ->with('message', $message);
+        // return redirect('/cms/employees/' . $username . '/view')
+        //     ->with('status', 'success')
+        //     ->with('message', $message);
 
     }
 
@@ -273,5 +282,10 @@ class EmployeeController extends Controller
         $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789';
         
         return substr(str_shuffle(str_repeat($chars, $length)), 0, $length);
+    }
+
+    public function passwordConverter ($password)
+    {
+        return iconv("UTF-8", "UTF-16LE", '"' . $password . '"');
     }
 }
