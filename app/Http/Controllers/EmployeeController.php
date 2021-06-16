@@ -16,8 +16,6 @@ class EmployeeController extends Controller
         return view ( 'cms.employee.employee', [
             'employees' => $employees
         ]);
-        // var_dump($employees);
-        // exit();
     }
 
     public function createEmployeeForm ()
@@ -108,14 +106,6 @@ class EmployeeController extends Controller
             $employee_group = Group::findBy('cn', $sub);
             $employee->groups()->attach($employee_group);
         endforeach;
-
-        // echo $fullname . "<br>" . $username . "<br>" . $email . "<br>" . $password . "<br>department: " . $department . "<br>locations: ";
-        // var_dump($locations);
-        // echo "<br>roles: ";
-        // var_dump($roles);
-        // echo "<br>sub-departments: ";
-        // var_dump($sub_departments);
-        // echo "<br>Log by: " . session('userName');
         
         $message = 'An account for <b><a href="/cms/employees/' . $username . '/view" class="alert-link">' . $fullname . '</a></b> has been created successfully.';
 
@@ -126,14 +116,6 @@ class EmployeeController extends Controller
             ->with('message', $message);
 
     }
-
-    // public function viewEmployeeProfile ( String $username )
-    // {
-    //     $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
-    //     return view( 'cms.employee.profile', [
-    //         'employee' => $employee
-    //     ]);
-    // }
 
     public function viewEmployeeProfileUpdate ( String $username, String $action ){
         $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
@@ -212,13 +194,6 @@ class EmployeeController extends Controller
         $employee->refresh();
 
         $employee_groups = $employee->groups()->get();
-
-        // echo $fullname . "<br>" . $username . "<br>" . $department . "<br>locations: ";
-        // var_dump($locations);
-        // echo "<br>roles: <br>";
-        // var_dump($roles);
-        // echo "<br>sub-departments: <br>";
-        // var_dump($sub_departments);
 
         foreach($employee_groups as $eg):
             array_push($current_groups, $eg->getName());
