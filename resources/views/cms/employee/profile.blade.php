@@ -57,7 +57,7 @@
                                         @if(in_array($key, $locations)) {{ $value['name'] }},  @endif
                                     @endforeach
                                 </p>
-                                <p><b>Miscellaneous Groups: </b>
+                                <p><b>Roles and Miscellaneous Groups: </b>
                                     @foreach($config['global_roles'] as $key => $value)
                                         @if(in_array($key, $sub_departments)) {{ $value }},  @endif
                                     @endforeach

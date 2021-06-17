@@ -9,13 +9,14 @@
             "phone": "+1 (250) 633-2228",
             "local_roles": {
                 "accountingclerk": "Accounting Clerk",
-                "adminasst": "Administrative Assistant",
+                "adminassistant": "Administrative Assistant",
                 "boemember": "Board of Education Member",
                 "daycaremanager": "Daycare Manager",
                 "districtcounselor": "District Counselor",
                 "districthousingmanager": "District Housing Manager",
                 "districtprincipal": "District Principal",
                 "districtsuperintendent": "District Superintendent",
+                "nlcmanager": "Nisga'a Language & Culture Manager",
                 "payrollclerk": "Payroll Clerk",
                 "secretarytreasurer": "Secretary Treasurer",
                 "studenthousingparent": "Student Housing Parent"
@@ -23,7 +24,7 @@
             "departments": {
                 "Accounting": "Accounting Department",
                 "Accounts Payable": "Accounts Payable Department",
-                "Finance Department": "Finance Department",
+                "Finance": "Finance Department",
                 "HR": "HR Department",
                 "PayrollDept": "Payroll Department"
             }
@@ -79,7 +80,7 @@
                 "aamessadult": "AAMES - Adult Ed"
             },
             "departments": {
-                
+                "NLC-AAMES": "AAMES - NLC"
             }
         },
         "GES": {
@@ -101,7 +102,7 @@
                 "gesadult": "GES - Adult Ed"
             },
             "departments": {
-                
+                "NLC-GES": "GES - NLC"
             }
         },
         "NESS": {
@@ -129,7 +130,7 @@
                 "nessadult": "NESS - Adult Ed"
             },
             "departments": {
-                
+                "NLC-NESS": "NESS - NLC"
             }
         },
         "NBES": {
@@ -151,18 +152,20 @@
                 "nbesadult": "NBES - Adult Ed"
             },
             "departments": {
-                
+                "NLC-NBES": "NBES - NLC"
             }
         }
     },
     "global_roles": {
         "admins": "Administrator",
+        "appadmin": "Administrative Access - District Website",
         "casual": "Casual Worker",
         "cupe": "CUPE",
-        "EA1": "Education Assistant 1",
-        "EA2": "Education Assistant 2",
+        "ea1": "Education Assistant 1",
+        "ea2": "Education Assistant 2",
+        "webadmin": "Editor Access - District Website",
         "nla": "Nisga'a Language Assistant",
-        "nlc": "Nisga'a Language and Culture",
+        "nlc": "Nisga'a Language & Culture",
         "manager": "Manager",
         "principal": "Principal",
         "sdsusers": "SDS User",
