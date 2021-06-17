@@ -49,15 +49,17 @@ class EmployeeController extends Controller
         $roles = []; 
         $sub_departments = [];
 
-        // Separate roles from sub-departments
-        foreach($request->employee_roles as $i):
-            if(strpos($i, 'dept-') === FALSE){
-                array_push($roles, $i);
-            } else {
-                $i = substr_replace($i, '', 0, 5);
-                array_push($sub_departments, $i);
-            }
-        endforeach;
+        if($request->employee_roles !== NULL){
+            // Separate roles from sub-departments
+            foreach($request->employee_roles as $i):
+                if(strpos($i, 'dept-') === FALSE){
+                    array_push($roles, $i);
+                } else {
+                    $i = substr_replace($i, '', 0, 5);
+                    array_push($sub_departments, $i);
+                }
+            endforeach;
+        }
 
         // Setting employee object values
         $employee = new User();
@@ -89,23 +91,29 @@ class EmployeeController extends Controller
         $employee_group = Group::findBy('cn', 'employee');
         $employee->groups()->attach($employee_group);
 
-        // Adding to location groups
-        foreach($locations as $location): 
-            $employee_group = Group::findBy('cn', $location);
-            $employee->groups()->attach($employee_group);
-        endforeach;
+        if($locations !== NULL){
+            // Adding to location groups
+            foreach($locations as $location): 
+                $employee_group = Group::findBy('cn', $location);
+                $employee->groups()->attach($employee_group);
+            endforeach;
+        }
 
-        // Adding role groups
-        foreach($roles as $role): 
-            $employee_group = Group::findBy('cn', $role);
-            $employee->groups()->attach($employee_group);
-        endforeach;
+        if($roles !== NULL){
+            // Adding role groups
+            foreach($roles as $role): 
+                $employee_group = Group::findBy('cn', $role);
+                $employee->groups()->attach($employee_group);
+            endforeach;
+        }
 
-        // Adding sub-department groups
-        foreach($sub_departments as $sub): 
-            $employee_group = Group::findBy('cn', $sub);
-            $employee->groups()->attach($employee_group);
-        endforeach;
+        if($sub_departments !== NULL){
+            // Adding sub-department groups
+            foreach($sub_departments as $sub): 
+                $employee_group = Group::findBy('cn', $sub);
+                $employee->groups()->attach($employee_group);
+            endforeach;
+        }
         
         $message = 'An account for <b><a href="/cms/employees/' . $username . '/view" class="alert-link">' . $fullname . '</a></b> has been created successfully.';
 
@@ -168,15 +176,17 @@ class EmployeeController extends Controller
         $sub_departments = [];
         $current_groups = [];
 
-        // Separate roles from sub-departments
-        foreach($request->employee_roles as $i):
-            if(strpos($i, 'dept-') === FALSE){
-                array_push($roles, $i);
-            } else {
-                $i = substr_replace($i, '', 0, 5);
-                array_push($sub_departments, $i);
-            }
-        endforeach;
+        if(isset($request->employee_roles)){
+            // Separate roles from sub-departments
+            foreach($request->employee_roles as $i):
+                if(strpos($i, 'dept-') === FALSE){
+                    array_push($roles, $i);
+                } else {
+                    $i = substr_replace($i, '', 0, 5);
+                    array_push($sub_departments, $i);
+                }
+            endforeach;
+        }
 
         array_push($roles, 'employee', 'activestaff');
 
@@ -198,35 +208,41 @@ class EmployeeController extends Controller
         foreach($employee_groups as $eg):
             array_push($current_groups, $eg->getName());
             // Remove from user's employee groups if not a part of updated locations, roles, and sub-departments
-            if(!in_array($eg->getName(), $locations) && !in_array($eg->getName(), $roles) && !in_array($eg->getName(), $sub_departments)) {
+            if(($locations !== NULL && $roles !== NULL && $sub_departments !== NULL) && (!in_array($eg->getName(), $locations) && !in_array($eg->getName(), $roles) && !in_array($eg->getName(), $sub_departments))) {
                 $employee_group = Group::findBy('cn', $eg->getName());
                 $employee->groups()->detach($employee_group);
             }
         endforeach;
 
-        // Adding to location groups if not already a part of the user's group
-        foreach($locations as $location): 
-            if(!in_array($location, $current_groups)) {
-                $employee_group = Group::findBy('cn', $location);
-                $employee->groups()->attach($employee_group);
-            }
-        endforeach;
+        if($locations !== NULL){
+            // Adding to location groups if not already a part of the user's group
+            foreach($locations as $location): 
+                if(!in_array($location, $current_groups)) {
+                    $employee_group = Group::findBy('cn', $location);
+                    $employee->groups()->attach($employee_group);
+                }
+            endforeach;
+        }
 
-        // Adding role groups if not already a part of the user's group
-        foreach($roles as $role): 
-            if(!in_array($role, $current_groups)) {
-                $employee_group = Group::findBy('cn', $role);
-                $employee->groups()->attach($employee_group);
-            }
-        endforeach;
+        if($roles !== NULL){
+            // Adding role groups if not already a part of the user's group
+            foreach($roles as $role): 
+                if(!in_array($role, $current_groups)) {
+                    $employee_group = Group::findBy('cn', $role);
+                    $employee->groups()->attach($employee_group);
+                }
+            endforeach;
+        }
 
-        // Adding sub-department groups if not already a part of the user's group
-        foreach($sub_departments as $sub): 
-            if(!in_array($sub, $current_groups)) {
-                $employee_group = Group::findBy('cn', $sub);
-                $employee->groups()->attach($employee_group);
-            }
-        endforeach;
+        if($sub_departments !== NULL){
+            // Adding sub-department groups if not already a part of the user's group
+            foreach($sub_departments as $sub): 
+                if(!in_array($sub, $current_groups)) {
+                    $employee_group = Group::findBy('cn', $sub);
+                    $employee->groups()->attach($employee_group);
+                }
+            endforeach;
+        }
 
         $message = 'The account for <b><a href="/cms/employees/' . $username . '/view" class="alert-link">' . $fullname . '</a></b> has been updated successfully.';
 
