@@ -188,7 +188,7 @@ class EmployeeController extends Controller
             endforeach;
         }
 
-        array_push($roles, 'employee', 'activestaff');
+        array_push($roles, 'employee');
 
         // Setting employee object values
         $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
