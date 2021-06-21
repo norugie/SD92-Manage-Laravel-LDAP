@@ -1,6 +1,6 @@
 // Custom JS DataTable
 $('.js-basic-example').DataTable({
-    "bSort": false,
+    "bSort": true,
     "lengthChange": false,
     "iDisplayLength": 10
 });
