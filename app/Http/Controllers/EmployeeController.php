@@ -12,7 +12,7 @@ class EmployeeController extends Controller
 {
     public function index ()
     {
-        $employees = Group::findBy('cn', 'employee')->members()->get();
+        $employees = Group::findBy('cn', 'activestaff')->members()->get();
         return view ( 'cms.employee.employee', [
             'employees' => $employees
         ]);
@@ -89,6 +89,10 @@ class EmployeeController extends Controller
 
         // Adding to employee group
         $employee_group = Group::findBy('cn', 'employee');
+        $employee->groups()->attach($employee_group);
+
+        // Adding to activestaff group
+        $employee_group = Group::findBy('cn', 'activestaff');
         $employee->groups()->attach($employee_group);
 
         if($locations !== NULL){
@@ -188,7 +192,7 @@ class EmployeeController extends Controller
             endforeach;
         }
 
-        array_push($roles, 'employee');
+        array_push($roles, 'employee', 'activestaff');
 
         // Setting employee object values
         $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
