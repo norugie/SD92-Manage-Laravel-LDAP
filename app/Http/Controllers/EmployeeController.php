@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use LdapRecord\Models\Attributes\Password;
 use App\Ldap\User;
 use App\Ldap\Group;
+use LdapRecord\Models\Attributes\AccountControl;
+use LdapRecord\Models\Attributes\Password;
 
 class EmployeeController extends Controller
 {
@@ -83,8 +84,12 @@ class EmployeeController extends Controller
 
         $employee->refresh();
 
-        // Enable the user. Try again with SSL connection in the future
-        $employee->userAccountControl = 512;
+        // Enable the user with password not expiring.
+        $uac = new AccountControl();
+        $uac->accountIsNormal();
+        $uac->passwordDoesNotExpire();
+
+        $employee->userAccountControl = $uac;
         $employee->save();
 
         // Adding to employee group
