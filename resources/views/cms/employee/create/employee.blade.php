@@ -80,6 +80,24 @@
                                     </div>
                                 </div>
                                 <div class="row clearfix">
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <label for="employee_id">Employee ID Number</label>
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input type="text" class="form-control" id="employee_id" name="employee_id">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <label for="employee_rfid">Employee ID Card Code</label>
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input type="text" class="form-control" id="employee_rfid" name="employee_rfid">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row clearfix">
 
                                 </div>
                                 <div class="row clearfix">
