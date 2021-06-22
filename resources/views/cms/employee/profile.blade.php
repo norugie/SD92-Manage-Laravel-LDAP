@@ -1,11 +1,5 @@
 @extends ( 'cms.layout.layout' )
 
-@section( 'custom-css' )
-
-    <link href="/cms/css/card.css" rel="stylesheet" />
-
-@endsection
-
 @section ( 'content' )
 
     <div class="row clearfix">
@@ -33,7 +27,6 @@
                     <div>
                         <ul class="nav nav-tabs" role="tablist">
                             <li role="presentation" class="active"><a href="#info" aria-controls="info" role="tab" data-toggle="tab">User Info</a></li>
-                            <li role="presentation"><a href="#id_card" aria-controls="settings" role="tab" data-toggle="tab">ID Card</a></li>
                             <li role="presentation"><a href="#access_settings" aria-controls="settings" role="tab" data-toggle="tab">Access Settings</a></li>
                         </ul>
 
@@ -67,57 +60,6 @@
                                         @endforeach
                                     @endif
                                 </p>
-                            </div>
-                            <div role="tabpanel" class="tab-pane fade in" id="id_card">
-                                {{-- ID card settings --}}
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <p class="font-12"><i><b>Note:</b> Fields marked with an asterisk are required. The displayed card is only a rough preview. The final card may have slightly different layout.</i></p><br>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="card-id">
-                                            <div class="card-top">
-                                                <div class="card-title">EMPLOYEE</div>
-                                                <div class="card-img">
-                                                    <img src="/cms/images/users/user-placeholder.png" alt="">
-                                                </div>
-                                                <div class="card-top-display">
-                                                    <div class="card-logo">
-                                                        <img src="/nisgaa-icon.png" alt="" width="57" height="90">
-                                                    </div>
-                                                    <div class="card-department">
-                                                        @if($employee->getFirstAttribute('department') !== NULL)
-                                                            {{ $config['locations'][$employee->getFirstAttribute('department')]['name'] }} <br>
-                                                        @endif
-                                                        School District No. 92 (Nisga'a)<br>
-                                                        @if($employee->getFirstAttribute('department') !== NULL)
-                                                            @if( $config['locations'][$employee->getFirstAttribute('department')]['address'] !== "" )
-                                                            {!! 
-                                                                $config['locations'][$employee->getFirstAttribute('department')]['address'] . ",<br>" .
-                                                                $config['locations'][$employee->getFirstAttribute('department')]['city'] . ", " . 
-                                                                $config['locations'][$employee->getFirstAttribute('department')]['province'] . " " . 
-                                                                $config['locations'][$employee->getFirstAttribute('department')]['postal_code'] . "<br>"
-                                                            !!}
-                                                            @endif
-                                                            {{ $config['locations'][$employee->getFirstAttribute('department')]['phone'] }}
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card-mid">
-                                                <div class="card-mid-text">
-                                                    <br>
-                                                    {{ $employee->getFirstAttribute('displayname') }}
-                                                    <br>
-                                                    <img src="/cms/images/barcode.png" alt="" height="50">
-                                                </div>
-                                            </div>
-                                            <div class="card-bottom"></div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                             <div role="tabpanel" class="tab-pane fade in" id="access_settings">
                                 {{-- Access control settings --}}
