@@ -93,6 +93,24 @@
                                     </div>
                                 </div>
                                 <div class="row clearfix">
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <label for="employee_id">Employee ID Number</label>
+                                        <div class="form-group">
+                                            <div class="{{ $employee->getFirstAttribute('employeeID') ? 'disabled' : 'form-line' }}">
+                                                <input type="text" class="form-control" id="employee_id" name="employee_id" value="{{ $employee->getFirstAttribute('employeeID') }}" @if($employee->getFirstAttribute('employeeID') !== NULL) disabled @endif>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <label for="employee_rfid">Employee ID Card Code</label>
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input type="text" class="form-control" id="employee_rfid" name="employee_rfid" value="{{ $employee->getFirstAttribute('employeeNumber') }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row clearfix">
 
                                 </div>
                                 <div class="row clearfix">

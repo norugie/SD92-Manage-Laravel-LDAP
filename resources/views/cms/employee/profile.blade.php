@@ -33,6 +33,8 @@
                         <div class="tab-content">
                             <div role="tabpanel" class="tab-pane fade in active" id="info">
                                 {{-- User Info and Groups here --}}
+                                <p><b>Employee ID: </b>{{ $employee->getFirstAttribute('employeeID') }}</p>
+                                <p><b>Employee ID Card Code: </b>{{ $employee->getFirstAttribute('employeeNumber') }}</p>
                                 <p><b>Employee Name: </b>{{ $employee->getFirstAttribute('displayname') }}</p>
                                 <p><b>District Email Address: </b>{{ $employee->getFirstAttribute('mail') }}</p>
                                 <p><b>District Username: </b>{{ $employee->getFirstAttribute('samaccountname') }}</p>
