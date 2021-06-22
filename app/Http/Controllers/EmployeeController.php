@@ -84,7 +84,7 @@ class EmployeeController extends Controller
 
         $employee->refresh();
 
-        // Enable the user with password not expiring.
+        // Enable the employee account with password not expiring.
         $uac = new AccountControl();
         $uac->accountIsNormal();
         $uac->passwordDoesNotExpire();
@@ -263,9 +263,35 @@ class EmployeeController extends Controller
             ->with('message', $message);
     }
 
-    public function disableEmployeeProfile ()
+    public function disableEmployeeProfile (String $username)
     {
-        // 
+        // Setting employee object values
+        $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
+        $fullname = $employee->getFirstAttribute('displayname');
+        $employee->department = "";
+        $employee->description = "Inactive employee";
+
+        // Removing all employee groups
+        $employee->groups()->detachAll();
+
+        // Adding employee to inactive employee list
+        $employee_group = Group::findBy('cn', 'inactivestaff');
+        $employee->groups()->attach($employee_group);
+
+        // Disabling employee account.
+        $uac = new AccountControl();
+        $uac->accountIsDisabled();
+
+        $employee->userAccountControl = $uac;
+        $employee->save();
+
+        $message = 'The account for <b>' . $fullname . '</b> has been disabled successfully.';
+
+        $this->inputLog(session('userName'), $message);
+        
+        return redirect('/cms/employees')
+            ->with('status', 'success')
+            ->with('message', $message);
     }
 
     public function stringGenerator ()
