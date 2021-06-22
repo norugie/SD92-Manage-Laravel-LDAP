@@ -24,7 +24,7 @@
             },
             "departments": {
                 "Accounting": "Accounting Department",
-                "Accounts Payable": "Accounts Payable Department",
+                "AccountsPayable": "Accounts Payable Department",
                 "Finance": "Finance Department",
                 "HR": "HR Department",
                 "PayrollDept": "Payroll Department"
