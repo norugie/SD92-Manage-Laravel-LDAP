@@ -129,7 +129,8 @@ class EmployeeController extends Controller
 
     }
 
-    public function viewEmployeeProfileUpdate ( String $username, String $action ){
+    public function viewEmployeeProfileUpdate ( String $username, String $action )
+    {
         $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
 
         // Redirect to employee list if employee is NULL

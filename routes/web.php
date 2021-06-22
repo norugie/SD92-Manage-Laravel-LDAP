@@ -50,4 +50,24 @@ Route::group(['middleware' => 'authAD', 'prefix' => 'cms'], function (){
         Route::post('/{username}/update', [EmployeeController::class, 'updateEmployeeProfile']);
         Route::post('/{username}/disable', [EmployeeController::class, 'disableEmployeeProfile']);
     });
+
+    Route::group(['prefix' => 'groups'], function (){
+        // Group Index
+        Route::get('/', [GroupController::class, 'index']);
+
+        // Group View, Update
+        Route::get('/{groupname}', function ( String $groupname ) { return redirect('/cms/groups/' . $groupname . '/view'); });
+        Route::get('/{groupname}/{action}', [GroupController::class, 'viewGroupProfileUpdate']);
+        Route::post('/{groupname}/update', [GroupController::class, 'updateGroupProfile']);
+    });
+
+    Route::group(['prefix' => 'inactive'], function (){
+        // Inactive Index
+        Route::get('/', [InactiveController::class, 'index']);
+
+        // Inactive View, Update
+        Route::get('/{username}', function ( String $username ) { return redirect('/cms/inactive/' . $username . '/view'); });
+        Route::get('/{username}/{action}', [InactiveController::class, 'viewInactiveProfileUpdate']);
+        Route::post('/{username}/update', [InactiveController::class, 'updateInactiveProfile']);
+    });
 });

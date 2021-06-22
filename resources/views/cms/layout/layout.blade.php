@@ -107,7 +107,19 @@
                         <li id="employees" class="{{ Request::is( 'cms/employees' ) || Request::is( 'cms/employees/*' ) ? 'active' : '' }}">
                             <a href="/cms/employees">
                                 <i class="material-icons">people</i>
-                                <span>Employee Management</span>
+                                <span>Active Employee List</span>
+                            </a>
+                        </li>
+                        <li id="groups" class="{{ Request::is( 'cms/groups' ) || Request::is( 'cms/groups/*' ) ? 'active' : '' }}">
+                            <a href="/cms/groups">
+                                <i class="material-icons">group_work</i>
+                                <span>Employee Groups</span>
+                            </a>
+                        </li>
+                        <li id="inactive-employees" class="{{ Request::is( 'cms/inactive' ) || Request::is( 'cms/inactive/*' ) ? 'active' : '' }}">
+                            <a href="/cms/inactive">
+                                <i class="material-icons">lock</i>
+                                <span>Inactive Employee List</span>
                             </a>
                         </li>
                     </ul>
