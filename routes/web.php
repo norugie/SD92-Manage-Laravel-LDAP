@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\GroupController;
+use App\Http\Controllers\InactiveController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 
@@ -65,8 +67,8 @@ Route::group(['middleware' => 'authAD', 'prefix' => 'cms'], function (){
         // Inactive Index
         Route::get('/', [InactiveController::class, 'index']);
 
-        // Inactive View, Update
-        Route::get('/{username}', function ( String $username ) { return redirect('/cms/inactive/' . $username . '/view'); });
-        Route::post('/{username}/enable', [InactiveController::class, 'updateInactiveProfile']);
+        // Inactive Enable
+        Route::get('/{username}', function () { return redirect('/cms/inactive/'); });
+        Route::get('/{username}/enable', [InactiveController::class, 'enableInactiveProfile']);
     });
 });
