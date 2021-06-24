@@ -17,6 +17,26 @@ class EmployeeController extends Controller
         return view ( 'cms.employee.employee', [
             'employees' => $employees
         ]);
+
+        // foreach($employees as $employee): 
+        //     $groups = $employee->groups()->get();
+        //     $gs = [];
+        //     foreach($groups as $g): 
+        //         array_push($gs, $g->getName());
+        //     endforeach;
+
+        //     // Adding to appropriate Office365 licensing group
+        //     $employee_group = Group::findBy('cn', $this->licensingSorter($gs));
+        //     $employee->groups()->attach($employee_group);
+
+        //     var_dump($gs);
+        //     echo " " . $this->licensingSorter($gs) . "<br><br>";
+        // endforeach;
+
+        // $employee_group1 = Group::findBy('cn', 'A1 Staff Assignment');
+        // $employee_group1->members()->detachAll();
+        // $employee_group2 = Group::findBy('cn', 'A3 Staff Assignment');
+        // $employee_group2->members()->detachAll();
     }
 
     public function createEmployeeForm ()
@@ -47,12 +67,13 @@ class EmployeeController extends Controller
         $company = 'SD92';
         $department = $request->employee_department;
         $locations = $request->employee_locations;
+        $employee_roles = $request->employee_roles;
         $roles = []; 
         $sub_departments = [];
 
-        if($request->employee_roles !== NULL){
+        if($employee_roles !== NULL){
             // Separate roles from sub-departments
-            foreach($request->employee_roles as $i):
+            foreach($employee_roles as $i):
                 if(strpos($i, 'dept-') === FALSE){
                     array_push($roles, $i);
                 } else {
@@ -98,6 +119,10 @@ class EmployeeController extends Controller
 
         // Adding to activestaff group
         $employee_group = Group::findBy('cn', 'activestaff');
+        $employee->groups()->attach($employee_group);
+
+        // Adding to appropriate Office365 licensing group
+        $employee_group = Group::findBy('cn', $this->licensingSorter($employee_roles));
         $employee->groups()->attach($employee_group);
 
         if($locations !== NULL){
@@ -182,13 +207,14 @@ class EmployeeController extends Controller
         $company = 'SD92';
         $department = $request->employee_department;
         $locations = $request->employee_locations;
+        $employee_roles = $request->employee_roles;
         $roles = []; 
         $sub_departments = [];
         $current_groups = [];
 
-        if(isset($request->employee_roles)){
+        if(isset($employee_roles)){
             // Separate roles from sub-departments
-            foreach($request->employee_roles as $i):
+            foreach($employee_roles as $i):
                 if(strpos($i, 'dept-') === FALSE){
                     array_push($roles, $i);
                 } else {
@@ -197,8 +223,9 @@ class EmployeeController extends Controller
                 }
             endforeach;
         }
-
-        array_push($roles, 'employee', 'activestaff');
+        
+        $license = $this->licensingSorter($employee_roles);
+        array_push($roles, 'employee', 'activestaff', $license);
 
         // Setting employee object values
         $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
@@ -302,8 +329,22 @@ class EmployeeController extends Controller
         return substr(str_shuffle(str_repeat($chars, $length)), 0, $length);
     }
 
-    public function passwordConverter ($password)
+    public function passwordConverter (String $password)
     {
         return iconv("UTF-8", "UTF-16LE", '"' . $password . '"');
+    }
+
+    public function licensingSorter(Array $groups)
+    {
+        $license;
+        var_dump($groups);
+        foreach(file('cms/groups-with-a3-license.txt', FILE_IGNORE_NEW_LINES)as $a3):
+            if(in_array($a3, $groups) ? $license = "A3 Staff Assignment" : $license = "A1 Staff Assignment");
+            if($license === "A3 Staff Assignment") break;
+        endforeach;
+        
+        if(in_array('A3 Staff Exceptions', $groups)) $license = "A1 Staff Assignment";
+
+        return $license;
     }
 }
