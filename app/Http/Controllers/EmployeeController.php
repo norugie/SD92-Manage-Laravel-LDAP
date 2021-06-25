@@ -17,26 +17,6 @@ class EmployeeController extends Controller
         return view ( 'cms.employee.employee', [
             'employees' => $employees
         ]);
-
-        // foreach($employees as $employee): 
-        //     $groups = $employee->groups()->get();
-        //     $gs = [];
-        //     foreach($groups as $g): 
-        //         array_push($gs, $g->getName());
-        //     endforeach;
-
-        //     // Adding to appropriate Office365 licensing group
-        //     $employee_group = Group::findBy('cn', $this->licensingSorter($gs));
-        //     $employee->groups()->attach($employee_group);
-
-        //     var_dump($gs);
-        //     echo " " . $this->licensingSorter($gs) . "<br><br>";
-        // endforeach;
-
-        // $employee_group1 = Group::findBy('cn', 'A1 Staff Assignment');
-        // $employee_group1->members()->detachAll();
-        // $employee_group2 = Group::findBy('cn', 'A3 Staff Assignment');
-        // $employee_group2->members()->detachAll();
     }
 
     public function createEmployeeForm ()
@@ -71,7 +51,7 @@ class EmployeeController extends Controller
         $roles = [];
 
         if($employee_roles !== NULL){
-            // remove dept- tag from sub-departments
+            // Remove dept- tag from sub-departments
             foreach($employee_roles as $i):
                 if(strpos($i, 'dept-') === FALSE){
                     array_push($roles, $i);
@@ -97,7 +77,7 @@ class EmployeeController extends Controller
         $employee->givenname = $firstname;
         $employee->sn = $lastname;
         $employee->mail = $email;
-        $employee->unicodepwd = $this->passwordConverter($password); // Will work on this again once I have a server for this webapp that goes through SSL connection
+        $employee->unicodepwd = $this->passwordConverter($password);
         $employee->company = $company;
         $employee->department = $department;
         $employee->description = $department . " employee";
