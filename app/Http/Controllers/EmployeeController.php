@@ -68,20 +68,21 @@ class EmployeeController extends Controller
         $department = $request->employee_department;
         $locations = $request->employee_locations;
         $employee_roles = $request->employee_roles;
-        $roles = []; 
-        $sub_departments = [];
+        $roles = [];
 
         if($employee_roles !== NULL){
-            // Separate roles from sub-departments
+            // remove dept- tag from sub-departments
             foreach($employee_roles as $i):
                 if(strpos($i, 'dept-') === FALSE){
                     array_push($roles, $i);
                 } else {
                     $i = substr_replace($i, '', 0, 5);
-                    array_push($sub_departments, $i);
+                    array_push($roles, $i);
                 }
             endforeach;
         }
+        array_push($roles, $department, 'employee', 'activestaff', $this->licensingSorter($employee_roles));
+        $roles = array_merge($roles, $locations);
 
         // Setting employee object values
         $employee = new User();
@@ -113,25 +114,13 @@ class EmployeeController extends Controller
         $employee->userAccountControl = $uac;
         $employee->save();
 
-        // Adding to employee group
-        $employee_group = Group::findBy('cn', 'employee');
-        $employee->groups()->attach($employee_group);
-
-        // Adding to activestaff group
-        $employee_group = Group::findBy('cn', 'activestaff');
-        $employee->groups()->attach($employee_group);
-
-        // Adding to appropriate Office365 licensing group
-        $employee_group = Group::findBy('cn', $this->licensingSorter($employee_roles));
-        $employee->groups()->attach($employee_group);
-
-        if($locations !== NULL){
-            // Adding to location groups
-            foreach($locations as $location): 
-                $employee_group = Group::findBy('cn', $location);
-                $employee->groups()->attach($employee_group);
-            endforeach;
-        }
+        // if($locations !== NULL){
+        //     // Adding to location groups
+        //     foreach($locations as $location): 
+        //         $employee_group = Group::findBy('cn', $location);
+        //         $employee->groups()->attach($employee_group);
+        //     endforeach;
+        // }
 
         if($roles !== NULL){
             // Adding role groups
@@ -141,21 +130,21 @@ class EmployeeController extends Controller
             endforeach;
         }
 
-        if($sub_departments !== NULL){
-            // Adding sub-department groups
-            foreach($sub_departments as $sub): 
-                $employee_group = Group::findBy('cn', $sub);
-                $employee->groups()->attach($employee_group);
-            endforeach;
-        }
+        // if($sub_departments !== NULL){
+        //     // Adding sub-department groups
+        //     foreach($sub_departments as $sub): 
+        //         $employee_group = Group::findBy('cn', $sub);
+        //         $employee->groups()->attach($employee_group);
+        //     endforeach;
+        // }
         
-        $message = 'An account for <b><a href="/cms/employees/' . $username . '/view" class="alert-link">' . $fullname . '</a></b> has been created successfully.';
+        // $message = 'An account for <b><a href="/cms/employees/' . $username . '/view" class="alert-link">' . $fullname . '</a></b> has been created successfully.';
 
-        $this->inputLog(session('userName'), $message);
+        // $this->inputLog(session('userName'), $message);
         
-        return redirect('/cms/employees/' . $username . '/view')
-            ->with('status', 'success')
-            ->with('message', $message);
+        // return redirect('/cms/employees/' . $username . '/view')
+        //     ->with('status', 'success')
+        //     ->with('message', $message);
 
     }
 
