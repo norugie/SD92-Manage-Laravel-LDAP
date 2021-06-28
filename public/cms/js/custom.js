@@ -1,25 +1,56 @@
 // Custom JS DataTable
-$('.js-basic-example').DataTable({
+$('#employee-table').DataTable({
+    "bSort": true,
+    'aaSorting': [
+        [1, 'asc']
+    ],
+    "lengthChange": false,
+    "iDisplayLength": 10,
+    "columnDefs": [{
+        "targets": [0, 5],
+        "searchable": false,
+        "orderable": false,
+        "visible": true
+    }],
+    "dom": 'Bfrtip',
+    "buttons": [{
+            text: 'Move Accounts',
+            "className": 'btn move-accounts'
+        },
+        {
+            text: 'Disable Accounts',
+            className: 'btn disable-accounts'
+        }
+    ]
+});
+
+$('#inactive-employee-table').DataTable({
     "bSort": true,
     "lengthChange": false,
-    "iDisplayLength": 10
+    "iDisplayLength": 10,
+    "columnDefs": [{
+        "targets": [3],
+        "searchable": false,
+        "orderable": false,
+        "visible": true
+    }]
 });
 
 // Custom JQuery Validator
 $('.new_form_validate').validate({
-    unhighlight: function (input) {
+    unhighlight: function(input) {
         $(input).parents('.form-line').removeClass('error');
     },
-    errorPlacement: function (error, element) {
+    errorPlacement: function(error, element) {
         $(element).parents('.form-group').append(error);
     }
 });
 
 $('.edit_form_validate').validate({
-    unhighlight: function (input) {
+    unhighlight: function(input) {
         $(input).parents('.form-line').removeClass('error');
     },
-    errorPlacement: function (error, element) {
+    errorPlacement: function(error, element) {
         $(element).parents('.form-group').append(error);
     }
 });
@@ -35,10 +66,10 @@ $('.new_user_validate').validate({
             required: true
         }
     },
-    unhighlight: function (input) {
+    unhighlight: function(input) {
         $(input).parents('.form-line').removeClass('error');
     },
-    errorPlacement: function (error, element) {
+    errorPlacement: function(error, element) {
         $(element).parents('.form-group').append(error);
     }
 });
