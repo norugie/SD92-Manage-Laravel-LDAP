@@ -13,9 +13,12 @@ class EmployeeController extends Controller
 {
     public function index ()
     {
+        $json = file_get_contents('cms/config.json');
+        $config = json_decode($json, true);
         $employees = Group::findBy('cn', 'activestaff')->members()->get();
         return view ( 'cms.employee.employee', [
-            'employees' => $employees
+            'employees' => $employees,
+            'config' => $config
         ]);
     }
 
@@ -221,6 +224,12 @@ class EmployeeController extends Controller
         return redirect('/cms/employees/' . $username . '/view')
             ->with('status', 'success')
             ->with('message', $message);
+    }
+
+    public function updateEmployeeMultiple (Request $request)
+    {
+        echo $request->employee_multiple . "<br>";
+        echo $request->employee_department;
     }
 
     public function disableEmployeeProfile (String $username)

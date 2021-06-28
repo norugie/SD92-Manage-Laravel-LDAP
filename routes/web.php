@@ -46,6 +46,9 @@ Route::group(['middleware' => 'authAD', 'prefix' => 'cms'], function (){
         Route::get('/create', [EmployeeController::class, 'createEmployeeForm']);
         Route::post('/create', [EmployeeController::class, 'createEmployee']);
 
+        // Employee - Create
+        Route::post('/update', [EmployeeController::class, 'updateEmployeeMultiple']);
+
         // Employee View, Update, Disable
         Route::get('/{username}', function ( String $username ) { return redirect('/cms/employees/' . $username . '/view'); });
         Route::get('/{username}/disable', [EmployeeController::class, 'disableEmployeeProfile']);

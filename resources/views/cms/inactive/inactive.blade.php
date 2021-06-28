@@ -14,7 +14,7 @@
                     </div>
                 <div class="body">
                     <div class="table-responsive">
-                        <table id="inactive-employee-table" class="table table-bordered table-striped table-hover dataTable">
+                        <table id="inactive_employee_table" class="table table-bordered table-striped table-hover dataTable">
                             <thead>
                                 <tr>
                                     <th>Name</th>
