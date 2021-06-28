@@ -5,6 +5,9 @@ supertech
 secretary
 boemember
 adminassistant
+ntupresident
+districtlibrarian
+lrt
 dept-Accounting
 dept-AccountsPayable
 dept-Finance

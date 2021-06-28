@@ -267,16 +267,19 @@ class EmployeeController extends Controller
         return iconv("UTF-8", "UTF-16LE", '"' . $password . '"');
     }
 
-    public function licensingSorter(Array $groups)
+    public function licensingSorter($groups)
     {
         $license;
-        var_dump($groups);
-        foreach(file('cms/groups-with-a3-license.txt', FILE_IGNORE_NEW_LINES)as $a3):
-            if(in_array($a3, $groups) ? $license = "A3 Staff Assignment" : $license = "A1 Staff Assignment");
-            if($license === "A3 Staff Assignment") break;
-        endforeach;
-        
-        if(in_array('A3 Staff Exceptions', $groups)) $license = "A1 Staff Assignment";
+
+        if($groups === NULL) $license = "A1 Staff Assignment";
+        else {
+            foreach(file('cms/groups-with-a3-license.txt', FILE_IGNORE_NEW_LINES)as $a3):
+                if(in_array($a3, $groups) ? $license = "A3 Staff Assignment" : $license = "A1 Staff Assignment");
+                if($license === "A3 Staff Assignment") break;
+            endforeach;
+            
+            if(in_array('A3 Staff Exceptions', $groups)) $license = "A1 Staff Assignment";
+        }
 
         return $license;
     }

@@ -13,11 +13,13 @@
                 "boemember": "Board of Education Member",
                 "districtcounselor": "District Counselor",
                 "districthousingmanager": "District Housing Manager",
+                "districtlibrarian": "District Librarian",
                 "districtprincipal": "District Principal",
                 "districtsuperintendent": "District Superintendent",
                 "gccmanager": "Gitginsaa Childcare Centre Manager",
                 "hrmanager": "HR Manager",
                 "nlcmanager": "Nisga'a Language & Culture Manager",
+                "ntupresident": "NTU President",
                 "payrollclerk": "Payroll Clerk",
                 "secretarytreasurer": "Secretary Treasurer",
                 "studenthousingparent": "Student Housing Parent"
@@ -59,7 +61,7 @@
                 "directorofoperations": "Director of Operations"
             },
             "departments": {
-                
+
             }
         },
         "AAMES": {
@@ -162,9 +164,10 @@
         "appadmins": "Administrative Access - District Website",
         "casual": "Casual Worker",
         "cupe": "CUPE",
+        "webadmins": "Editor Access - District Website",
         "ea1": "Education Assistant 1",
         "ea2": "Education Assistant 2",
-        "webadmins": "Editor Access - District Website",
+        "lrt": "Learning Resource Teacher",
         "nla": "Nisga'a Language Assistant",
         "nlc": "Nisga'a Language & Culture",
         "manager": "Manager",
