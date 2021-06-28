@@ -1,5 +1,5 @@
 // Custom JS DataTable
-$('#employee-table').DataTable({
+$('#employee_table').DataTable({
     "bSort": true,
     'aaSorting': [
         [1, 'asc']
@@ -24,7 +24,7 @@ $('#employee-table').DataTable({
     ]
 });
 
-$('#inactive-employee-table').DataTable({
+$('#inactive_employee_table').DataTable({
     "bSort": true,
     "lengthChange": false,
     "iDisplayLength": 10,
