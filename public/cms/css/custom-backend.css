@@ -8,11 +8,10 @@
     .text-xs-sm-center {
         text-align: center !important;
     }
-
     .change-button {
         display: none;
     }
-} 
+}
 
 .col-xs-5ths,
 .col-sm-5ths,
@@ -51,7 +50,7 @@
 }
 
 .sweet-alert {
-    width:500px !important;
+    width: 500px !important;
 }
 
 .sweet-alert h2 {
@@ -61,4 +60,23 @@
 .sidebar .user-info {
     height: 65px!important;
     padding: 10px 15px!important;
+}
+
+.modal {
+    text-align: center;
+    padding: 0!important;
+}
+
+.modal:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -4px;
+}
+
+.modal-dialog {
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
 }

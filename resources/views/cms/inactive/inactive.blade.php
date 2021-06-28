@@ -14,7 +14,7 @@
                     </div>
                 <div class="body">
                     <div class="table-responsive">
-                        <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                        <table id="inactive-employee-table" class="table table-bordered table-striped table-hover dataTable">
                             <thead>
                                 <tr>
                                     <th>Name</th>

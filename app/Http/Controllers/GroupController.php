@@ -11,7 +11,7 @@ class GroupController extends Controller
 {
     public function index ()
     {
-        return view ( 'cms.inactive.inactive' );
+        return view ( 'cms.group.group' );
     }
 
     public function viewGroupProfileUpdate ( String $username, String $action )
