@@ -6,21 +6,29 @@
         var employee = '#employee_checkbox_' + $(this).val();
         var employeeUsername = $(employee).val();
         var employeeFullname = $(employee).data('name');
-        var employeeUsernameList = $('#employee_multiple').val();
-        var employeeFullnameList = $('#employee_multiple_name').val();
-        if (employeeUsernameList.includes(employeeUsername + ',') && employeeFullnameList.includes(employeeFullname + ',')) {
-            employeeUsernameList = employeeUsernameList.replace(employeeUsername + ',', '');
-            employeeFullnameList = employeeFullnameList.replace(employeeFullname + ',', '');
+        var employeeMoveUsernameList = $('#employee_multiple').val();
+        var employeeDisableUsernameList = $('#employee_disable').val();
+        if (employeeMoveUsernameList.includes(employeeUsername + ',') && employeeDisableUsernameList.includes(employeeFullname + ',')) {
+            employeeMoveUsernameList = employeeMoveUsernameList.replace(employeeUsername + ',', '');
+            employeeDisableUsernameList = employeeDisableUsernameList.replace(employeeUsername + ',', '');
             $('#employee-to-move_' + employeeUsername).remove();
+            $('#employee-to-disable_' + employeeUsername).remove();
         } else {
-            employeeUsernameList = employeeUsernameList + employeeUsername + ',';
-            employeeFullnameList = employeeFullnameList + employeeFullname + ',';
+            employeeMoveUsernameList = employeeMoveUsernameList + employeeUsername + ',';
+            employeeDisableUsernameList = employeeDisableUsernameList + employeeUsername + ',';
             $('#employees-to-move').append('<li id="employee-to-move_' + employeeUsername + '">' + employeeFullname + '</li>');
+            $('#employees-to-disable').append('<li id="employee-to-disable_' + employeeUsername + '">' + employeeFullname + '</li>');
         }
 
-        $('#employee_multiple').attr('value', employeeUsernameList);
-        $('#employee_multiple_name').attr('value', employeeFullnameList);
+        $('#employee_multiple').attr('value', employeeMoveUsernameList);
+        $('#employee_disable').attr('value', employeeDisableUsernameList);
 
-        if ($('#employee_multiple').val().length === 0 ? $('.move-accounts').attr('disabled', true).removeAttr('data-toggle').removeAttr('data-target') : $('.move-accounts').removeAttr('disabled').attr('data-toggle', 'modal').attr('data-target', '#moveAccounts'));
+        if ($('#employee_multiple').val().length === 0 || $('#employee_multiple').val().length === 0) {
+            $('.move-accounts').attr('disabled', true).removeAttr('data-toggle').removeAttr('data-target');
+            $('.disable-accounts').attr('disabled', true).removeAttr('data-toggle').removeAttr('data-target');
+        } else {
+            $('.move-accounts').removeAttr('disabled').attr('data-toggle', 'modal').attr('data-target', '#moveAccounts');
+            $('.disable-accounts').removeAttr('disabled').attr('data-toggle', 'modal').attr('data-target', '#disableAccounts');
+        }
     });
 })();

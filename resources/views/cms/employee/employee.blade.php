@@ -78,6 +78,7 @@
         </div>
     </div>
 
+    {{-- Modal - Move Accounts --}}
     <div class="modal fade" id="moveAccounts" tabindex="-1" role="dialog" style="display: none;">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -87,8 +88,7 @@
                 <form class="new_form_validate" action="/cms/employees/update" method="POST">
                     @csrf
                     <div class="modal-body">
-                        <input type="text" id="employee_multiple" name="employee_multiple" value="" hidden>
-                        <input type="text" id="employee_multiple_name" name="employee_multiple_name" value="" hidden>
+                        <input type="text" id="employee_multiple" name="employee_multiple" value="">
                         <div class="row">
                             <div class="col-lg-4 col-sm-12">
                                 <ul id="employees-to-move"></ul>
@@ -147,6 +147,31 @@
         </div>
     </div>
 
+    {{-- Modal - Disable Accounts --}}
+    <div class="modal fade" id="disableAccounts" tabindex="-1" role="dialog" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="disableAccountsLabel">Disable the following district account(s):</h4>
+                </div>
+                <form class="new_form_validate" action="/cms/employees/disable" method="POST">
+                    @csrf
+                    <div class="modal-body">
+                        <input type="text" id="employee_disable" name="employee_disable" value="">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <ul id="employees-to-disable"></ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-link waves-effect">SAVE CHANGES</button>
+                        <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section( 'custom-js' )

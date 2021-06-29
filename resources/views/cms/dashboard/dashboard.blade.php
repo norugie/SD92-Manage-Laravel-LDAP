@@ -35,7 +35,7 @@
                                 <tr>
                                     <td>{{ $log->log_user }}</td>
                                     <td>{!! $log->log_description !!}</td>
-                                    <td>{{ $log->created_at->format( 'd M Y - g:i a' ) }}</td>
+                                    <td>{{ $log->created_at->format( 'd M Y - g:i:s a' ) }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>

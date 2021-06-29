@@ -238,14 +238,16 @@ class EmployeeController extends Controller
                 }
             endforeach;
         }
+
+        return $employee->getFirstAttribute('displayname');
     }
 
     public function updateEmployeeRolesMultiple (Request $request)
     {
-        $employees = array_combine(explode(',', rtrim($request->employee_multiple, ',')), explode(',', rtrim($request->employee_multiple_name, ',')));
+        $employees = explode(',', rtrim($request->employee_multiple, ','));
 
-        foreach($employees as $username => $fullname): 
-            $this->updateEmployeeRoles($username, $request);
+        foreach($employees as $username): 
+            $fullname = $this->updateEmployeeRoles($username, $request);
             
             $message = 'The account for <b><a href="/cms/employees/' . $username . '/view" class="alert-link">' . $fullname . '</a></b> has been updated successfully.';
             $this->inputLog(session('userName'), $message);
@@ -259,11 +261,10 @@ class EmployeeController extends Controller
         ->with('message', $message);
     }
 
-    public function disableEmployeeProfile (String $username)
+    public function disableEmployeeAccounts (String $username)
     {
         // Setting employee object values
         $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
-        $fullname = $employee->getFirstAttribute('displayname');
         $employee->department = "";
         $employee->description = "Inactive employee";
 
@@ -281,6 +282,13 @@ class EmployeeController extends Controller
         $employee->userAccountControl = $uac;
         $employee->save();
 
+        return $employee->getFirstAttribute('displayname');
+    }
+
+    public function disableEmployeeProfile (String $username)
+    {
+        $fullname = $this->disableEmployeeAccounts($username);
+
         $message = 'The account for <b>' . $fullname . '</b> has been disabled successfully.';
 
         $this->inputLog(session('userName'), $message);
@@ -288,6 +296,25 @@ class EmployeeController extends Controller
         return redirect('/cms/employees')
             ->with('status', 'success')
             ->with('message', $message);
+    }
+    
+    public function disableEmployeeMultiple (Request $request)
+    {
+        $employees = explode(',', rtrim($request->employee_disable, ','));
+
+        foreach($employees as $username): 
+            $fullname = $this->disableEmployeeAccounts($username);
+            
+            $message = 'The account for <b>' . $fullname . '</b> has been disabled successfully.';
+            $this->inputLog(session('userName'), $message);
+        endforeach;
+        
+        $message = 'Multiple district account(s) have been disabled successfully.';
+        $this->inputLog(session('userName'), $message);
+
+        return redirect('/cms/employees')
+        ->with('status', 'success')
+        ->with('message', $message);
     }
 
     public function stringGenerator ()
