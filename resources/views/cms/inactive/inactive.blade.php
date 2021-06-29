@@ -17,6 +17,7 @@
                         <table id="inactive_employee_table" class="table table-bordered table-striped table-hover dataTable">
                             <thead>
                                 <tr>
+                                    <th></th>
                                     <th>Name</th>
                                     <th>Username</th>
                                     <th>Email Address</th>
@@ -25,6 +26,7 @@
                             </thead>
                             <tfoot>
                                 <tr>
+                                    <th></th>
                                     <th>Name</th>
                                     <th>Username</th>
                                     <th>Email Address</th>
@@ -34,6 +36,12 @@
                             <tbody>
                                 @foreach($employees as $employee)
                                 <tr>
+                                    <td>
+                                        <center>
+                                            <input type="checkbox" class="filled-in chk-col-blue-grey employee-checkbox" id="employee_checkbox_{{ $employee->getFirstAttribute('samaccountname') }}" name="employee_checkbox" value="{{ $employee->getFirstAttribute('samaccountname') }}" data-name="{{ $employee->getFirstAttribute('displayname') }}">
+                                            <label for="employee_checkbox_{{ $employee->getFirstAttribute('samaccountname') }}"></label>
+                                        </center>
+                                    </td>
                                     <td>{{ $employee->getFirstAttribute('displayname') }}</td>
                                     <td>{{ $employee->getFirstAttribute('samaccountname') }}</td>
                                     <td>{{ $employee->getFirstAttribute('mail') }}</td>
@@ -51,5 +59,8 @@
             </div>
         </div>
     </div>
+
+    {{-- Modal - Enable Accounts --}}
+    @include( 'cms.layout.modals.enable' )
 
 @endsection
