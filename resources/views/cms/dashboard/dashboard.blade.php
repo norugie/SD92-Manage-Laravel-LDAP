@@ -15,7 +15,7 @@
                     </div>
                 <div class="body">
                     <div class="table-responsive">
-                        <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                        <table id="log_table" class="table table-bordered table-striped table-hover dataTable">
                             <thead>
                                 <tr>
                                     <th>Log User</th>

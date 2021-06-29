@@ -26,14 +26,28 @@ $('#employee_table').DataTable({
 
 $('#inactive_employee_table').DataTable({
     "bSort": true,
+    'aaSorting': [
+        [1, 'asc']
+    ],
     "lengthChange": false,
     "iDisplayLength": 10,
     "columnDefs": [{
-        "targets": [3],
+        "targets": [0, 4],
         "searchable": false,
         "orderable": false,
         "visible": true
+    }],
+    "dom": 'Bfrtip',
+    "buttons": [{
+        text: 'ENABLE ACCOUNTS',
+        className: 'btn bg-blue waves-effect enable-accounts'
     }]
+});
+
+$('#log_table').DataTable({
+    "bSort": true,
+    "lengthChange": false,
+    "iDisplayLength": 10
 });
 
 // Custom JQuery Validator
