@@ -87,20 +87,53 @@
                 <form class="new_form_validate" action="/cms/employees/update" method="POST">
                     @csrf
                     <div class="modal-body">
-                        <input type="text" id="employee_multiple" name="employee_multiple" value="">
+                        <input type="text" id="employee_multiple" name="employee_multiple" value="" hidden>
+                        <input type="text" id="employee_multiple_name" name="employee_multiple_name" value="" hidden>
                         <div class="row">
                             <div class="col-lg-4 col-sm-12">
                                 <ul id="employees-to-move"></ul>
                             </div>
                             <div class="col-lg-8 col-sm-12">
-                                <label for="employee_department">Department/School *</label>
-                                <div class="form-group">
-                                    <select class="form-control show-tick" name="employee_department" id="employee_department" title="Select employee department/school" required>
-                                        {{-- Department Options --}}
-                                        @foreach($config['locations'] as $key => $value)
-                                            <option value="{{ $key }}">{{ $value['name'] }}</option>
-                                        @endforeach
-                                    </select>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <label for="employee_department">Department/School *</label>
+                                        <div class="form-group">
+                                            <select class="form-control show-tick" name="employee_department" id="employee_department" title="Select employee department/school" required>
+                                                {{-- Department Options --}}
+                                                @foreach($config['locations'] as $key => $value)
+                                                    <option value="{{ $key }}">{{ $value['name'] }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <label for="employee_locations">Locations</label>
+                                        <div class="form-group">
+                                            <select class="form-control show-tick" multiple name="employee_locations[]" id="employee_locations" title="Select employee locations">
+                                                {{-- Location Options --}}
+                                                @foreach($config['locations'] as $key => $value)
+                                                    <option value="{{ $key }}">{{ $value['name'] }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <label for="employee_roles">Roles and Sub-Departments</label>
+                                        <div class="form-group">
+                                            <select class="form-control show-tick" multiple name="employee_roles[]" id="employee_roles" title="Select employee roles" data-live-search="true">
+                                                {{-- Role Options --}}
+                                                <optgroup label="General Roles">
+                                                    @foreach($config['global_roles'] as $key => $value)
+                                                        <option value="{{ $key }}">{{ $value }}</option>
+                                                    @endforeach
+                                                </optgroup>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -118,32 +151,7 @@
 
 @section( 'custom-js' )
 
-    <script>
-        (function() {
-            $('.move-accounts')
-                .attr('disabled', true)
-                .attr('data-toggle', 'modal')
-                .attr('data-target', '#moveAccounts'); 
-            $('.disable-accounts').attr('disabled', true);
-
-            $('#employee_table').on("click", ".employee-checkbox", function(){
-                console.log("hello?");
-                var employee = '#employee_checkbox_' + $(this).val();
-                var employeeUsername = $(employee).val();
-                var employeeNameList = $('#employee_multiple').val();
-                if(employeeNameList.includes(employeeUsername + ',')){
-                    employeeNameList = employeeNameList.replace(employeeUsername + ',', '');
-                    $('#employee-to-move_' + employeeUsername).remove();
-                } else {
-                    employeeNameList = employeeNameList + employeeUsername + ',';
-                    $('#employees-to-move').append('<li id="employee-to-move_' + employeeUsername + '">' + $(employee).data('name') + '</li>');
-                }
-                    
-                $('#employee_multiple').attr('value', employeeNameList);
-
-                if($('#employee_multiple').val().length === 0 ? $('.move-accounts').attr('disabled', true) : $('.move-accounts').removeAttr('disabled'));
-            });
-        })();
-    </script>
+    <script src="/cms/js/dt-buttons.js"></script>
+    <script src="/cms/js/emp-form.js"></script>
 
 @endsection

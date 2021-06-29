@@ -14,12 +14,12 @@ $('#employee_table').DataTable({
     }],
     "dom": 'Bfrtip',
     "buttons": [{
-            text: 'Move Accounts',
-            "className": 'btn move-accounts'
+            text: 'MOVE ACCOUNTS',
+            className: 'btn bg-blue waves-effect move-accounts'
         },
         {
-            text: 'Disable Accounts',
-            className: 'btn disable-accounts'
+            text: 'DISABLE ACCOUNTS',
+            className: 'btn bg-red waves-effect disable-accounts'
         }
     ]
 });

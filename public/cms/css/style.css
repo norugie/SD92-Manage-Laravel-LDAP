@@ -10983,7 +10983,7 @@ fieldset[disabled] .form-control {
 .dataTables_wrapper .dt-buttons a.dt-button {
     background-color: #607D8B;
     color: #fff;
-    padding: 7px 12px;
+    padding: 6px 12px;
     margin-right: 5px;
     text-decoration: none;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.16), 0 2px 10px rgba(0, 0, 0, 0.12);
@@ -10992,7 +10992,11 @@ fieldset[disabled] .form-control {
     -ms-border-radius: 2px;
     border-radius: 2px;
     border: none;
-    font-size: 13px;
+    font-weight: normal;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
     outline: none;
 }
 
