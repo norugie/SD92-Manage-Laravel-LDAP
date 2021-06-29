@@ -165,23 +165,6 @@ class EmployeeController extends Controller
         $department = $request->employee_department;
         $locations = $request->employee_locations;
         $employee_roles = $request->employee_roles;
-        $roles = []; 
-        $current_groups = [];
-
-        if($employee_roles !== NULL){
-            // remove dept- tag from sub-departments
-            foreach($employee_roles as $i):
-                if(strpos($i, 'dept-') === FALSE){
-                    array_push($roles, $i);
-                } else {
-                    $i = substr_replace($i, '', 0, 5);
-                    array_push($roles, $i);
-                }
-            endforeach;
-        }
-
-        array_push($roles, $department, 'employee', 'activestaff', $this->licensingSorter($employee_roles));
-        $roles = array_merge($roles, $locations);
 
         // Setting employee object values
         $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
@@ -189,11 +172,50 @@ class EmployeeController extends Controller
         $employee->displayname = $fullname;
         $employee->givenname = $firstname;
         $employee->sn = $lastname;
+
+        $employee->save();
+        $employee->refresh();
+
+        $this->updateEmployeeRoles($username, $request);
+
+        $message = 'The account for <b><a href="/cms/employees/' . $username . '/view" class="alert-link">' . $fullname . '</a></b> has been updated successfully.';
+
+        $this->inputLog(session('userName'), $message);
+        
+        return redirect('/cms/employees/' . $username . '/view')
+            ->with('status', 'success')
+            ->with('message', $message);
+    }
+
+    public function updateEmployeeRoles (String $username, Request $request)
+    {
+        $roles = []; 
+        $current_groups = [];
+        $department = $request->employee_department;
+        $locations = $request->employee_locations;
+        $employee_roles = $request->employee_roles;
+
+        if($employee_roles !== NULL){
+            // remove dept- tag from sub-departments
+            foreach($employee_roles as $i):
+                if(strpos($i, 'dept-') === FALSE) array_push($roles, $i);
+                else {
+                    $i = substr_replace($i, '', 0, 5);
+                    array_push($roles, $i);
+                }
+            endforeach;
+        }
+
+        array_push($roles, $department, 'employee', 'activestaff', $this->licensingSorter($employee_roles));
+        
+        if($locations !== NULL) $roles = array_merge($roles, $locations);
+
+        // Setting employee object values
+        $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
         $employee->department = $department;
         $employee->description = $department . " employee";
 
         $employee->save();
-
         $employee->refresh();
 
         $employee_groups = $employee->groups()->get();
@@ -216,20 +238,25 @@ class EmployeeController extends Controller
                 }
             endforeach;
         }
-
-        $message = 'The account for <b><a href="/cms/employees/' . $username . '/view" class="alert-link">' . $fullname . '</a></b> has been updated successfully.';
-
-        $this->inputLog(session('userName'), $message);
-        
-        return redirect('/cms/employees/' . $username . '/view')
-            ->with('status', 'success')
-            ->with('message', $message);
     }
 
-    public function updateEmployeeMultiple (Request $request)
+    public function updateEmployeeRolesMultiple (Request $request)
     {
-        echo $request->employee_multiple . "<br>";
-        echo $request->employee_department;
+        $employees = array_combine(explode(',', rtrim($request->employee_multiple, ',')), explode(',', rtrim($request->employee_multiple_name, ',')));
+
+        foreach($employees as $username => $fullname): 
+            $this->updateEmployeeRoles($username, $request);
+            
+            $message = 'The account for <b><a href="/cms/employees/' . $username . '/view" class="alert-link">' . $fullname . '</a></b> has been updated successfully.';
+            $this->inputLog(session('userName'), $message);
+        endforeach;
+        
+        $message = 'The department/role(s) for multiple district accounts has been updated successfully.';
+        $this->inputLog(session('userName'), $message);
+
+        return redirect('/cms/employees')
+        ->with('status', 'success')
+        ->with('message', $message);
     }
 
     public function disableEmployeeProfile (String $username)
