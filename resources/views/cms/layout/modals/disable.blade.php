@@ -7,7 +7,7 @@
             <form class="new_form_validate" action="/cms/employees/disable" method="POST">
                 @csrf
                 <div class="modal-body">
-                    <input type="text" id="employee_disable" name="employee_disable" value="">
+                    <input type="text" id="employee_disable" name="employee_disable" value="" hidden>
                     <div class="row">
                         <div class="col-sm-12">
                             <ul id="employees-to-disable"></ul>
