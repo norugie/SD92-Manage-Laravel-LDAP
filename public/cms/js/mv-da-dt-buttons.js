@@ -8,6 +8,7 @@
         var employeeFullname = $(employee).data('name');
         var employeeMoveUsernameList = $('#employee_multiple').val();
         var employeeDisableUsernameList = $('#employee_disable').val();
+
         if (employeeMoveUsernameList.includes(employeeUsername + ',') && employeeDisableUsernameList.includes(employeeFullname + ',')) {
             employeeMoveUsernameList = employeeMoveUsernameList.replace(employeeUsername + ',', '');
             employeeDisableUsernameList = employeeDisableUsernameList.replace(employeeUsername + ',', '');

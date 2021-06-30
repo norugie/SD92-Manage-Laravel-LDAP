@@ -73,6 +73,9 @@ Route::group(['middleware' => 'authAD', 'prefix' => 'cms'], function (){
         // Inactive Index
         Route::get('/', [InactiveController::class, 'index']);
 
+        // Employee - Disable Multiple Accounts
+        Route::post('/enable', [InactiveController::class, 'enableInactiveMultiple']);
+
         // Inactive Enable
         Route::get('/{username}', function () { return redirect('/cms/inactive/'); });
         Route::get('/{username}/enable', [InactiveController::class, 'enableInactiveProfile']);

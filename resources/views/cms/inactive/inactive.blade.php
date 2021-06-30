@@ -64,3 +64,10 @@
     @include( 'cms.layout.modals.enable' )
 
 @endsection
+
+@section( 'custom-js' )
+
+    <script src="/cms/js/ra-dt-buttons.js"></script>
+    <script src="/cms/js/emp-form.js"></script>
+
+@endsection
