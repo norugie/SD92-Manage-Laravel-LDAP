@@ -71,8 +71,8 @@ class InactiveController extends Controller
         $this->inputLog(session('userName'), $message);
 
         return redirect('/cms/employees')
-        ->with('status', 'success')
-        ->with('message', $message);
+            ->with('status', 'success')
+            ->with('message', $message);
     }
 
 }

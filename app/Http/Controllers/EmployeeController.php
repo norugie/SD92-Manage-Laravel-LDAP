@@ -11,6 +11,9 @@ use LdapRecord\Models\Attributes\Password;
 
 class EmployeeController extends Controller
 {
+    /**
+     * Return data for /employees page
+     */
     public function index ()
     {
         $json = file_get_contents('cms/config.json');
@@ -22,6 +25,9 @@ class EmployeeController extends Controller
         ]);
     }
 
+    /**
+     * Return data for /employees/create page
+     */
     public function createEmployeeForm ()
     {
         $json = file_get_contents('cms/config.json');
@@ -31,6 +37,11 @@ class EmployeeController extends Controller
         ]);
     }
 
+    /**
+     * Handle process for creating employee account
+     *
+     * @param  \Illuminate\Http\Request  $request
+     */
     public function createEmployee (Request $request)
     {
         // Username check
@@ -43,34 +54,38 @@ class EmployeeController extends Controller
             $username = $username . $ctr++;
         }
 
+        // Setting up variable info
         $fullname = $firstname . ' ' . $lastname;
         $email = $username . '@nisgaa.bc.ca';
         // $password = $this->stringGenerator();
         $password = 'SD924now';
         $company = 'SD92';
-        $department = $request->employee_department;
-        $locations = $request->employee_locations;
-        $employee_roles = $request->employee_roles;
-        $roles = [];
+        // $department = $request->employee_department;
+        // $locations = $request->employee_locations;
+        // $employee_roles = $request->employee_roles;
+        // $roles = [];
 
-        if($employee_roles !== NULL){
-            // Remove dept- tag from sub-departments
-            foreach($employee_roles as $i):
-                if(strpos($i, 'dept-') === FALSE){
-                    array_push($roles, $i);
-                } else {
-                    $i = substr_replace($i, '', 0, 5);
-                    array_push($roles, $i);
-                }
-            endforeach;
-        }
+        // // Separate sub-departments from roles
+        // if($employee_roles !== NULL){
+        //     // Remove dept- tag from sub-departments
+        //     foreach($employee_roles as $i):
+        //         if(strpos($i, 'dept-') === FALSE){
+        //             array_push($roles, $i);
+        //         } else {
+        //             $i = substr_replace($i, '', 0, 5);
+        //             array_push($roles, $i);
+        //         }
+        //     endforeach;
+        // }
 
-        array_push($roles, $department, 'employee', 'activestaff', $this->licensingSorter($employee_roles));
-        $roles = array_merge($roles, $locations);
+        // // Push default roles to $roles array and merge $roles and $location into one array
+        // array_push($roles, $department, 'employee', 'activestaff', $this->licensingSorter($employee_roles));
+        // $roles = array_merge($roles, $locations);
 
         // Setting employee object values
         $employee = new User();
 
+        // Set employee object DN value
         $employee->setDn('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
 
         $employee->cn = $username;
@@ -82,21 +97,24 @@ class EmployeeController extends Controller
         $employee->mail = $email;
         $employee->unicodepwd = $this->passwordConverter($password);
         $employee->company = $company;
-        $employee->department = $department;
-        $employee->description = $department . " employee";
+        // $employee->department = $department;
+        // $employee->description = $department . " employee";
         $employee->proxyaddresses = 'SMTP:' . $email;
 
+        // Save set object values for employee
         $employee->save();
-
         $employee->refresh();
 
-        // Enable the employee account with password not expiring.
+        // Set UAC values. Enable the employee account with password not expiring.
         $uac = new AccountControl();
         $uac->accountIsNormal();
         $uac->passwordDoesNotExpire();
 
         $employee->userAccountControl = $uac;
         $employee->save();
+        
+        // Setting up employee roles
+        $roles = $this->setEmployeeroles($username, $request);
 
         if($roles !== NULL){
             // Adding role groups
@@ -106,8 +124,8 @@ class EmployeeController extends Controller
             endforeach;
         }
         
+        // Logging activity
         $message = 'An account for <b><a href="/cms/employees/' . $username . '/view" class="alert-link">' . $fullname . '</a></b> has been created successfully.';
-
         $this->inputLog(session('userName'), $message);
         
         return redirect('/cms/employees/' . $username . '/view')
@@ -116,35 +134,47 @@ class EmployeeController extends Controller
 
     }
 
+    /**
+     * Return data for /employees/{username}/{action} page
+     *
+     * @param String $username
+     * @param String $action
+     */
     public function viewEmployeeProfileUpdate ( String $username, String $action )
     {
+        // Fetching employee data
         $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
 
-        // Redirect to employee list if employee is NULL
+        // Redirect to /employees page if {username} is NULL
         if($employee === NULL) 
             return redirect('/cms/employees')
                 ->with('status', 'danger')
                 ->with('message', 'The user you are looking for does not exist in our directory.');
 
+        // Fetching employee groups data
         $groups = $employee->groups()->get();
         $locations = [];
         $sub_departments = [];
         $check = [];
 
+        // Fetching config setup for locations, roles, and sub-departments
         $json = file_get_contents('cms/config.json');
         $config = json_decode($json, true);
 
+        // Setting up $check to compare against config setup
         foreach($config['locations'] as $key => $value): 
             array_push($check, $key);
         endforeach;
 
+        // Separating set grous to $locations and $sub_departments, based off of $check value compared against config setup
         foreach($groups as $group):
             $group = $group->getName();
             if(in_array($group, $check) ? array_push($locations, $group) : array_push($sub_departments, $group));
         endforeach;
 
-        $sub_departments = array_diff($sub_departments, ['employee']);
-
+        // Setting up path based on {action}
+        // Default {action} value = "view"
+        // Redirect paths {action} value = "view" - /employees/{username}/view, {action} value = "update" - /employees/{username}/update
         if(isset($action) && !empty($action) && $action == 'update' ? $path = 'update.employee' : $path = 'profile');
 
         return view( 'cms.employee.' . $path, [
@@ -155,11 +185,17 @@ class EmployeeController extends Controller
         ]);
     }
 
+    /**
+     * Handle process for updating employee account
+     *
+     * @param String $username
+     * @param  \Illuminate\Http\Request  $request
+     */
     public function updateEmployeeProfile (String $username, Request $request)
     {
+        // Setting variable info
         $firstname = $request->employee_firstname;
         $lastname = $request->employee_lastname;
-
         $fullname = $firstname . ' ' . $lastname;
         $company = 'SD92';
         $department = $request->employee_department;
@@ -173,13 +209,15 @@ class EmployeeController extends Controller
         $employee->givenname = $firstname;
         $employee->sn = $lastname;
 
+        // Save set object values for employee
         $employee->save();
         $employee->refresh();
 
+        // Set employee account roles
         $this->updateEmployeeRoles($username, $request);
 
+        // Logging activity
         $message = 'The account for <b><a href="/cms/employees/' . $username . '/view" class="alert-link">' . $fullname . '</a></b> has been updated successfully.';
-
         $this->inputLog(session('userName'), $message);
         
         return redirect('/cms/employees/' . $username . '/view')
@@ -187,37 +225,23 @@ class EmployeeController extends Controller
             ->with('message', $message);
     }
 
+    /**
+     * Handle process for updating employee account roles
+     *
+     * @param String $username
+     * @param  \Illuminate\Http\Request  $request
+     * @return String $fullname
+     */
     public function updateEmployeeRoles (String $username, Request $request)
     {
-        $roles = []; 
+        // Setting variable info
+        $roles = $this->setEmployeeroles($username, $request);
         $current_groups = [];
-        $department = $request->employee_department;
-        $locations = $request->employee_locations;
-        $employee_roles = $request->employee_roles;
-
-        if($employee_roles !== NULL){
-            // remove dept- tag from sub-departments
-            foreach($employee_roles as $i):
-                if(strpos($i, 'dept-') === FALSE) array_push($roles, $i);
-                else {
-                    $i = substr_replace($i, '', 0, 5);
-                    array_push($roles, $i);
-                }
-            endforeach;
-        }
-
-        array_push($roles, $department, 'employee', 'activestaff', $this->licensingSorter($employee_roles));
-        
-        if($locations !== NULL) $roles = array_merge($roles, $locations);
 
         // Setting employee object values
         $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
-        $employee->department = $department;
-        $employee->description = $department . " employee";
 
-        $employee->save();
-        $employee->refresh();
-
+        // Fetching employee groups data
         $employee_groups = $employee->groups()->get();
 
         foreach($employee_groups as $eg):
@@ -259,6 +283,42 @@ class EmployeeController extends Controller
         return redirect('/cms/employees')
         ->with('status', 'success')
         ->with('message', $message);
+    }
+
+    public function setEmployeeroles (String $username, Request $request)
+    {
+        // Setting variable info
+        $roles = []; 
+        $department = $request->employee_department;
+        $locations = $request->employee_locations;
+        $employee_roles = $request->employee_roles;
+
+        // Separate sub-departments from roles
+        if($employee_roles !== NULL){
+            // remove dept- tag from sub-departments
+            foreach($employee_roles as $i):
+                if(strpos($i, 'dept-') === FALSE) array_push($roles, $i);
+                else {
+                    $i = substr_replace($i, '', 0, 5);
+                    array_push($roles, $i);
+                }
+            endforeach;
+        }
+
+        // Push default roles to $roles array and merge $roles and $location into one array
+        array_push($roles, $department, 'employee', 'activestaff', $this->licensingSorter($employee_roles));
+        if($locations !== NULL) $roles = array_merge($roles, $locations);
+
+        // Setting employee object values
+        $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
+        $employee->department = $department;
+        $employee->description = $department . " employee";
+
+        // Save set object values for employee
+        $employee->save();
+        $employee->refresh();
+
+        return $roles;
     }
 
     public function disableEmployeeAccounts (String $username)
@@ -313,8 +373,8 @@ class EmployeeController extends Controller
         $this->inputLog(session('userName'), $message);
 
         return redirect('/cms/employees')
-        ->with('status', 'success')
-        ->with('message', $message);
+            ->with('status', 'success')
+            ->with('message', $message);
     }
 
     public function stringGenerator ()
