@@ -7,7 +7,7 @@
             <form class="new_form_validate" action="/cms/employees/update" method="POST">
                 @csrf
                 <div class="modal-body">
-                    <input type="text" id="employee_multiple" name="employee_multiple" value="">
+                    <input type="text" id="employee_multiple" name="employee_multiple" value="" hidden>
                     <div class="row">
                         <div class="col-lg-4 col-sm-12">
                             <ul id="employees-to-move"></ul>
