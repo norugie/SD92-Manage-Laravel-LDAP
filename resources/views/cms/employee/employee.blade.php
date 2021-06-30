@@ -88,7 +88,7 @@
 
 @section( 'custom-js' )
 
-    <script src="/cms/js/dt-buttons.js"></script>
+    <script src="/cms/js/mv-da-dt-buttons.js"></script>
     <script src="/cms/js/emp-form.js"></script>
 
 @endsection
