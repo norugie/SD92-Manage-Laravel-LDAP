@@ -13,6 +13,8 @@ class EmployeeController extends Controller
 {
     /**
      * Return data for /employees page
+     * 
+     * @return \Illuminate\View\View
      */
     public function index ()
     {
@@ -20,7 +22,7 @@ class EmployeeController extends Controller
         $json = file_get_contents('cms/config.json');
         $config = json_decode($json, true);
         $employees = Group::findBy('cn', 'activestaff')->members()->get();
-        return view ('cms.employee.employee', [
+        return view('cms.employee.employee', [
             'employees' => $employees,
             'config' => $config
         ]);
@@ -28,13 +30,15 @@ class EmployeeController extends Controller
 
     /**
      * Return data for /employees/create page
+     * 
+     * @return \Illuminate\View\View
      */
     public function createEmployeeForm ()
     {
         // Fetch config setup for locations, roles, and sub-departments
         $json = file_get_contents('cms/config.json');
         $config = json_decode($json, true);
-        return view ('cms.employee.create.employee', [
+        return view('cms.employee.create.employee', [
             'config' => $config
         ]);
     }
@@ -46,6 +50,19 @@ class EmployeeController extends Controller
      */
     public function createEmployee (Request $request)
     {
+        // Backend validation for POST $request
+        $request->validate( 
+            [
+                'employee_firstname' => 'required',
+                'employee_lastname' => 'required',
+                'employee_department' => 'required'
+            ],
+            [
+                'employee_firstname.required' => 'This field is required.',
+                'employee_lastname.required' => 'This field is required.',
+                'employee_department.required' => 'Select employee department/school'
+            ]);
+
         // Username availability check
         $firstname = $request->employee_firstname;
         $lastname = $request->employee_lastname;
@@ -117,6 +134,7 @@ class EmployeeController extends Controller
      *
      * @param String $username
      * @param String $action
+     * @return \Illuminate\View\View
      */
     public function viewEmployeeProfileUpdate (String $username, String $action)
     {
@@ -171,6 +189,19 @@ class EmployeeController extends Controller
      */
     public function updateEmployeeProfile (String $username, Request $request)
     {
+        // Backend validation for POST $request
+        $request->validate( 
+            [
+                'employee_firstname' => 'required',
+                'employee_lastname' => 'required',
+                'employee_department' => 'required'
+            ],
+            [
+                'employee_firstname.required' => 'This field is required.',
+                'employee_lastname.required' => 'This field is required.',
+                'employee_department.required' => 'Select employee department/school'
+            ]);
+
         // Set up variable info
         $firstname = $request->employee_firstname;
         $lastname = $request->employee_lastname;
@@ -210,6 +241,15 @@ class EmployeeController extends Controller
      */
     public function updateEmployeeRolesMultiple (Request $request)
     {
+        // Backend validation for POST $request
+        $request->validate( 
+            [
+                'employee_department' => 'required'
+            ],
+            [
+                'employee_department.required' => 'Select employee department/school'
+            ]);
+            
         // Set up string of usernames into an array
         $employees = explode(',', rtrim($request->employee_multiple, ','));
 
@@ -283,6 +323,12 @@ class EmployeeController extends Controller
         // Process employee roles for disabled account, return employee $fullname
         $fullname = $this->disableEmployeeAccounts($username);
 
+        // Redirect to /employees page if $fullname is NULL
+        if($fullname === NULL)
+            return redirect('/cms/employees')
+                ->with('status', 'danger')
+                ->with('message', 'The user you are looking for does not exist in our directory.');
+
         // Log activity
         $message = 'The account for <b>' . $fullname . '</b> has been disabled successfully.';
         $this->inputLog(session('userName'), $message);
@@ -331,6 +377,10 @@ class EmployeeController extends Controller
     {
         // Set up employee object values
         $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
+
+        // Return NULL if $employee is NULL
+        if($employee === NULL) return NULL;
+
         $employee->department = "";
         $employee->description = "Inactive employee";
 
