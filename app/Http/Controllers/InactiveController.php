@@ -35,6 +35,12 @@ class InactiveController extends Controller
     {
         // Process employee roles, return employee $fullname
         $fullname = $this->enableInactiveAccounts($username);
+
+        // Redirect to /employees page if $fullname is NULL
+        if($fullname === NULL)
+            return redirect('/cms/employees')
+                ->with('status', 'danger')
+                ->with('message', 'The user you are looking for does not exist in our directory.');
         
         // Log activity
         $message = 'The account for <b><a href="/cms/employees/' . $username . '/view" class="alert-link">' . $fullname . '</a></b> has been re-enabled successfully. Please update the re-enabled account profile.';
@@ -90,7 +96,9 @@ class InactiveController extends Controller
     {
         // Set up employee object values
         $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
-        $fullname = $employee->getFirstAttribute('displayname');
+        
+        // Return NULL if $employee is NULL
+        if($employee === NULL) return NULL;
 
         // Remove all employee groups
         $employee->groups()->detachAll();
