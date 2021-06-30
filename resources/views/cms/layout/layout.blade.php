@@ -116,12 +116,6 @@
                                 <span>Inactive Employee List</span>
                             </a>
                         </li>
-                        <li id="groups" class="{{ Request::is( 'cms/groups' ) || Request::is( 'cms/groups/*' ) ? 'active' : '' }}">
-                            <a href="/cms/groups">
-                                <i class="material-icons">group_work</i>
-                                <span>Employee Groups</span>
-                            </a>
-                        </li>
                     </ul>
                 </div>
                 <!-- #Menu -->

@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
-use App\Http\Controllers\GroupController;
 use App\Http\Controllers\InactiveController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
@@ -57,16 +56,6 @@ Route::group(['middleware' => 'authAD', 'prefix' => 'cms'], function (){
         Route::get('/{username}/disable', [EmployeeController::class, 'disableEmployeeProfile']);
         Route::get('/{username}/{action}', [EmployeeController::class, 'viewEmployeeProfileUpdate']);
         Route::post('/{username}/update', [EmployeeController::class, 'updateEmployeeProfile']);
-    });
-
-    Route::group(['prefix' => 'groups'], function (){
-        // Group Index
-        Route::get('/', [GroupController::class, 'index']);
-
-        // Group View, Update
-        Route::get('/{groupname}', function ( String $groupname ) { return redirect('/cms/groups/' . $groupname . '/view'); });
-        Route::get('/{groupname}/{action}', [GroupController::class, 'viewGroupProfileUpdate']);
-        Route::post('/{groupname}/update', [GroupController::class, 'updateGroupProfile']);
     });
 
     Route::group(['prefix' => 'inactive'], function (){
