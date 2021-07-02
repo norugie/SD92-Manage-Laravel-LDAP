@@ -19,8 +19,8 @@ use App\Http\Controllers\UserController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return redirect('/cms/dashboard');
+})->middleware('authAD');
 
 Route::get('/error', function () {
     return view('error');

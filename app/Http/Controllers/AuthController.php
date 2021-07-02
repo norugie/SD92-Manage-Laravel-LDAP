@@ -108,6 +108,6 @@ class AuthController extends Controller
     {
         $tokenCache = new TokenCache();
         $tokenCache->clearTokens();
-        return redirect('/');
+        return view('signout');
     }
 }

@@ -19,7 +19,7 @@ class AuthADUser
     {
         if (!session('userName') && !session('userEmail'))
         {
-            return redirect ('/error');
+            return redirect ('/signin');
         } else 
         {
             $viewData = [];
