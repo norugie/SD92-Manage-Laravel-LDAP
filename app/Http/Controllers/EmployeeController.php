@@ -79,6 +79,8 @@ class EmployeeController extends Controller
         // $password = $this->stringGenerator();
         $password = 'SD924now';
         $company = 'SD92';
+        $employee_id = $request->employee_id;
+        $employee_rfid = $request->employee_rfid;
 
         // Setting employee object values
         $employee = new User();
@@ -96,6 +98,8 @@ class EmployeeController extends Controller
         $employee->unicodepwd = $this->passwordConverter($password);
         $employee->company = $company;
         $employee->proxyaddresses = 'SMTP:' . $email;
+        $employee->employeeID = $employee_id;
+        $employee->employeeNumber = $employee_rfid;
 
         // Save set object values for employee
         $employee->save();
@@ -209,6 +213,7 @@ class EmployeeController extends Controller
         $company = 'SD92';
         $department = $request->employee_department;
         $locations = $request->employee_locations;
+        $employee_rfid = $request->employee_rfid;
         $employee_roles = $request->employee_roles;
 
         // Set up employee object values
@@ -217,6 +222,7 @@ class EmployeeController extends Controller
         $employee->displayname = $fullname;
         $employee->givenname = $firstname;
         $employee->sn = $lastname;
+        $employee->employeeNumber = $employee_rfid;
 
         // Save set object values for employee
         $employee->save();
