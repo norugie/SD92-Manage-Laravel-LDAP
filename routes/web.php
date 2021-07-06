@@ -36,7 +36,6 @@ Route::get('/signout', [AuthController::class, 'signout']);
 
 Route::get('/test', [EmployeeController::class, 'setEmployeeInK12Admin']);
 
-
 Route::group(['middleware' => 'authAD', 'prefix' => 'cms'], function (){
     Route::get('/dashboard', [DashboardController::class, 'index']);
 

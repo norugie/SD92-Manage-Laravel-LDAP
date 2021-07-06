@@ -302,6 +302,9 @@ class EmployeeController extends Controller
             array_push($current_groups, $eg->getName());
             // Remove from user's employee groups if not a part of updated locations, roles, and sub-departments
             if($roles !== NULL && !in_array($eg->getName(), $roles)) {
+                // Remove localgroup from K12 account
+                $this->removeEmployeeLocalGroupInK12Admin($username, $eg->getName());
+                
                 $employee_group = Group::findBy('cn', $eg->getName());
                 $employee->groups()->detach($employee_group);
             }
@@ -471,11 +474,14 @@ class EmployeeController extends Controller
         array_push($roles, $department, 'employee', 'activestaff', $this->licensingSorter($employee_roles));
 
         // Update K12 account information here
-        $this->setEmployeeInK12Admin($username, $reverse_fullname, $description, $uid);
+        $this->setEmployeeInK12Admin($username, $reverse_fullname, $description, $uid, $request->employee_rfid);
         
         foreach($roles as $role): 
             $this->setEmployeeLocalGroupInK12Admin($username, $department, $role);
         endforeach;
+
+        // Remove department localgroup
+        $this->removeEmployeeLocalGroupInK12Admin($username, $department);
 
         // Merge $roles and $location into one array
         if($locations !== NULL) $roles = array_merge($roles, $locations);
@@ -545,9 +551,11 @@ class EmployeeController extends Controller
      * @param String $fullname
      * @param String $description
      * @param Int $uid
+     * @param mixed $rfid
      */
-    public function setEmployeeInK12Admin (String $username, String $fullname, String $description, Int $uid)
+    public function setEmployeeInK12Admin (String $username, String $fullname, String $description, Int $uid, $rfid)
     {
+        $data_id = '-' . $uid;
         DB::connection('mysql2')
         ->table('users')
         ->updateOrInsert(
@@ -556,18 +564,31 @@ class EmployeeController extends Controller
                 'userid' => $username,
                 'fullname' => $fullname,
                 'comment' => $description,
-                'uid' => $uid
+                'uid' => $uid,
+                'data_id' => $data_id
             ]
         );
+
+        if($rfid !== NULL){
+            DB::connection('mysql2')
+            ->table('rfid')
+            ->updateOrInsert(
+                ['data_id' => $data_id],
+                [
+                    'data_id' => $data_id,
+                    'keypad_id' => $rfid,
+                    'rfid_active' => 1
+                ]
+            );
+        }
     }
 
     /**
-     * Handle process for setting account info in K12Admin
+     * Handle process for adding local groups to account in K12Admin
      *
      * @param String $username
-     * @param String $fullname
-     * @param String $description
-     * @param Int $uid
+     * @param String $department
+     * @param String $localgroup
      */
     public function setEmployeeLocalGroupInK12Admin (String $username, String $department, String $localgroup)
     {
@@ -587,12 +608,27 @@ class EmployeeController extends Controller
     }
 
     /**
+     * Handle process for removing local groups to account in K12Admin
+     *
+     * @param String $username
+     * @param String $localgroup
+     */
+    public function removeEmployeeLocalGroupInK12Admin (String $username, String $localgroup)
+    {
+        DB::connection('mysql2')
+        ->table('lglist')
+        ->where('userid', $username)
+        ->where('localgroup', $localgroup)
+        ->delete();
+    }
+
+    /**
      * Handle process for setting account ID access permissions in K12Admin
      *
      * @param Int $uid
      * @param Array $locations
      */
-    public function setEmployeeIDAccessInK12Admin (Int $uid, Array $locations)
+    public function setEmployeeIDAccessInK12Admin (Int $uid, Int $location)
     {
         // 
     }
