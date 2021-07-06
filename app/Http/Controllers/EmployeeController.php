@@ -423,26 +423,11 @@ class EmployeeController extends Controller
     {
         // Set up variable info
         $roles = []; 
+        $reverse_fullname = $request->employee_lastname . " " . $request->employee_firstname;
         $department = $request->employee_department;
         $description = $department . " employee";
         $locations = $request->employee_locations;
         $employee_roles = $request->employee_roles;
-
-        // Separate sub-departments from roles
-        if($employee_roles !== NULL){
-            // remove dept- tag from sub-departments
-            foreach($employee_roles as $i):
-                if(strpos($i, 'dept-') === FALSE) array_push($roles, $i);
-                else {
-                    $i = substr_replace($i, '', 0, 5);
-                    array_push($roles, $i);
-                }
-            endforeach;
-        }
-
-        // Push default roles to $roles array and merge $roles and $location into one array
-        array_push($roles, $department, 'employee', 'activestaff', $this->licensingSorter($employee_roles));
-        if($locations !== NULL) $roles = array_merge($roles, $locations);
 
         // Set up employee object values
         $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
@@ -470,8 +455,30 @@ class EmployeeController extends Controller
         $employee->save();
         $employee->refresh();
 
+        // Separate sub-departments from roles
+        if($employee_roles !== NULL){
+            // remove dept- tag from sub-departments
+            foreach($employee_roles as $i):
+                if(strpos($i, 'dept-') === FALSE) array_push($roles, $i);
+                else {
+                    $i = substr_replace($i, '', 0, 5);
+                    array_push($roles, $i);
+                }
+            endforeach;
+        }
+
+        // Push default roles to $roles array
+        array_push($roles, $department, 'employee', 'activestaff', $this->licensingSorter($employee_roles));
+
         // Update K12 account information here
-        $this->setEmployeeInK12Admin($username, $employee->getFirstAttribute('displayname'), $description, $uid);
+        $this->setEmployeeInK12Admin($username, $reverse_fullname, $description, $uid);
+        
+        foreach($roles as $role): 
+            $this->setEmployeeLocalGroupInK12Admin($username, $department, $role);
+        endforeach;
+
+        // Merge $roles and $location into one array
+        if($locations !== NULL) $roles = array_merge($roles, $locations);
 
         return $roles;
     }
@@ -542,16 +549,41 @@ class EmployeeController extends Controller
     public function setEmployeeInK12Admin (String $username, String $fullname, String $description, Int $uid)
     {
         DB::connection('mysql2')
-            ->table('users')
-            ->updateOrInsert(
-                ['userid' => $username],
-                [
-                    'userid' => $username,
-                    'fullname' => $fullname,
-                    'comment' => $description,
-                    'uid' => $uid
-                ]
-            );
+        ->table('users')
+        ->updateOrInsert(
+            ['userid' => $username],
+            [
+                'userid' => $username,
+                'fullname' => $fullname,
+                'comment' => $description,
+                'uid' => $uid
+            ]
+        );
+    }
+
+    /**
+     * Handle process for setting account info in K12Admin
+     *
+     * @param String $username
+     * @param String $fullname
+     * @param String $description
+     * @param Int $uid
+     */
+    public function setEmployeeLocalGroupInK12Admin (String $username, String $department, String $localgroup)
+    {
+        DB::connection('mysql2')
+        ->table('lglist')
+        ->updateOrInsert(
+            [
+                'userid' => $username,
+                'localgroup' => $localgroup
+            ],
+            [
+                'userid' => $username,
+                'school' => $department,
+                'localgroup' => $localgroup
+            ]
+        );
     }
 
     /**
