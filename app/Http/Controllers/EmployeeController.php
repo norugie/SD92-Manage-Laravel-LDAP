@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Ldap\User;
 use App\Ldap\Group;
@@ -423,6 +424,7 @@ class EmployeeController extends Controller
         // Set up variable info
         $roles = []; 
         $department = $request->employee_department;
+        $description = $department . " employee";
         $locations = $request->employee_locations;
         $employee_roles = $request->employee_roles;
 
@@ -445,11 +447,31 @@ class EmployeeController extends Controller
         // Set up employee object values
         $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
         $employee->department = $department;
-        $employee->description = $department . " employee";
+        $employee->description = $description;
+
+        if($employee->uid === NULL) {
+            $uid = DB::connection('mysql2')
+                    ->table('users')
+                    ->orderBy('uid', 'desc')
+                    ->first();
+            $uid = $uid->uid + 1;
+        } else {
+            $uid = DB::connection('mysql2')
+                    ->table('users')
+                    ->select('uid')
+                    ->where('userid', $username)
+                    ->first();
+            $uid = $uid->uid;
+        }
+        
+        $employee->uid = $uid;
 
         // Save set object values for employee
         $employee->save();
         $employee->refresh();
+
+        // Update K12 account information here
+        $this->setEmployeeInK12Admin($username, $employee->getFirstAttribute('displayname'), $description, $uid);
 
         return $roles;
     }
@@ -506,4 +528,42 @@ class EmployeeController extends Controller
 
         return $license;
     }
+
+    // --- K12Admin-related processes here --- //
+
+    /**
+     * Handle process for setting account info in K12Admin
+     *
+     * @param String $username
+     * @param String $fullname
+     * @param String $description
+     * @param Int $uid
+     */
+    public function setEmployeeInK12Admin (String $username, String $fullname, String $description, Int $uid)
+    {
+        DB::connection('mysql2')
+            ->table('users')
+            ->updateOrInsert(
+                ['userid' => $username],
+                [
+                    'userid' => $username,
+                    'fullname' => $fullname,
+                    'comment' => $description,
+                    'uid' => $uid
+                ]
+            );
+    }
+
+    /**
+     * Handle process for setting account ID access permissions in K12Admin
+     *
+     * @param Int $uid
+     * @param Array $locations
+     */
+    public function setEmployeeIDAccessInK12Admin (Int $uid, Array $locations)
+    {
+        // 
+    }
+
+    // --- END: K12Admin-related processes here --- //
 }
