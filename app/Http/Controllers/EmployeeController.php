@@ -397,6 +397,10 @@ class EmployeeController extends Controller
         $employee_group = Group::findBy('cn', 'inactivestaff');
         $employee->groups()->attach($employee_group);
 
+        // Move employee to A1 Staff Assignment to assign A1 license
+        $employee_group = Group::findBy('cn', 'A1 Staff Assignment');
+        $employee->groups()->attach($employee_group);
+
         // Disable employee account.
         $uac = new AccountControl();
         $uac->accountIsDisabled();
