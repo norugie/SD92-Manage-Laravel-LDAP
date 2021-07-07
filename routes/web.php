@@ -34,7 +34,7 @@ Route::get('/signin', [AuthController::class, 'signin']);
 Route::get('/callback', [AuthController::class, 'callback']);
 Route::get('/signout', [AuthController::class, 'signout']);
 
-Route::get('/test', [EmployeeController::class, 'setEmployeeInK12Admin']);
+Route::get('/test', [EmployeeController::class, 'setUID']);
 
 Route::group(['middleware' => 'authAD', 'prefix' => 'cms'], function (){
     Route::get('/dashboard', [DashboardController::class, 'index']);

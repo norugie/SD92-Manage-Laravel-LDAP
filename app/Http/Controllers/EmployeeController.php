@@ -633,5 +633,68 @@ class EmployeeController extends Controller
         // 
     }
 
+    public function setUID ()
+    {
+        $employees = Group::findBy('cn', 'activestaff')->members()->get();
+        echo "<b>Changed Info: </b> <i>Employees with no data ID are assumed to have no ID assigned</i><br><br>";
+        foreach($employees as $employee): 
+            $e = User::find('cn=' . $employee->getFirstAttribute('samaccountname') . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
+            $uid = DB::connection('mysql2')
+                    ->table('users')
+                    ->select('uid', 'idnumber', 'data_id')
+                    ->where('userid', $employee->getFirstAttribute('samaccountname'))
+                    ->first();
+
+            if($uid->data_id !== NULL){
+                DB::connection('mysql2')
+                ->table('rfid')
+                ->updateOrInsert(
+                    ['data_id' => $uid->data_id],
+                    [
+                        'data_id' => '-'.$uid->uid
+                    ]
+                );
+
+                DB::connection('mysql2')
+                ->table('users')
+                ->updateOrInsert(
+                    ['userid' => $employee->getFirstAttribute('samaccountname')],
+                    [
+                        'data_id' => '-'.$uid->uid
+                    ]
+                );
+
+                $rfid = DB::connection('mysql2')
+                ->table('rfid')
+                ->select('keypad_id')
+                ->where('data_id', '-'.$uid->uid)
+                ->first();
+
+                $e->employeeNumber = $rfid->keypad_id;
+            }
+
+            DB::connection('mysql2')
+            ->table('users')
+            ->updateOrInsert(
+                ['userid' => $employee->getFirstAttribute('samaccountname')],
+                [
+                    'idnumber' => $uid->uid
+                ]
+            );
+
+            $uid = DB::connection('mysql2')
+            ->table('users')
+            ->select('uid', 'idnumber', 'data_id')
+            ->where('userid', $employee->getFirstAttribute('samaccountname'))
+            ->first();
+
+            $e->uid = $uid->uid;
+            $e->uidNumber = $uid->data_id;
+            $e->save();
+
+            echo "<b>Username: </b> " . $employee->getFirstAttribute('samaccountname') . "<br><b>Employee Name: </b>" . $employee->getFirstAttribute('displayname') . "<br><b>Changed UID: </b>" . $uid->uid . "<br><b>Changed ID Number: </b>" . $uid->idnumber . "<br><b>Changed Data ID: </b>" . $uid->data_id . "<br><b>Employee ID RFID Code: </b>" . $employee->getFirstAttribute('employeeNumber') . "<br><br>";
+        endforeach;
+    }
+
     // --- END: K12Admin-related processes here --- //
 }
