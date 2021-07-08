@@ -225,7 +225,7 @@ class EmployeeController extends Controller
         $employee->displayname = $fullname;
         $employee->givenname = $firstname;
         $employee->sn = $lastname;
-        $employee->employeeID = $employee_id;
+        if($employee_id !== NULL) $employee->employeeID = $employee_id;
         $employee->employeeNumber = $employee_rfid;
 
         // Save set object values for employee
@@ -400,6 +400,14 @@ class EmployeeController extends Controller
         // Hide employee from MS Exchange directory list
         $employee->setFirstAttribute('msExchHideFromAddressLists', 'TRUE');
 
+        // Fetch employee groups data
+        $employee_groups = $employee->groups()->get();
+
+        // Remove existing groups in K12Admin localgroup list
+        foreach($employee_groups as $eg):
+            $this->removeEmployeeLocalGroupInK12Admin($employee->getFirstAttribute('samaccountname'), $eg->getName());
+        endforeach;
+
         // Remove all employee groups
         $employee->groups()->detachAll();
 
@@ -411,9 +419,19 @@ class EmployeeController extends Controller
         $employee_group = Group::findBy('cn', 'oldstaff');
         $employee->groups()->attach($employee_group);
 
+        // Add employee to oldstaff group
+        $employee_group = Group::findBy('cn', 'nondistrict');
+        $employee->groups()->attach($employee_group);
+
         // Move employee to A1 Staff Assignment to assign A1 license
         $employee_group = Group::findBy('cn', 'A1 Staff Assignment');
         $employee->groups()->attach($employee_group);
+
+        // Add employee to nondistrict/oldstaff group in K12Admin
+        $this->setEmployeeLocalGroupInK12Admin($username, '', 'nondistrict');
+
+        // Disable employee ID card
+        $this->disableEmployeeIDAccessInK12Admin($employee->getFirstAttribute('uid'));
 
         // Disable employee account.
         $uac = new AccountControl();
@@ -597,11 +615,12 @@ class EmployeeController extends Controller
      * Handle process for adding local groups to account in K12Admin
      *
      * @param String $username
-     * @param String $department
+     * @param mixed $department
      * @param String $localgroup
      */
-    public function setEmployeeLocalGroupInK12Admin (String $username, String $department, String $localgroup)
+    public function setEmployeeLocalGroupInK12Admin (String $username, $department, String $localgroup)
     {
+        if($department === '') $department = 'oldstaff';
         DB::connection('mysql2')
         ->table('lglist')
         ->updateOrInsert(
@@ -630,6 +649,23 @@ class EmployeeController extends Controller
         ->where('userid', $username)
         ->where('localgroup', $localgroup)
         ->delete();
+    }
+
+    /**
+     * Handle process for disabling ID access in K12Admin
+     *
+     * @param String $uid
+     */
+    public function disableEmployeeIDAccessInK12Admin (Int $uid)
+    {
+        DB::connection('mysql2')
+        ->table('rfid')
+        ->updateOrInsert(
+            ['data_id' => '-' . $uid],
+            [
+                'rfid_active' => 0
+            ]
+        );
     }
 
     /**
