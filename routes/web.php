@@ -6,6 +6,7 @@ use App\Http\Controllers\HelperEmployeeController;
 use App\Http\Controllers\ViewEmployeeController;
 use App\Http\Controllers\UpdateEmployeeController;
 use App\Http\Controllers\DisableEmployeeController;
+use App\Http\Controllers\EnableEmployeeController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\InactiveController;
 use App\Http\Controllers\AuthController;
@@ -69,10 +70,10 @@ Route::group(['middleware' => 'authAD', 'prefix' => 'cms'], function (){
         Route::get('/', [ViewEmployeeController::class, 'disabledEmployeeAccountsIndex']);
 
         // Employee - Disable Multiple Accounts
-        Route::post('/enable', [InactiveController::class, 'enableInactiveMultiple']);
+        Route::post('/enable', [EnableEmployeeController::class, 'enableInactiveMultiple']);
 
         // Inactive Enable
         Route::get('/{username}', function () { return redirect('/cms/inactive/'); });
-        Route::get('/{username}/enable', [InactiveController::class, 'enableInactiveProfile']);
+        Route::get('/{username}/enable', [EnableEmployeeController::class, 'enableInactiveProfile']);
     });
 });
