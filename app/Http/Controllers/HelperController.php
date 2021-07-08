@@ -48,6 +48,7 @@ class HelperController extends Controller
             $uid = $uid->uid;
         }
         
+        // Set employee uID
         $employee->uid = $uid;
 
         // Save set object values for employee
@@ -80,7 +81,20 @@ class HelperController extends Controller
         $this->removeEmployeeLocalGroupInK12Admin($username, $department);
 
         // Merge $roles and $location into one array
-        if($locations !== NULL) $roles = array_merge($roles, $locations);
+        if($locations !== NULL) {
+            $this->disableEmployeeAllIDAccessInK12Admin($uid);
+            if($request->employee_rfid !== NULL){
+                // Set location access
+                foreach($locations as $location): 
+                    $this->setEmployeeIDAccessInK12Admin($uid, $location);
+                endforeach;
+            } else {
+                // Disable ID
+                $this->disableEmployeeIDInK12Admin($uid);
+            }
+
+            $roles = array_merge($roles, $locations);
+        }
 
         return $roles;
     }
@@ -151,6 +165,7 @@ class HelperController extends Controller
      */
     public function setEmployeeInK12Admin (String $username, String $fullname, String $description, Int $uid, $rfid)
     {
+        // Set employee information in K12Admin
         $data_id = '-' . $uid;
         DB::connection('mysql2')
         ->table('users')
@@ -165,6 +180,7 @@ class HelperController extends Controller
             ]
         );
 
+        // Set RFID card if $rfid is not NULL
         if($rfid !== NULL){
             DB::connection('mysql2')
             ->table('rfid')
@@ -188,6 +204,7 @@ class HelperController extends Controller
      */
     public function setEmployeeLocalGroupInK12Admin (String $username, $department, String $localgroup)
     {
+        // Set employee localgroups in lglist based on the current localgroup in the loop from the employee's set of AD groups
         if($department === '') $department = 'oldstaff';
         DB::connection('mysql2')
         ->table('lglist')
@@ -220,11 +237,11 @@ class HelperController extends Controller
     }
 
     /**
-     * Handle process for disabling ID access in K12Admin
+     * Handle process for disabling ID in K12Admin
      *
-     * @param String $uid
+     * @param Int $uid
      */
-    public function disableEmployeeIDAccessInK12Admin (Int $uid)
+    public function disableEmployeeIDInK12Admin (Int $uid)
     {
         DB::connection('mysql2')
         ->table('rfid')
@@ -237,120 +254,69 @@ class HelperController extends Controller
     }
 
     /**
+     * Handle process for disabling ID access in K12Admin
+     *
+     * @param Int $uid
+     */
+    public function disableEmployeeAllIDAccessInK12Admin (Int $uid)
+    {
+        DB::connection('mysql2')
+        ->table('access_control_whitelist')
+        ->where('uid', $uid)
+        ->delete();
+
+        DB::connection('mysql2')
+        ->table('access_control_user')
+        ->where('uid', $uid)
+        ->delete();
+    }
+
+    /**
      * Handle process for setting account ID access permissions in K12Admin
      *
      * @param Int $uid
-     * @param Array $locations
+     * @param String $location
      */
-    public function setEmployeeIDAccessInK12Admin (Int $uid, Int $location)
+    public function setEmployeeIDAccessInK12Admin (Int $uid, String $location)
     {
+        $loc_id;
+
         // 
+        switch($location): 
+            case "SDO": 
+                $loc_id = 5;
+                break;
+            case "TechOffice": 
+                $loc_id = 1;
+                break;
+            case "Maintenance": 
+                $loc_id = 2;
+                break;
+            case "AAMES": 
+                $loc_id = 8;
+                break;
+            case "GES": 
+                $loc_id = 7;
+                break;
+            case "NESS": 
+                $loc_id = 6;
+                break;
+            case "NBES": 
+                $loc_id = 9;
+                break;
+        endswitch;
+
+        // Insert record in access control whitelist for giving access to the employee for a location
+        DB::connection('mysql2')
+        ->table('access_control_whitelist')
+        ->insert(
+            [
+                'system_id' => $loc_id,
+                'uid' => $uid,
+            ]
+        );
+
     }
-
-    // public function setUID ()
-    // {
-    //     $employees = Group::findBy('cn', 'activestaff')->members()->get();
-    //     echo "<b>Changed Info: </b> <i>Employees with no data ID are assumed to have no ID assigned</i><br><br>";
-    //     foreach($employees as $employee): 
-    //         $e = User::find('cn=' . $employee->getFirstAttribute('samaccountname') . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
-    //         $uid = DB::connection('mysql2')
-    //                 ->table('users')
-    //                 ->select('uid', 'idnumber', 'data_id')
-    //                 ->where('userid', $employee->getFirstAttribute('samaccountname'))
-    //                 ->first();
-
-    //         if($uid->data_id !== NULL){
-    //             DB::connection('mysql2')
-    //             ->table('rfid')
-    //             ->updateOrInsert(
-    //                 ['data_id' => $uid->data_id],
-    //                 [
-    //                     'data_id' => '-'.$uid->uid
-    //                 ]
-    //             );
-
-    //             DB::connection('mysql2')
-    //             ->table('users')
-    //             ->updateOrInsert(
-    //                 ['userid' => $employee->getFirstAttribute('samaccountname')],
-    //                 [
-    //                     'data_id' => '-'.$uid->uid
-    //                 ]
-    //             );
-
-    //             $rfid = DB::connection('mysql2')
-    //             ->table('rfid')
-    //             ->select('keypad_id')
-    //             ->where('data_id', '-'.$uid->uid)
-    //             ->first();
-
-    //             $e->employeeNumber = $rfid->keypad_id;
-    //         }
-
-    //         DB::connection('mysql2')
-    //         ->table('users')
-    //         ->updateOrInsert(
-    //             ['userid' => $employee->getFirstAttribute('samaccountname')],
-    //             [
-    //                 'idnumber' => $uid->uid
-    //             ]
-    //         );
-
-    //         $uid = DB::connection('mysql2')
-    //         ->table('users')
-    //         ->select('uid', 'idnumber', 'data_id')
-    //         ->where('userid', $employee->getFirstAttribute('samaccountname'))
-    //         ->first();
-
-    //         $e->uid = $uid->uid;
-    //         $e->uidNumber = $uid->data_id;
-    //         $e->save();
-
-    //         echo "<b>Username: </b> " . $employee->getFirstAttribute('samaccountname') . "<br><b>Employee Name: </b>" . $employee->getFirstAttribute('displayname') . "<br><b>Changed UID: </b>" . $uid->uid . "<br><b>Changed ID Number: </b>" . $uid->idnumber . "<br><b>Changed Data ID: </b>" . $uid->data_id . "<br><b>Employee ID RFID Code: </b>" . $employee->getFirstAttribute('employeeNumber') . "<br><br>";
-    //     endforeach;
-    // }
-
-    // public function setEmployeeID ()
-    // {
-    //     // $text = [];
-    //     // foreach(file('cms/employees.txt', FILE_IGNORE_NEW_LINES) as $e): 
-    //     //     array_push($text, $e);
-    //     // endforeach;
-    //     // print_r($text);
-
-    //     // echo "<br><br>In List:<br>";
-    //     // $employees = Group::findBy('cn', 'activestaff')->members()->get();
-    //     // foreach($employees as $employee):
-    //     //     $reverse_name = $employee->getFirstAttribute('sn') . " " . $employee->getFirstAttribute('givenname');
-    //     //     // echo $reverse_name . "<br>";
-    //     //     if(!in_array($reverse_name, $text)) echo $employee->getFirstAttribute('displayname') . "<br>";
-    //     // endforeach;
-
-    //     // $json = file_get_contents('cms/employees.json');
-    //     // $config = json_decode($json, true);
-    //     // foreach($config as $key => $value): 
-    //     //     $e = User::find('cn=' . $key . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
-    //     //     $e->employeeID = $value;
-    //     //     $e->save();
-    //     //     echo $key . " " . $value . "<br>";
-    //     // endforeach;
-
-
-    //     $employees = Group::findBy('cn', 'activestaff')->members()->get();
-    //     foreach($employees as $employee):
-    //         $employee = User::find('cn=' . $employee->getFirstAttribute('samaccountname') .  ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
-    //         $employee->mailnickname = $employee->getFirstAttribute('samaccountname');
-    //         $employee->save();
-    //     endforeach;
-
-    //     $employees = Group::findBy('cn', 'oldstaff')->members()->get();
-    //     foreach($employees as $employee):
-    //         $employee = User::find('cn=' . $employee->getFirstAttribute('samaccountname') .  ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
-    //         $employee->mailnickname = $employee->getFirstAttribute('samaccountname');
-    //         $employee->save();
-    //     endforeach;
-
-    // }
 
     // --- END: K12Admin-related processes here --- //
 }
