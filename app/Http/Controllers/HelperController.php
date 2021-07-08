@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Ldap\User;
 use App\Ldap\Group;
-use LdapRecord\Models\Attributes\AccountControl;
 use LdapRecord\Models\Attributes\Password;
 
 class HelperController extends Controller
