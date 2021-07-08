@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ViewEmployeeController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\InactiveController;
 use App\Http\Controllers\AuthController;
@@ -41,10 +42,10 @@ Route::group(['middleware' => 'authAD', 'prefix' => 'cms'], function (){
 
     Route::group(['prefix' => 'employees'], function (){
         // Employee Index
-        Route::get('/', [EmployeeController::class, 'index']);
+        Route::get('/', [ViewEmployeeController::class, 'enabledEmployeeAccountsIndex']);
 
         // Employee - Create
-        Route::get('/create', [EmployeeController::class, 'createEmployeeForm']);
+        Route::get('/create', [ViewEmployeeController::class, 'createEmployeeForm']);
         Route::post('/create', [EmployeeController::class, 'createEmployee']);
 
         // Employee - Move Multiple Accounts
@@ -56,13 +57,13 @@ Route::group(['middleware' => 'authAD', 'prefix' => 'cms'], function (){
         // Employee View, Update, Disable
         Route::get('/{username}', function ( String $username ) { return redirect('/cms/employees/' . $username . '/view'); });
         Route::get('/{username}/disable', [EmployeeController::class, 'disableEmployeeProfile']);
-        Route::get('/{username}/{action}', [EmployeeController::class, 'viewEmployeeProfileUpdate']);
+        Route::get('/{username}/{action}', [ViewEmployeeController::class, 'viewEmployeeProfileUpdate']);
         Route::post('/{username}/update', [EmployeeController::class, 'updateEmployeeProfile']);
     });
 
     Route::group(['prefix' => 'inactive'], function (){
         // Inactive Index
-        Route::get('/', [InactiveController::class, 'index']);
+        Route::get('/', [ViewEmployeeController::class, 'disabledEmployeeAccountsIndex']);
 
         // Employee - Disable Multiple Accounts
         Route::post('/enable', [InactiveController::class, 'enableInactiveMultiple']);

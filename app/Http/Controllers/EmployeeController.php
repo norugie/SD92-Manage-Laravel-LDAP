@@ -13,38 +13,6 @@ use LdapRecord\Models\Attributes\Password;
 class EmployeeController extends Controller
 {
     /**
-     * Return data for /employees page
-     * 
-     * @return \Illuminate\View\View
-     */
-    public function index ()
-    {
-        // Fetch config setup for locations, roles, and sub-departments
-        $json = file_get_contents('cms/config.json');
-        $config = json_decode($json, true);
-        $employees = Group::findBy('cn', 'activestaff')->members()->get();
-        return view('cms.employee.employee', [
-            'employees' => $employees,
-            'config' => $config
-        ]);
-    }
-
-    /**
-     * Return data for /employees/create page
-     * 
-     * @return \Illuminate\View\View
-     */
-    public function createEmployeeForm ()
-    {
-        // Fetch config setup for locations, roles, and sub-departments
-        $json = file_get_contents('cms/config.json');
-        $config = json_decode($json, true);
-        return view('cms.employee.create.employee', [
-            'config' => $config
-        ]);
-    }
-
-    /**
      * Handle process for creating employee account
      *
      * @param \Illuminate\Http\Request $request
