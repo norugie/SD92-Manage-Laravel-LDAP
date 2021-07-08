@@ -12,21 +12,6 @@ use LdapRecord\Models\Attributes\AccountControl;
 class InactiveController extends Controller
 {
     /**
-     * Return data for /inactive page
-     */
-    public function index ()
-    {
-        // Fetch config setup for locations, roles, and sub-departments
-        $json = file_get_contents('cms/config.json');
-        $config = json_decode($json, true);
-        $employees = Group::findBy('cn', 'inactivestaff')->members()->get();
-        return view ('cms.inactive.inactive', [
-            'employees' => $employees,
-            'config' => $config
-        ]);
-    }
-
-    /**
      * Handle process for re-enabling employee account
      *
      * @param String $username
