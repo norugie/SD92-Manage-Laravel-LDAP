@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HelperEmployeeController;
 use App\Http\Controllers\ViewEmployeeController;
 use App\Http\Controllers\UpdateEmployeeController;
+use App\Http\Controllers\DisableEmployeeController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\InactiveController;
 use App\Http\Controllers\AuthController;
@@ -54,11 +55,11 @@ Route::group(['middleware' => 'authAD', 'prefix' => 'cms'], function (){
         Route::post('/update', [UpdateEmployeeController::class, 'updateEmployeeRolesMultiple']);
 
         // Employee - Disable Multiple Accounts
-        Route::post('/disable', [EmployeeController::class, 'disableEmployeeMultiple']);
+        Route::post('/disable', [DisableEmployeeController::class, 'disableEmployeeMultiple']);
 
         // Employee View, Update, Disable
         Route::get('/{username}', function ( String $username ) { return redirect('/cms/employees/' . $username . '/view'); });
-        Route::get('/{username}/disable', [EmployeeController::class, 'disableEmployeeProfile']);
+        Route::get('/{username}/disable', [DisableEmployeeController::class, 'disableEmployeeProfile']);
         Route::get('/{username}/{action}', [ViewEmployeeController::class, 'viewEmployeeProfileUpdate']);
         Route::post('/{username}/update', [UpdateEmployeeController::class, 'updateEmployeeProfile']);
     });
