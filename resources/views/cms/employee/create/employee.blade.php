@@ -81,15 +81,17 @@
                                 </div>
                                 <div class="row clearfix">
                                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                        <label for="employee_id">Employee ID Number</label>
+                                        <label for="employee_id">Employee ID Number *</label>
+                                        <p class="font-12"><i><b>Note:</b> This field cannot be edited once set. Please make sure you input the correct employee ID number.</i></p>
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="text" class="form-control" id="employee_id" name="employee_id">
+                                                <input type="text" class="form-control" id="employee_id" name="employee_id" required>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                         <label for="employee_rfid">Employee ID Card Code</label>
+                                        <p class="font-12"><i><b>Note:</b> Leaving this field empty will still add the employee to selected location access.</i></p>
                                         <div class="form-group">
                                             <div class="form-line">
                                                 <input type="text" class="form-control" id="employee_rfid" name="employee_rfid">

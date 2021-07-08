@@ -215,6 +215,7 @@ class EmployeeController extends Controller
         $company = 'SD92';
         $department = $request->employee_department;
         $locations = $request->employee_locations;
+        $employee_id = $request->employee_id;
         $employee_rfid = $request->employee_rfid;
         $employee_roles = $request->employee_roles;
 
@@ -224,6 +225,7 @@ class EmployeeController extends Controller
         $employee->displayname = $fullname;
         $employee->givenname = $firstname;
         $employee->sn = $lastname;
+        $employee->employeeID = $employee_id;
         $employee->employeeNumber = $employee_rfid;
 
         // Save set object values for employee
