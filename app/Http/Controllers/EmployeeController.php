@@ -91,6 +91,7 @@ class EmployeeController extends Controller
 
         $employee->cn = $username;
         $employee->name = $username;
+        $employee->mailnickname = $username;
         $employee->samaccountname = $username;
         $employee->displayname = $fullname;
         $employee->givenname = $firstname;
@@ -394,11 +395,18 @@ class EmployeeController extends Controller
         $employee->department = "";
         $employee->description = "Inactive employee";
 
+        // Hide employee from MS Exchange directory list
+        $employee->setFirstAttribute('msExchHideFromAddressLists', 'TRUE');
+
         // Remove all employee groups
         $employee->groups()->detachAll();
 
         // Add employee to inactive employee list
         $employee_group = Group::findBy('cn', 'inactivestaff');
+        $employee->groups()->attach($employee_group);
+
+        // Add employee to oldstaff group
+        $employee_group = Group::findBy('cn', 'oldstaff');
         $employee->groups()->attach($employee_group);
 
         // Move employee to A1 Staff Assignment to assign A1 license
@@ -527,7 +535,7 @@ class EmployeeController extends Controller
         if($groups === NULL) $license = "A1 Staff Assignment";
         else {
             // Loop through groups in a3 file set to have the A3 license
-            foreach(file('cms/groups-with-a3-license.txt', FILE_IGNORE_NEW_LINES)as $a3):
+            foreach(file('cms/groups-with-a3-license.txt', FILE_IGNORE_NEW_LINES) as $a3):
                 // Check if current group is in $groups
                 if(in_array($a3, $groups) ? $license = "A3 Staff Assignment" : $license = "A1 Staff Assignment");
                 
@@ -633,68 +641,110 @@ class EmployeeController extends Controller
         // 
     }
 
-    public function setUID ()
-    {
-        $employees = Group::findBy('cn', 'activestaff')->members()->get();
-        echo "<b>Changed Info: </b> <i>Employees with no data ID are assumed to have no ID assigned</i><br><br>";
-        foreach($employees as $employee): 
-            $e = User::find('cn=' . $employee->getFirstAttribute('samaccountname') . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
-            $uid = DB::connection('mysql2')
-                    ->table('users')
-                    ->select('uid', 'idnumber', 'data_id')
-                    ->where('userid', $employee->getFirstAttribute('samaccountname'))
-                    ->first();
+    // public function setUID ()
+    // {
+    //     $employees = Group::findBy('cn', 'activestaff')->members()->get();
+    //     echo "<b>Changed Info: </b> <i>Employees with no data ID are assumed to have no ID assigned</i><br><br>";
+    //     foreach($employees as $employee): 
+    //         $e = User::find('cn=' . $employee->getFirstAttribute('samaccountname') . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
+    //         $uid = DB::connection('mysql2')
+    //                 ->table('users')
+    //                 ->select('uid', 'idnumber', 'data_id')
+    //                 ->where('userid', $employee->getFirstAttribute('samaccountname'))
+    //                 ->first();
 
-            if($uid->data_id !== NULL){
-                DB::connection('mysql2')
-                ->table('rfid')
-                ->updateOrInsert(
-                    ['data_id' => $uid->data_id],
-                    [
-                        'data_id' => '-'.$uid->uid
-                    ]
-                );
+    //         if($uid->data_id !== NULL){
+    //             DB::connection('mysql2')
+    //             ->table('rfid')
+    //             ->updateOrInsert(
+    //                 ['data_id' => $uid->data_id],
+    //                 [
+    //                     'data_id' => '-'.$uid->uid
+    //                 ]
+    //             );
 
-                DB::connection('mysql2')
-                ->table('users')
-                ->updateOrInsert(
-                    ['userid' => $employee->getFirstAttribute('samaccountname')],
-                    [
-                        'data_id' => '-'.$uid->uid
-                    ]
-                );
+    //             DB::connection('mysql2')
+    //             ->table('users')
+    //             ->updateOrInsert(
+    //                 ['userid' => $employee->getFirstAttribute('samaccountname')],
+    //                 [
+    //                     'data_id' => '-'.$uid->uid
+    //                 ]
+    //             );
 
-                $rfid = DB::connection('mysql2')
-                ->table('rfid')
-                ->select('keypad_id')
-                ->where('data_id', '-'.$uid->uid)
-                ->first();
+    //             $rfid = DB::connection('mysql2')
+    //             ->table('rfid')
+    //             ->select('keypad_id')
+    //             ->where('data_id', '-'.$uid->uid)
+    //             ->first();
 
-                $e->employeeNumber = $rfid->keypad_id;
-            }
+    //             $e->employeeNumber = $rfid->keypad_id;
+    //         }
 
-            DB::connection('mysql2')
-            ->table('users')
-            ->updateOrInsert(
-                ['userid' => $employee->getFirstAttribute('samaccountname')],
-                [
-                    'idnumber' => $uid->uid
-                ]
-            );
+    //         DB::connection('mysql2')
+    //         ->table('users')
+    //         ->updateOrInsert(
+    //             ['userid' => $employee->getFirstAttribute('samaccountname')],
+    //             [
+    //                 'idnumber' => $uid->uid
+    //             ]
+    //         );
 
-            $uid = DB::connection('mysql2')
-            ->table('users')
-            ->select('uid', 'idnumber', 'data_id')
-            ->where('userid', $employee->getFirstAttribute('samaccountname'))
-            ->first();
+    //         $uid = DB::connection('mysql2')
+    //         ->table('users')
+    //         ->select('uid', 'idnumber', 'data_id')
+    //         ->where('userid', $employee->getFirstAttribute('samaccountname'))
+    //         ->first();
 
-            $e->uid = $uid->uid;
-            $e->uidNumber = $uid->data_id;
-            $e->save();
+    //         $e->uid = $uid->uid;
+    //         $e->uidNumber = $uid->data_id;
+    //         $e->save();
 
-            echo "<b>Username: </b> " . $employee->getFirstAttribute('samaccountname') . "<br><b>Employee Name: </b>" . $employee->getFirstAttribute('displayname') . "<br><b>Changed UID: </b>" . $uid->uid . "<br><b>Changed ID Number: </b>" . $uid->idnumber . "<br><b>Changed Data ID: </b>" . $uid->data_id . "<br><b>Employee ID RFID Code: </b>" . $employee->getFirstAttribute('employeeNumber') . "<br><br>";
-        endforeach;
-    }
+    //         echo "<b>Username: </b> " . $employee->getFirstAttribute('samaccountname') . "<br><b>Employee Name: </b>" . $employee->getFirstAttribute('displayname') . "<br><b>Changed UID: </b>" . $uid->uid . "<br><b>Changed ID Number: </b>" . $uid->idnumber . "<br><b>Changed Data ID: </b>" . $uid->data_id . "<br><b>Employee ID RFID Code: </b>" . $employee->getFirstAttribute('employeeNumber') . "<br><br>";
+    //     endforeach;
+    // }
+
+    // public function setEmployeeID ()
+    // {
+    //     // $text = [];
+    //     // foreach(file('cms/employees.txt', FILE_IGNORE_NEW_LINES) as $e): 
+    //     //     array_push($text, $e);
+    //     // endforeach;
+    //     // print_r($text);
+
+    //     // echo "<br><br>In List:<br>";
+    //     // $employees = Group::findBy('cn', 'activestaff')->members()->get();
+    //     // foreach($employees as $employee):
+    //     //     $reverse_name = $employee->getFirstAttribute('sn') . " " . $employee->getFirstAttribute('givenname');
+    //     //     // echo $reverse_name . "<br>";
+    //     //     if(!in_array($reverse_name, $text)) echo $employee->getFirstAttribute('displayname') . "<br>";
+    //     // endforeach;
+
+    //     // $json = file_get_contents('cms/employees.json');
+    //     // $config = json_decode($json, true);
+    //     // foreach($config as $key => $value): 
+    //     //     $e = User::find('cn=' . $key . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
+    //     //     $e->employeeID = $value;
+    //     //     $e->save();
+    //     //     echo $key . " " . $value . "<br>";
+    //     // endforeach;
+
+
+    //     $employees = Group::findBy('cn', 'activestaff')->members()->get();
+    //     foreach($employees as $employee):
+    //         $employee = User::find('cn=' . $employee->getFirstAttribute('samaccountname') .  ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
+    //         $employee->mailnickname = $employee->getFirstAttribute('samaccountname');
+    //         $employee->save();
+    //     endforeach;
+
+    //     $employees = Group::findBy('cn', 'oldstaff')->members()->get();
+    //     foreach($employees as $employee):
+    //         $employee = User::find('cn=' . $employee->getFirstAttribute('samaccountname') .  ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
+    //         $employee->mailnickname = $employee->getFirstAttribute('samaccountname');
+    //         $employee->save();
+    //     endforeach;
+
+    // }
 
     // --- END: K12Admin-related processes here --- //
 }

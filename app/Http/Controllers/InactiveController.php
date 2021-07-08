@@ -97,6 +97,9 @@ class InactiveController extends Controller
         // Set up employee object values
         $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
         
+        // Unset MS Exchange Hide from Address List option
+        $employee->setFirstAttribute('msExchHideFromAddressLists', '');
+
         // Return NULL if $employee is NULL
         if($employee === NULL) return NULL;
 
