@@ -2,7 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HelperEmployeeController;
 use App\Http\Controllers\ViewEmployeeController;
+use App\Http\Controllers\UpdateEmployeeController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\InactiveController;
 use App\Http\Controllers\AuthController;
@@ -35,7 +37,7 @@ Route::get('/signin', [AuthController::class, 'signin']);
 Route::get('/callback', [AuthController::class, 'callback']);
 Route::get('/signout', [AuthController::class, 'signout']);
 
-Route::get('/test', [EmployeeController::class, 'setEmployeeID']);
+// Route::get('/test', [EmployeeController::class, 'setEmployeeID']);
 
 Route::group(['middleware' => 'authAD', 'prefix' => 'cms'], function (){
     Route::get('/dashboard', [DashboardController::class, 'index']);
@@ -49,7 +51,7 @@ Route::group(['middleware' => 'authAD', 'prefix' => 'cms'], function (){
         Route::post('/create', [EmployeeController::class, 'createEmployee']);
 
         // Employee - Move Multiple Accounts
-        Route::post('/update', [EmployeeController::class, 'updateEmployeeRolesMultiple']);
+        Route::post('/update', [UpdateEmployeeController::class, 'updateEmployeeRolesMultiple']);
 
         // Employee - Disable Multiple Accounts
         Route::post('/disable', [EmployeeController::class, 'disableEmployeeMultiple']);
@@ -58,7 +60,7 @@ Route::group(['middleware' => 'authAD', 'prefix' => 'cms'], function (){
         Route::get('/{username}', function ( String $username ) { return redirect('/cms/employees/' . $username . '/view'); });
         Route::get('/{username}/disable', [EmployeeController::class, 'disableEmployeeProfile']);
         Route::get('/{username}/{action}', [ViewEmployeeController::class, 'viewEmployeeProfileUpdate']);
-        Route::post('/{username}/update', [EmployeeController::class, 'updateEmployeeProfile']);
+        Route::post('/{username}/update', [UpdateEmployeeController::class, 'updateEmployeeProfile']);
     });
 
     Route::group(['prefix' => 'inactive'], function (){
