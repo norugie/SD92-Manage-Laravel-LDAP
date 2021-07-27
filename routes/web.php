@@ -39,6 +39,9 @@ Route::get('/signin', [AuthController::class, 'signin']);
 Route::get('/callback', [AuthController::class, 'callback']);
 Route::get('/signout', [AuthController::class, 'signout']);
 
+// Test
+Route::get('/test', [ViewEmployeeController::class, 'test']);
+
 // Route::get('/test', [EmployeeController::class, 'setEmployeeID']);
 
 Route::group(['middleware' => 'authAD', 'prefix' => 'cms'], function (){

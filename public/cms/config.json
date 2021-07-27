@@ -43,9 +43,7 @@
             "local_roles": {
                 "supertech": "Tech Administrator"
             },
-            "departments": {
-
-            }
+            "departments": {}
         },
         "Maintenance": {
             "name": "Maintenance Department",
@@ -61,9 +59,7 @@
                 "custodiansupervisor": "Custodian Supervisor",
                 "directorofoperations": "Director of Operations"
             },
-            "departments": {
-
-            }
+            "departments": {}
         },
         "AAMES": {
             "name": "Alvin A. McKay Elementary School",
@@ -168,6 +164,7 @@
         "webadmins": "Editor Access - District Website",
         "ea1": "Education Assistant 1",
         "ea2": "Education Assistant 2",
+        "GuestPassNotify": "Guest WiFi Password Notification",
         "lrt": "Learning Resource Teacher",
         "nla": "Nisga'a Language Assistant",
         "nlc": "Nisga'a Language & Culture",

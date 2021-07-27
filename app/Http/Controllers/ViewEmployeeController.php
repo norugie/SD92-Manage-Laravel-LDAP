@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB; // Remove after testing
 use App\Ldap\User;
 use App\Ldap\Group;
 
@@ -13,6 +14,29 @@ class ViewEmployeeController extends Controller
         // Fetch config setup for locations, roles, and sub-departments
         $json = file_get_contents('cms/config.json');
         $this->config = json_decode($json, true);
+    }
+
+    public function test ()
+    {
+        $students = Group::findBy('cn', 'tempstudent')->members()->get();
+        
+        foreach ($students as $student): 
+            // if($student->getFirstAttribute('displayname') === NULL)
+            //     echo $student->getFirstAttribute('displayname') . " - " . $student->getFirstAttribute('samaccountname') . " - " . $student->getFirstAttribute('mail') . "<br>";
+            // else {
+            //     // Do stuff to move students here
+
+            //     // Add student to oldstaff group
+            //     $student_group = Group::findBy('cn', 'A1 Student Assignment');
+            //     $student->groups()->attach($student_group);
+            // }
+
+            // Add student to oldstaff group
+            // $student_group = Group::findBy('cn', 'A1 Student Assignment');
+            // $student->groups()->attach($student_group);
+
+            echo $student->getFirstAttribute('displayname') . " - " . $student->getFirstAttribute('samaccountname') . " - " . $student->getFirstAttribute('mail') . "<br>";
+        endforeach;
     }
 
     /**
