@@ -40,12 +40,7 @@ class HelperController extends Controller
                     ->first();
             $uid = $uid->uid + 1;
         } else {
-            $uid = DB::connection('mysql2')
-                    ->table('users')
-                    ->select('uid')
-                    ->where('userid', $username)
-                    ->first();
-            $uid = $uid->uid;
+            $uid = $employee->getFirstAttribute('uid');
         }
         
         // Set employee uID
@@ -92,9 +87,14 @@ class HelperController extends Controller
                 // Disable ID
                 $this->disableEmployeeIDInK12Admin($uid);
             }
-
-            $roles = array_merge($roles, $locations);
         }
+
+        // // Set locker permissions
+        // if((((in_array('teacher', $roles) || in_array('principal', $roles) || in_array('viceprincipal', $roles) || in_array('secretary', $roles)) && in_array('NESS', $locations)) || in_array('supertech', $roles)) && $request->employee_rfid !== NULL) {
+        //     $this->setEmployeeIDLockerAccessInK12Admin($uid, $request->employee_rfid);
+        // }
+
+        $roles = array_merge($roles, $locations);
 
         return $roles;
     }
@@ -313,6 +313,103 @@ class HelperController extends Controller
             [
                 'system_id' => $loc_id,
                 'uid' => $uid,
+            ]
+        );
+
+    }
+
+    /**
+     * Handle process for setting account ID locker access permissions in K12Admin
+     *
+     * @param Int $uid
+     * @param String $location
+     */
+    public function setEmployeeIDLockerAccessInK12Admin (Int $uid, Int $rfid)
+    {
+        // Insert record in access control whitelist for giving access to the employee for lockers
+        DB::connection('mysql2')
+        ->table('locker_user')
+        ->insert(
+            [
+                'system_id' => 1,
+                'eeprom_slot' =>24,
+                'uid' => $uid,
+                'cardnumber' => $rfid,
+                'usertype' => 0,
+                'relslot' => 0,
+                'origin' => 2
+            ],
+            [
+                'system_id' => 2,
+                'eeprom_slot' =>147,
+                'uid' => $uid,
+                'cardnumber' => $rfid,
+                'usertype' => 0,
+                'relslot' => 0,
+                'origin' => 2
+            ],
+            [
+                'system_id' => 3,
+                'eeprom_slot' =>25,
+                'uid' => $uid,
+                'cardnumber' => $rfid,
+                'usertype' => 0,
+                'relslot' => 0,
+                'origin' => 2
+            ],
+            [
+                'system_id' => 4,
+                'eeprom_slot' =>23,
+                'uid' => $uid,
+                'cardnumber' => $rfid,
+                'usertype' => 0,
+                'relslot' => 0,
+                'origin' => 2
+            ],
+            [
+                'system_id' => 5,
+                'eeprom_slot' =>24,
+                'uid' => $uid,
+                'cardnumber' => $rfid,
+                'usertype' => 0,
+                'relslot' => 0,
+                'origin' => 2
+            ],
+            [
+                'system_id' => 6,
+                'eeprom_slot' =>37,
+                'uid' => $uid,
+                'cardnumber' => $rfid,
+                'usertype' => 0,
+                'relslot' => 0,
+                'origin' => 2
+            ],
+            [
+                'system_id' => 7,
+                'eeprom_slot' =>24,
+                'uid' => $uid,
+                'cardnumber' => $rfid,
+                'usertype' => 0,
+                'relslot' => 0,
+                'origin' => 2
+            ],
+            [
+                'system_id' => 8,
+                'eeprom_slot' =>27,
+                'uid' => $uid,
+                'cardnumber' => $rfid,
+                'usertype' => 0,
+                'relslot' => 0,
+                'origin' => 2
+            ],
+            [
+                'system_id' => 9,
+                'eeprom_slot' =>76,
+                'uid' => $uid,
+                'cardnumber' => $rfid,
+                'usertype' => 0,
+                'relslot' => 0,
+                'origin' => 2
             ]
         );
 
