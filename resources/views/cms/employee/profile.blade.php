@@ -75,7 +75,7 @@
                                 {{-- ID card settings --}}
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <p class="font-12"><i><b>Note:</b> Fields marked with an asterisk are required. The displayed card is only a rough preview. The final card may have slightly different layout.</i></p><br>
+                                        <p class="font-12"><i><b>Note:</b> The displayed card is only a rough preview. The final card may have slightly different layout.</i></p><br>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -84,7 +84,7 @@
                                             <div class="card-top">
                                                 <div class="card-title">EMPLOYEE</div>
                                                 <div class="card-img">
-                                                    <img src="/cms/images/users/user-placeholder.png" alt="">
+                                                    <img src="https://manage.nisgaa.bc.ca/upload/user_photos/uid_{{ $employee->getFirstAttribute('uid') }}.jpg" alt="" width="57" height="90" style="width: 250px; height: 250px; margin-left: -15px; margin-top: 0px;">
                                                 </div>
                                                 <div class="card-top-display">
                                                     <div class="card-logo">

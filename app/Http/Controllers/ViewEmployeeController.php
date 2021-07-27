@@ -18,7 +18,7 @@ class ViewEmployeeController extends Controller
 
     public function test ()
     {
-        $students = Group::findBy('cn', 'tempstudent')->members()->get();
+        $students = Group::findBy('cn', 'student')->members()->get();
         
         foreach ($students as $student): 
             // if($student->getFirstAttribute('displayname') === NULL)
@@ -111,6 +111,8 @@ class ViewEmployeeController extends Controller
             'locations' => $locations,
             'sub_departments' => $sub_departments
         ]);
+
+        // dd($employee);
     }
 
     /**
