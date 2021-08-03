@@ -234,6 +234,15 @@ class HelperController extends Controller
         ->where('userid', $username)
         ->where('localgroup', $localgroup)
         ->delete();
+
+        DB::connection('mysql2')
+        ->table('users')
+        ->where('userid', $username)
+        ->update(
+            [
+                'comment' => $description,
+            ]
+        );
     }
 
     /**

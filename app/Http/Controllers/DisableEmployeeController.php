@@ -110,7 +110,7 @@ class DisableEmployeeController extends Controller
         $employee_group = Group::findBy('cn', 'oldstaff');
         $employee->groups()->attach($employee_group);
 
-        // Add employee to oldstaff group
+        // Add employee to nondistrict group
         $employee_group = Group::findBy('cn', 'nondistrict');
         $employee->groups()->attach($employee_group);
 
