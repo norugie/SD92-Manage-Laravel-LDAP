@@ -18,7 +18,14 @@ class ViewEmployeeController extends Controller
 
     public function test ()
     {
+        $employees = Group::findBy('cn', 'activestaff')->members()->get();
 
+        foreach($employees as $employee): 
+            $fp = fopen('cms/admins.txt', 'a'); //opens file in append mode  
+            fwrite($fp, $employee->getFirstAttribute('samaccountname') . "\n");
+            fclose($fp);  
+            echo $employee->getFirstAttribute('samaccountname') . " " . "<br>";
+        endforeach;
         // $students = DB::connection('mysql2')
         // ->table('lglist')
         // ->join('users', 'users.userid', '=', 'lglist.userid')
