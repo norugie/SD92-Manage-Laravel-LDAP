@@ -208,7 +208,7 @@ class HelperController extends Controller
         ->where('userid', $username)
         ->update(
             [
-                'comment' => $description,
+                'comment' => $description
             ]
         );
     }
