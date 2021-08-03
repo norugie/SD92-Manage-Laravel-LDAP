@@ -18,25 +18,47 @@ class ViewEmployeeController extends Controller
 
     public function test ()
     {
-        $students = Group::findBy('cn', 'student')->members()->get();
+
+        // $students = DB::connection('mysql2')
+        // ->table('lglist')
+        // ->join('users', 'users.userid', '=', 'lglist.userid')
+        // ->select('users.userid', 'users.fullname', 'users.pt', 'lglist.localgroup')
+        // ->where('users.flags', '=', 2)
+        // ->where('users.comment', 'like', '%nbes%')
+        // ->where('lglist.localgroup', 'like', '%nbes07%')
+        // ->get();
         
-        foreach ($students as $student): 
-            // if($student->getFirstAttribute('displayname') === NULL)
-            //     echo $student->getFirstAttribute('displayname') . " - " . $student->getFirstAttribute('samaccountname') . " - " . $student->getFirstAttribute('mail') . "<br>";
-            // else {
-            //     // Do stuff to move students here
 
-            //     // Add student to oldstaff group
-            //     $student_group = Group::findBy('cn', 'A1 Student Assignment');
-            //     $student->groups()->attach($student_group);
-            // }
+        // echo "Grade 8: " . count($g08) . "<br> Grade 9: " . count($g09) . "<br> Grade 10: " . count($g10) . "<br> Grade 11: " . count($g11) . "<br> Grade 12: " . count($g12);
 
-            // Add student to oldstaff group
-            // $student_group = Group::findBy('cn', 'A1 Student Assignment');
-            // $student->groups()->attach($student_group);
 
-            echo $student->getFirstAttribute('displayname') . " - " . $student->getFirstAttribute('samaccountname') . " - " . $student->getFirstAttribute('mail') . "<br>";
-        endforeach;
+
+        // foreach ($students as $student): 
+        //     // if($student->getFirstAttribute('displayname') === NULL)
+        //     //     echo $student->getFirstAttribute('displayname') . " - " . $student->getFirstAttribute('samaccountname') . " - " . $student->getFirstAttribute('mail') . "<br>";
+        //     // else {
+        //     //     // Do stuff to move students here
+
+        //     //     // Add student to oldstaff group
+        //     //     $student_group = Group::findBy('cn', 'A1 Student Assignment');
+        //     //     $student->groups()->attach($student_group);
+        //     // }
+        //     // $student = User::find('cn=' . $student->userid . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
+
+        //     // if(!$student->groups()->exists('activestaff') && $student->getFirstAttribute('displayname') !== NULL) {
+        //     //     echo $student->getFirstAttribute('displayname') . " - " . $student->getFirstAttribute('samaccountname') . " - " . $student->getFirstAttribute('mail') . "<br>";
+
+        //     //     $student_group_remove = Group::findBy('cn', 'nbes07');
+        //     //     $student_group_add = Group::findBy('cn', 'tempnbes07');
+        //     //     $student->groups()->detach($student_group_remove);
+        //     //     $student->groups()->attach($student_group_add);
+
+        //     //     $student_group_add = Group::findBy('cn', 'tempstudent');
+        //     //     $student->groups()->attach($student_group_add);
+        //     // }
+
+        //     // echo $student->getFirstAttribute('displayname') . " - " . $student->getFirstAttribute('samaccountname') . " - " . $student->getFirstAttribute('mail') . "<br>";
+        // endforeach;
     }
 
     /**

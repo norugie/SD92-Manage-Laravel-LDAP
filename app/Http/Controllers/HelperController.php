@@ -89,10 +89,10 @@ class HelperController extends Controller
             }
         }
 
-        // // Set locker permissions
-        // if((((in_array('teacher', $roles) || in_array('principal', $roles) || in_array('viceprincipal', $roles) || in_array('secretary', $roles)) && in_array('NESS', $locations)) || in_array('supertech', $roles)) && $request->employee_rfid !== NULL) {
-        //     $this->setEmployeeIDLockerAccessInK12Admin($uid, $request->employee_rfid);
-        // }
+        // Set locker permissions
+        if((((in_array('teacher', $roles) || in_array('principal', $roles) || in_array('viceprincipal', $roles) || in_array('secretary', $roles)) && in_array('NESS', $locations)) || in_array('supertech', $roles)) && $request->employee_rfid !== NULL) {
+            $this->setEmployeeIDLockerAccessInK12Admin($uid, $request->employee_rfid);
+        }
 
         $roles = array_merge($roles, $locations);
 
@@ -329,7 +329,7 @@ class HelperController extends Controller
         // Insert record in access control whitelist for giving access to the employee for lockers
         DB::connection('mysql2')
         ->table('locker_user')
-        ->insert(
+        ->insert([
             [
                 'system_id' => 1,
                 'eeprom_slot' =>24,
@@ -411,8 +411,7 @@ class HelperController extends Controller
                 'relslot' => 0,
                 'origin' => 2
             ]
-        );
-
+        ]);
     }
 
     // --- END: K12Admin-related processes here --- //

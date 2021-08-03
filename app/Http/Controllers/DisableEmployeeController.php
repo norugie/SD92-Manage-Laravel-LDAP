@@ -122,7 +122,8 @@ class DisableEmployeeController extends Controller
         $this->helpers->setEmployeeLocalGroupInK12Admin($username, '', 'nondistrict');
 
         // Disable employee ID card
-        $this->helpers->disableEmployeeIDAccessInK12Admin($employee->getFirstAttribute('uid'));
+        $this->helpers->disableEmployeeAllIDAccessInK12Admin($employee->getFirstAttribute('uid'));
+        $this->helpers->disableEmployeeIDInK12Admin($employee->getFirstAttribute('uid'));
 
         // Disable employee account.
         $uac = new AccountControl();
