@@ -75,6 +75,11 @@ class HelperController extends Controller
         // Remove department localgroup
         $this->removeEmployeeLocalGroupInK12Admin($username, $department);
 
+        // Set locker permissions
+        if((((in_array('teacher', $roles) || in_array('principal', $roles) || in_array('viceprincipal', $roles) || in_array('secretary', $roles)) && in_array('NESS', $locations)) || in_array('supertech', $roles)) && $request->employee_rfid !== NULL) {
+            $this->setEmployeeIDLockerAccessInK12Admin($uid, $request->employee_rfid);
+        }
+
         // Merge $roles and $location into one array
         if($locations !== NULL) {
             $this->disableEmployeeAllIDAccessInK12Admin($uid);
@@ -87,14 +92,9 @@ class HelperController extends Controller
                 // Disable ID
                 $this->disableEmployeeIDInK12Admin($uid);
             }
-        }
 
-        // Set locker permissions
-        if((((in_array('teacher', $roles) || in_array('principal', $roles) || in_array('viceprincipal', $roles) || in_array('secretary', $roles)) && in_array('NESS', $locations)) || in_array('supertech', $roles)) && $request->employee_rfid !== NULL) {
-            $this->setEmployeeIDLockerAccessInK12Admin($uid, $request->employee_rfid);
+            $roles = array_merge($roles, $locations);
         }
-
-        $roles = array_merge($roles, $locations);
 
         return $roles;
     }
