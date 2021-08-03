@@ -120,6 +120,7 @@ class DisableEmployeeController extends Controller
 
         // Add employee to nondistrict/oldstaff group in K12Admin
         $this->helpers->setEmployeeLocalGroupInK12Admin($username, '', 'nondistrict');
+        $this->helpers->setEmployeeLocalGroupInK12Admin($username, '', 'Incoming');
 
         // Disable employee ID card
         $this->helpers->disableEmployeeAllIDAccessInK12Admin($employee->getFirstAttribute('uid'));
