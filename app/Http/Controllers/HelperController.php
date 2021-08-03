@@ -201,7 +201,7 @@ class HelperController extends Controller
      * @param String $username
      * @param String $description
      */
-    public function disableEmployeeCommentWhenDisabledInK12Admin (String $username, String $description)
+    public function setEmployeeCommentWhenDisabledInK12Admin (String $username, String $description)
     {
         DB::connection('mysql2')
         ->table('users')
@@ -267,15 +267,6 @@ class HelperController extends Controller
             ['data_id' => '-' . $uid],
             [
                 'rfid_active' => 0
-            ]
-        );
-
-        DB::connection('mysql2')
-        ->table('users')
-        ->where('userid', $username)
-        ->update(
-            [
-                'comment' => $description,
             ]
         );
     }

@@ -126,7 +126,7 @@ class DisableEmployeeController extends Controller
         $this->helpers->disableEmployeeIDInK12Admin($employee->getFirstAttribute('uid'));
 
         // Set account description to oldstaff in K12Admin
-        $this->helpers->disableEmployeeCommentWhenDisabledInK12Admin($employee->getFirstAttribute('samaccountname'), 'oldstaff');
+        $this->helpers->setEmployeeCommentWhenDisabledInK12Admin($employee->getFirstAttribute('samaccountname'), 'oldstaff');
 
         // Disable employee account.
         $uac = new AccountControl();
