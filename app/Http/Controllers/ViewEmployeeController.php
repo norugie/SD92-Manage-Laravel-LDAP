@@ -21,11 +21,14 @@ class ViewEmployeeController extends Controller
         $employees = Group::findBy('cn', 'activestaff')->members()->get();
 
         foreach($employees as $employee): 
-            $fp = fopen('cms/admins.txt', 'a'); //opens file in append mode  
-            fwrite($fp, $employee->getFirstAttribute('samaccountname') . "\n");
-            fclose($fp);  
             echo $employee->getFirstAttribute('samaccountname') . " " . "<br>";
         endforeach;
+
+        // $fp = fopen('cms/admins.txt', 'a'); //opens file in append mode  
+        // fwrite($fp, 'jsmith' . PHP_EOL);
+        // fclose($fp); 
+        
+        file_put_contents('cms/admins.txt', preg_replace('/\njsmith/', '', file_get_contents('cms/admins.txt')));
 
         // foreach(file('cms/groups-with-a3-license.txt', FILE_IGNORE_NEW_LINES) as $a3):
         //     echo $a3 . "<br>";

@@ -124,6 +124,28 @@ class HelperController extends Controller
     }
 
     /**
+     * Adds a user to admins.txt. Used by addAdmins.sh in JAMF
+     *
+     * @param String $username
+     */
+    public function addEmployeeToAdmins (String $username)
+    {
+        $fp = fopen('cms/admins.txt', 'a'); //opens file in append mode  
+        fwrite($fp, $employee->getFirstAttribute('samaccountname') . PHP_EOL);
+        fclose($fp);
+    }
+
+    /**
+     * Removes a user to admins.txt. Used by addAdmins.sh in JAMF
+     *
+     * @param String $username
+     */
+    public function removeEmployeeFromAdmins (String $username)
+    {
+        file_put_contents('cms/admins.txt', preg_replace('/\n'.$username.'/', '', file_get_contents('cms/admins.txt')));
+    }
+
+    /**
      * Handle sorting to which Office365 license group an account gets assigned to, based on set account groups
      *
      * @param mixed $groups
