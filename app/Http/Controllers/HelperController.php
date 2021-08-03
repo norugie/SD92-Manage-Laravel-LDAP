@@ -196,6 +196,24 @@ class HelperController extends Controller
     }
 
     /**
+     * Handle process for disabling ID in K12Admin
+     *
+     * @param String $username
+     * @param String $description
+     */
+    public function disableEmployeeCommentWhenDisabledInK12Admin (String $username, String $description)
+    {
+        DB::connection('mysql2')
+        ->table('users')
+        ->where('userid', $username)
+        ->update(
+            [
+                'comment' => $description,
+            ]
+        );
+    }
+
+    /**
      * Handle process for adding local groups to account in K12Admin
      *
      * @param String $username
@@ -234,15 +252,6 @@ class HelperController extends Controller
         ->where('userid', $username)
         ->where('localgroup', $localgroup)
         ->delete();
-
-        DB::connection('mysql2')
-        ->table('users')
-        ->where('userid', $username)
-        ->update(
-            [
-                'comment' => $description,
-            ]
-        );
     }
 
     /**
@@ -258,6 +267,15 @@ class HelperController extends Controller
             ['data_id' => '-' . $uid],
             [
                 'rfid_active' => 0
+            ]
+        );
+
+        DB::connection('mysql2')
+        ->table('users')
+        ->where('userid', $username)
+        ->update(
+            [
+                'comment' => $description,
             ]
         );
     }
