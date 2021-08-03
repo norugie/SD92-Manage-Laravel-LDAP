@@ -20,12 +20,17 @@ class ViewEmployeeController extends Controller
     {
         $employees = Group::findBy('cn', 'activestaff')->members()->get();
 
-        foreach($employees as $employee): 
-            $fp = fopen('cms/admins.txt', 'a'); //opens file in append mode  
-            fwrite($fp, $employee->getFirstAttribute('samaccountname') . "\n");
-            fclose($fp);  
-            echo $employee->getFirstAttribute('samaccountname') . " " . "<br>";
+        // foreach($employees as $employee): 
+        //     $fp = fopen('cms/admins.txt', 'a'); //opens file in append mode  
+        //     fwrite($fp, $employee->getFirstAttribute('samaccountname') . "\n");
+        //     fclose($fp);  
+        //     echo $employee->getFirstAttribute('samaccountname') . " " . "<br>";
+        // endforeach;
+
+        foreach(file('cms/groups-with-a3-license.txt', FILE_IGNORE_NEW_LINES) as $a3):
+            echo $a3 . "<br>";
         endforeach;
+
         // $students = DB::connection('mysql2')
         // ->table('lglist')
         // ->join('users', 'users.userid', '=', 'lglist.userid')
