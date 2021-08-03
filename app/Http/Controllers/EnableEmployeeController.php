@@ -23,20 +23,20 @@ class EnableEmployeeController extends Controller
      */
     public function enableInactiveProfile (String $username)
     {
-        // Process employee roles, return employee $fullname
-        $fullname = $this->enableInactiveAccounts($username);
+        // Process employee roles, return $employee object
+        $employee = $this->enableInactiveAccounts($username);
 
-        // Redirect to /employees page if $fullname is NULL
-        if($fullname === NULL)
+        // Redirect to /employees page if $employee is NULL
+        if($employee === NULL)
             return redirect('/cms/employees')
                 ->with('status', 'danger')
                 ->with('message', 'The user you are looking for does not exist in our directory.');
         
         // Log activity
-        $message = 'The account for <b><a href="/cms/employees/' . $username . '/view" class="alert-link">' . $fullname . '</a></b> has been re-enabled successfully. Please update the re-enabled account profile.';
+        $message = 'The account for <b><a href="/cms/employees/' . $employee->getFirstAttribute('samaccountname') . '/view" class="alert-link">' . $employee->getFirstAttribute('displayname') . '</a></b> has been re-enabled successfully. Please update the re-enabled account profile.';
         $this->inputLog(session('userName'), $message);
         
-        return redirect('/cms/employees/' . $username . "/update")
+        return redirect('/cms/employees/' . $employee->getFirstAttribute('samaccountname') . "/update")
             ->with('status', 'success')
             ->with('message', $message);
     }
@@ -52,16 +52,23 @@ class EnableEmployeeController extends Controller
         // Set up string of usernames into an array
         $employees = explode(',', rtrim($request->employee_enable, ','));
 
+        // dd($request);
         // Loop through username array
         foreach($employees as $username): 
-            // Process employee roles, return employee $fullname
-            $fullname = $this->enableInactiveAccounts($username);
+            // Process employee roles, return $employee object
+            $employee = $this->enableInactiveAccounts($username);
+
+            // Add firstname and lastname info to $request object
+            $request->request->add([
+                'employee_firstname' => $employee->getFirstAttribute('givenname'),
+                'employee_lastname' => $employee->getFirstAttribute('sn')
+            ]);
 
             // Set up employee account roles
             $this->update->updateEmployeeRoles($username, $request);
 
             // Log activity per loop
-            $message = 'The account for <b><a href="/cms/employees/' . $username . '/view" class="alert-link">' . $fullname . '</a></b> has been re-enabled successfully.';
+            $message = 'The account for <b><a href="/cms/employees/' . $employee->getFirstAttribute('samaccountname') . '/view" class="alert-link">' . $employee->getFirstAttribute('displayname') . '</a></b> has been re-enabled successfully.';
             $this->inputLog(session('userName'), $message);
         endforeach;
 
@@ -102,6 +109,6 @@ class EnableEmployeeController extends Controller
         $employee->userAccountControl = $uac;
         $employee->save();
 
-        return $employee->getFirstAttribute('displayname');
+        return $employee;
     }
 }

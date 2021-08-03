@@ -201,7 +201,7 @@ class HelperController extends Controller
      * @param String $username
      * @param String $description
      */
-    public function setEmployeeCommentWhenDisabledInK12Admin (String $username, String $description)
+    public function setEmployeeCommentInK12Admin (String $username, String $description)
     {
         DB::connection('mysql2')
         ->table('users')
