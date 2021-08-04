@@ -18,7 +18,7 @@ class ViewEmployeeController extends Controller
 
     public function test ()
     {
-        $employees = Group::findBy('cn', 'activestaff')->members()->get();
+        $employees = Group::findBy('cn', 'tempstudent')->members()->get();
 
         foreach($employees as $employee): 
             $fp = fopen('cms/admins.txt', 'a'); //opens file in append mode  
