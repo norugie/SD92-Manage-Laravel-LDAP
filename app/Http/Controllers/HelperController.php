@@ -75,7 +75,6 @@ class HelperController extends Controller
         // Remove department localgroup
         $this->removeEmployeeLocalGroupInK12Admin($username, $department);
 
-        // Set locker permissions
         // if((((in_array('teacher', $roles) || in_array('principal', $roles) || in_array('viceprincipal', $roles) || in_array('secretary', $roles)) && in_array('NESS', $locations)) || in_array('supertech', $roles)) && $request->employee_rfid !== NULL) {
         //     $this->setEmployeeIDLockerAccessInK12Admin($uid, $request->employee_rfid);
         // }
@@ -453,6 +452,16 @@ class HelperController extends Controller
     //         ]
     //     ]);
     // }
+
+    /**
+     * Handle upload of ID image to K12Admin
+     *
+     * @param Request $request
+     */
+    public function uploadEmployeeIDImage (Request $request)
+    {
+        // 
+    }
 
     // --- END: K12Admin-related processes here --- //
 }
