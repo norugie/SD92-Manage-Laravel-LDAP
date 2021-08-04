@@ -76,9 +76,9 @@ class HelperController extends Controller
         $this->removeEmployeeLocalGroupInK12Admin($username, $department);
 
         // Set locker permissions
-        if((((in_array('teacher', $roles) || in_array('principal', $roles) || in_array('viceprincipal', $roles) || in_array('secretary', $roles)) && in_array('NESS', $locations)) || in_array('supertech', $roles)) && $request->employee_rfid !== NULL) {
-            $this->setEmployeeIDLockerAccessInK12Admin($uid, $request->employee_rfid);
-        }
+        // if((((in_array('teacher', $roles) || in_array('principal', $roles) || in_array('viceprincipal', $roles) || in_array('secretary', $roles)) && in_array('NESS', $locations)) || in_array('supertech', $roles)) && $request->employee_rfid !== NULL) {
+        //     $this->setEmployeeIDLockerAccessInK12Admin($uid, $request->employee_rfid);
+        // }
 
         // Merge $roles and $location into one array
         if($locations !== NULL) {
@@ -136,7 +136,7 @@ class HelperController extends Controller
     }
 
     /**
-     * Removes a user to admins.txt. Used by addAdmins.sh in JAMF
+     * Removes a user from admins.txt. Used by addAdmins.sh in JAMF
      *
      * @param String $username
      */
@@ -358,101 +358,101 @@ class HelperController extends Controller
 
     }
 
-    /**
-     * Handle process for setting account ID locker access permissions in K12Admin
-     *
-     * @param Int $uid
-     * @param String $location
-     */
-    public function setEmployeeIDLockerAccessInK12Admin (Int $uid, Int $rfid)
-    {
-        // Insert record in access control whitelist for giving access to the employee for lockers
-        DB::connection('mysql2')
-        ->table('locker_user')
-        ->insert([
-            [
-                'system_id' => 1,
-                'eeprom_slot' =>24,
-                'uid' => $uid,
-                'cardnumber' => $rfid,
-                'usertype' => 0,
-                'relslot' => 0,
-                'origin' => 2
-            ],
-            [
-                'system_id' => 2,
-                'eeprom_slot' =>147,
-                'uid' => $uid,
-                'cardnumber' => $rfid,
-                'usertype' => 0,
-                'relslot' => 0,
-                'origin' => 2
-            ],
-            [
-                'system_id' => 3,
-                'eeprom_slot' =>25,
-                'uid' => $uid,
-                'cardnumber' => $rfid,
-                'usertype' => 0,
-                'relslot' => 0,
-                'origin' => 2
-            ],
-            [
-                'system_id' => 4,
-                'eeprom_slot' =>23,
-                'uid' => $uid,
-                'cardnumber' => $rfid,
-                'usertype' => 0,
-                'relslot' => 0,
-                'origin' => 2
-            ],
-            [
-                'system_id' => 5,
-                'eeprom_slot' =>24,
-                'uid' => $uid,
-                'cardnumber' => $rfid,
-                'usertype' => 0,
-                'relslot' => 0,
-                'origin' => 2
-            ],
-            [
-                'system_id' => 6,
-                'eeprom_slot' =>37,
-                'uid' => $uid,
-                'cardnumber' => $rfid,
-                'usertype' => 0,
-                'relslot' => 0,
-                'origin' => 2
-            ],
-            [
-                'system_id' => 7,
-                'eeprom_slot' =>24,
-                'uid' => $uid,
-                'cardnumber' => $rfid,
-                'usertype' => 0,
-                'relslot' => 0,
-                'origin' => 2
-            ],
-            [
-                'system_id' => 8,
-                'eeprom_slot' =>27,
-                'uid' => $uid,
-                'cardnumber' => $rfid,
-                'usertype' => 0,
-                'relslot' => 0,
-                'origin' => 2
-            ],
-            [
-                'system_id' => 9,
-                'eeprom_slot' =>76,
-                'uid' => $uid,
-                'cardnumber' => $rfid,
-                'usertype' => 0,
-                'relslot' => 0,
-                'origin' => 2
-            ]
-        ]);
-    }
+    // /**
+    //  * Handle process for setting account ID locker access permissions in K12Admin
+    //  *
+    //  * @param Int $uid
+    //  * @param String $location
+    //  */
+    // public function setEmployeeIDLockerAccessInK12Admin (Int $uid, Int $rfid)
+    // {
+    //     // Insert record in access control whitelist for giving access to the employee for lockers
+    //     DB::connection('mysql2')
+    //     ->table('locker_user')
+    //     ->insert([
+    //         [
+    //             'system_id' => 1,
+    //             'eeprom_slot' =>24,
+    //             'uid' => $uid,
+    //             'cardnumber' => $rfid,
+    //             'usertype' => 0,
+    //             'relslot' => 0,
+    //             'origin' => 2
+    //         ],
+    //         [
+    //             'system_id' => 2,
+    //             'eeprom_slot' =>147,
+    //             'uid' => $uid,
+    //             'cardnumber' => $rfid,
+    //             'usertype' => 0,
+    //             'relslot' => 0,
+    //             'origin' => 2
+    //         ],
+    //         [
+    //             'system_id' => 3,
+    //             'eeprom_slot' =>25,
+    //             'uid' => $uid,
+    //             'cardnumber' => $rfid,
+    //             'usertype' => 0,
+    //             'relslot' => 0,
+    //             'origin' => 2
+    //         ],
+    //         [
+    //             'system_id' => 4,
+    //             'eeprom_slot' =>23,
+    //             'uid' => $uid,
+    //             'cardnumber' => $rfid,
+    //             'usertype' => 0,
+    //             'relslot' => 0,
+    //             'origin' => 2
+    //         ],
+    //         [
+    //             'system_id' => 5,
+    //             'eeprom_slot' =>24,
+    //             'uid' => $uid,
+    //             'cardnumber' => $rfid,
+    //             'usertype' => 0,
+    //             'relslot' => 0,
+    //             'origin' => 2
+    //         ],
+    //         [
+    //             'system_id' => 6,
+    //             'eeprom_slot' =>37,
+    //             'uid' => $uid,
+    //             'cardnumber' => $rfid,
+    //             'usertype' => 0,
+    //             'relslot' => 0,
+    //             'origin' => 2
+    //         ],
+    //         [
+    //             'system_id' => 7,
+    //             'eeprom_slot' =>24,
+    //             'uid' => $uid,
+    //             'cardnumber' => $rfid,
+    //             'usertype' => 0,
+    //             'relslot' => 0,
+    //             'origin' => 2
+    //         ],
+    //         [
+    //             'system_id' => 8,
+    //             'eeprom_slot' =>27,
+    //             'uid' => $uid,
+    //             'cardnumber' => $rfid,
+    //             'usertype' => 0,
+    //             'relslot' => 0,
+    //             'origin' => 2
+    //         ],
+    //         [
+    //             'system_id' => 9,
+    //             'eeprom_slot' =>76,
+    //             'uid' => $uid,
+    //             'cardnumber' => $rfid,
+    //             'usertype' => 0,
+    //             'relslot' => 0,
+    //             'origin' => 2
+    //         ]
+    //     ]);
+    // }
 
     // --- END: K12Admin-related processes here --- //
 }
