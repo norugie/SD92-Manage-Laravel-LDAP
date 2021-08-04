@@ -75,7 +75,6 @@ class HelperController extends Controller
         // Remove department localgroup
         $this->removeEmployeeLocalGroupInK12Admin($username, $department);
 
-        // // Set locker permissions
         // if((((in_array('teacher', $roles) || in_array('principal', $roles) || in_array('viceprincipal', $roles) || in_array('secretary', $roles)) && in_array('NESS', $locations)) || in_array('supertech', $roles)) && $request->employee_rfid !== NULL) {
         //     $this->setEmployeeIDLockerAccessInK12Admin($uid, $request->employee_rfid);
         // }
@@ -121,6 +120,28 @@ class HelperController extends Controller
     public function passwordConverter (String $password)
     {
         return iconv("UTF-8", "UTF-16LE", '"' . $password . '"');
+    }
+
+    /**
+     * Adds a user to admins.txt. Used by addAdmins.sh in JAMF
+     *
+     * @param String $username
+     */
+    public function addEmployeeToAdmins (String $username)
+    {
+        $fp = fopen('cms/admins.txt', 'a'); //opens file in append mode  
+        fwrite($fp, $employee->getFirstAttribute('samaccountname') . PHP_EOL);
+        fclose($fp);
+    }
+
+    /**
+     * Removes a user from admins.txt. Used by addAdmins.sh in JAMF
+     *
+     * @param String $username
+     */
+    public function removeEmployeeFromAdmins (String $username)
+    {
+        file_put_contents('cms/admins.txt', preg_replace('/\n'.$username.'/', '', file_get_contents('cms/admins.txt')));
     }
 
     /**
