@@ -21,59 +21,45 @@ class ViewEmployeeController extends Controller
         $employees = Group::findBy('cn', 'tempstudent')->members()->get();
 
         foreach($employees as $employee): 
+            DB::connection('mysql2')
+            ->table('lglist')
+            ->where('userid', $employee->getFirstAttribute('samaccountname'))
+            ->delete();
+
+            DB::connection('mysql2')
+            ->table('lglist')
+            ->updateOrInsert(
+                [
+                    'userid' => $employee->getFirstAttribute('samaccountname')
+                ],
+                [
+                    'userid' => $employee->getFirstAttribute('samaccountname'),
+                    'school' => 'Withdrawn',
+                    'localgroup' => 'nondistrict'
+                ]
+            );
+
+            DB::connection('mysql2')
+            ->table('users')
+            ->where('userid', $employee->getFirstAttribute('samaccountname'))
+            ->update(
+                [
+                    'comment' => 'Withdrawn'
+                ]
+            );
             echo $employee->getFirstAttribute('samaccountname') . " " . "<br>";
         endforeach;
 
-        // $fp = fopen('cms/admins.txt', 'a'); //opens file in append mode  
-        // fwrite($fp, 'jsmith' . PHP_EOL);
-        // fclose($fp); 
-        
-        file_put_contents('cms/admins.txt', preg_replace('/\njsmith/', '', file_get_contents('cms/admins.txt')));
-
-        // foreach(file('cms/groups-with-a3-license.txt', FILE_IGNORE_NEW_LINES) as $a3):
-        //     echo $a3 . "<br>";
-        // endforeach;
-
-        // $students = DB::connection('mysql2')
-        // ->table('lglist')
-        // ->join('users', 'users.userid', '=', 'lglist.userid')
-        // ->select('users.userid', 'users.fullname', 'users.pt', 'lglist.localgroup')
-        // ->where('users.flags', '=', 2)
-        // ->where('users.comment', 'like', '%nbes%')
-        // ->where('lglist.localgroup', 'like', '%nbes07%')
-        // ->get();
-        
-
-        // echo "Grade 8: " . count($g08) . "<br> Grade 9: " . count($g09) . "<br> Grade 10: " . count($g10) . "<br> Grade 11: " . count($g11) . "<br> Grade 12: " . count($g12);
-
-
-
-        // foreach ($students as $student): 
-        //     // if($student->getFirstAttribute('displayname') === NULL)
-        //     //     echo $student->getFirstAttribute('displayname') . " - " . $student->getFirstAttribute('samaccountname') . " - " . $student->getFirstAttribute('mail') . "<br>";
-        //     // else {
-        //     //     // Do stuff to move students here
-
-        //     //     // Add student to oldstaff group
-        //     //     $student_group = Group::findBy('cn', 'A1 Student Assignment');
-        //     //     $student->groups()->attach($student_group);
-        //     // }
-        //     // $student = User::find('cn=' . $student->userid . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
-
-        //     // if(!$student->groups()->exists('activestaff') && $student->getFirstAttribute('displayname') !== NULL) {
-        //     //     echo $student->getFirstAttribute('displayname') . " - " . $student->getFirstAttribute('samaccountname') . " - " . $student->getFirstAttribute('mail') . "<br>";
-
-        //     //     $student_group_remove = Group::findBy('cn', 'nbes07');
-        //     //     $student_group_add = Group::findBy('cn', 'tempnbes07');
-        //     //     $student->groups()->detach($student_group_remove);
-        //     //     $student->groups()->attach($student_group_add);
-
-        //     //     $student_group_add = Group::findBy('cn', 'tempstudent');
-        //     //     $student->groups()->attach($student_group_add);
-        //     // }
-
-        //     // echo $student->getFirstAttribute('displayname') . " - " . $student->getFirstAttribute('samaccountname') . " - " . $student->getFirstAttribute('mail') . "<br>";
-        // endforeach;
+        DB::connection('mysql2')
+        ->table('info')
+        ->where('Teacher', 'like', '%locker%')
+        ->update(
+            [
+                'School' => 'NESS',
+                'Student' => NULL,
+                'user_uid' => NULL
+            ]
+        );
     }
 
     /**
