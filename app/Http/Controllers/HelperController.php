@@ -2,6 +2,15 @@
 
 namespace App\Http\Controllers;
 
+/**
+ * 
+ * This controller file is used across other controllers. The HelperController class
+ * contains methods used to handle most of the processes needed to create, update,
+ * enable, or disable AD accounts.
+ * 
+ */
+
+
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -33,6 +42,7 @@ class HelperController extends Controller
         $employee->department = $department;
         $employee->description = $description;
 
+        // Sets the $uid to be used in the process, depending on whether the uID variable is set in the $employee object
         if($employee->uid === NULL) {
             $uid = DB::connection('mysql2')
                     ->table('users')
@@ -75,10 +85,6 @@ class HelperController extends Controller
         // Remove department localgroup
         $this->removeEmployeeLocalGroupInK12Admin($username, $department);
 
-        // if((((in_array('teacher', $roles) || in_array('principal', $roles) || in_array('viceprincipal', $roles) || in_array('secretary', $roles)) && in_array('NESS', $locations)) || in_array('supertech', $roles)) && $request->employee_rfid !== NULL) {
-        //     $this->setEmployeeIDLockerAccessInK12Admin($uid, $request->employee_rfid);
-        // }
-
         // Merge $roles and $location into one array
         if($locations !== NULL) {
             $this->disableEmployeeAllIDAccessInK12Admin($uid);
@@ -99,12 +105,13 @@ class HelperController extends Controller
     }
 
     /**
-     * Generates random password - currently not implemented
+     * Generates a password based on employee number set in SDS and employee username
      *
-     * @param String $password
+     * @param String $username
+     * @param Int $employeenum
      * @return String $password
      */
-    public function stringGenerator ()
+    public function stringGenerator (String $username, Int $employeenum)
     {  
         $length = 8;
         $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789';

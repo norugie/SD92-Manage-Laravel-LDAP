@@ -18,48 +18,101 @@ class ViewEmployeeController extends Controller
 
     public function test ()
     {
-        $employees = Group::findBy('cn', 'tempstudent')->members()->get();
+        $students = Group::findBy('cn', 'student')->members()->get();
+        $nessK=0; $ness01=0; $ness02=0; $ness03=0; $ness04=0; $ness05=0; $ness06=0; $ness07=0; $ness08=0; $ness09=0; $ness10=0; $ness11=0; $ness12=0;
+        $aamesK=0; $aames01=0; $aames02=0; $aames03=0; $aames04=0; $aames05=0; $aames06=0; $aames07=0;
+        $nbesK=0; $nbes01=0; $nbes02=0; $nbes03=0; $nbes04=0; $nbes05=0; $nbes06=0; $nbes07=0;
+        $gesK=0; $ges01=0; $ges02=0; $ges03=0; $ges04=0; $ges05=0; $ges06=0; $ges07=0;
 
-        foreach($employees as $employee): 
-            DB::connection('mysql2')
-            ->table('lglist')
-            ->where('userid', $employee->getFirstAttribute('samaccountname'))
-            ->delete();
 
-            DB::connection('mysql2')
-            ->table('lglist')
-            ->updateOrInsert(
-                [
-                    'userid' => $employee->getFirstAttribute('samaccountname')
-                ],
-                [
-                    'userid' => $employee->getFirstAttribute('samaccountname'),
-                    'school' => 'Withdrawn',
-                    'localgroup' => 'nondistrict'
-                ]
-            );
-
-            DB::connection('mysql2')
-            ->table('users')
-            ->where('userid', $employee->getFirstAttribute('samaccountname'))
-            ->update(
-                [
-                    'comment' => 'Withdrawn'
-                ]
-            );
-            echo $employee->getFirstAttribute('samaccountname') . " " . "<br>";
+        foreach($students as $student): 
+            $groups = $student->groups()->get();
+            foreach($groups as $group):
+                if(strpos($group->getName(), 'ness') !== FALSE || strpos($group->getName(), 'aames') !== FALSE || strpos($group->getName(), 'ges') !== FALSE || strpos($group->getName(), 'nbes') !== FALSE) 
+                    ${$group->getName()}++;
+            endforeach;
         endforeach;
 
-        DB::connection('mysql2')
-        ->table('info')
-        ->where('Teacher', 'like', '%locker%')
-        ->update(
-            [
-                'School' => 'NESS',
-                'Student' => NULL,
-                'user_uid' => NULL
-            ]
-        );
+        echo "Total Students: " . count($students) . "<br><br>";
+        echo "<b>NESS</b><br>NESS Kindergarten Students: " . $nessK . 
+            "<br>Grade 1 Students: " . $ness01 .
+            "<br>Grade 2 Students: " . $ness02 . 
+            "<br>Grade 3 Students: " . $ness03 . 
+            "<br>Grade 4 Students: " . $ness04 . 
+            "<br>Grade 5 Students: " . $ness05 . 
+            "<br>Grade 6 Students: " . $ness06 . 
+            "<br>Grade 7 Students: " . $ness07 . 
+            "<br>Total NESS Students: " . $nessK+$ness01+$ness02+$ness03+$ness04+$ness05+$ness06+$ness07 . "<br><br>";
+
+        echo "<b>AAMES</b><br>AAMES Kindergarten Students: " . $aamesK . 
+            "<br>Grade 1 Students: " . $aames01 .
+            "<br>Grade 2 Students: " . $aames02 . 
+            "<br>Grade 3 Students: " . $aames03 . 
+            "<br>Grade 4 Students: " . $aames04 . 
+            "<br>Grade 5 Students: " . $aames05 . 
+            "<br>Grade 6 Students: " . $aames06 . 
+            "<br>Grade 7 Students: " . $aames07 . 
+            "<br>Total AAMES Students: " . $aamesK+$aames01+$aames02+$aames03+$aames04+$aames05+$aames06+$aames07 . "<br><br>";
+
+        echo "<b>GES</b><br>GES Kindergarten Students: " . $gesK . 
+            "<br>Grade 1 Students: " . $ges01 .
+            "<br>Grade 2 Students: " . $ges02 . 
+            "<br>Grade 3 Students: " . $ges03 . 
+            "<br>Grade 4 Students: " . $ges04 . 
+            "<br>Grade 5 Students: " . $ges05 . 
+            "<br>Grade 6 Students: " . $ges06 . 
+            "<br>Grade 7 Students: " . $ges07 . 
+            "<br>Total GES Students: " . $gesK+$ges01+$ges02+$ges03+$ges04+$ges05+$ges06+$ges07 . "<br><br>";
+
+        echo "<b>NBES</b><br>NBES Kindergarten Students: " . $nbesK . 
+            "<br>Grade 1 Students: " . $nbes01 .
+            "<br>Grade 2 Students: " . $nbes02 . 
+            "<br>Grade 3 Students: " . $nbes03 . 
+            "<br>Grade 4 Students: " . $nbes04 . 
+            "<br>Grade 5 Students: " . $nbes05 . 
+            "<br>Grade 6 Students: " . $nbes06 . 
+            "<br>Grade 7 Students: " . $nbes07 . 
+            "<br>Total NBES Students: " . $nbesK+$nbes01+$nbes02+$nbes03+$nbes04+$nbes05+$nbes06+$nbes07 . "<br><br>";
+        // foreach($employees as $employee): 
+        //     DB::connection('mysql2')
+        //     ->table('lglist')
+        //     ->where('userid', $employee->getFirstAttribute('samaccountname'))
+        //     ->delete();
+
+        //     DB::connection('mysql2')
+        //     ->table('lglist')
+        //     ->updateOrInsert(
+        //         [
+        //             'userid' => $employee->getFirstAttribute('samaccountname')
+        //         ],
+        //         [
+        //             'userid' => $employee->getFirstAttribute('samaccountname'),
+        //             'school' => 'Withdrawn',
+        //             'localgroup' => 'nondistrict'
+        //         ]
+        //     );
+
+        //     DB::connection('mysql2')
+        //     ->table('users')
+        //     ->where('userid', $employee->getFirstAttribute('samaccountname'))
+        //     ->update(
+        //         [
+        //             'comment' => 'Withdrawn'
+        //         ]
+        //     );
+        //     echo $employee->getFirstAttribute('samaccountname') . " " . "<br>";
+        // endforeach;
+
+        // DB::connection('mysql2')
+        // ->table('info')
+        // ->where('Teacher', 'like', '%locker%')
+        // ->update(
+        //     [
+        //         'School' => 'NESS',
+        //         'Student' => NULL,
+        //         'user_uid' => NULL
+        //     ]
+        // );
     }
 
     /**
