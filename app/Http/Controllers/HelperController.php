@@ -289,14 +289,21 @@ class HelperController extends Controller
      */
     public function disableEmployeeIDInK12Admin (Int $uid)
     {
-        DB::connection('mysql2')
+
+        $rfid = DB::connection('mysql2')
         ->table('rfid')
-        ->updateOrInsert(
-            ['data_id' => '-' . $uid],
-            [
-                'rfid_active' => 0
-            ]
-        );
+        ->where('data_id', '=', '-' . $uid)->first();
+
+        if($rfid !== NULL){
+            DB::connection('mysql2')
+            ->table('rfid')
+            ->where('data_id', '-' . $uid)
+            ->update(
+                [
+                    'rfid_active' => 0
+                ]
+            );
+        }
     }
 
     /**
