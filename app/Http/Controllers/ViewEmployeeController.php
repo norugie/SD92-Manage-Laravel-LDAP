@@ -42,7 +42,12 @@ class ViewEmployeeController extends Controller
             "<br>Grade 5 Students: " . $ness05 . 
             "<br>Grade 6 Students: " . $ness06 . 
             "<br>Grade 7 Students: " . $ness07 . 
-            "<br>Total NESS Students: " . $nessK+$ness01+$ness02+$ness03+$ness04+$ness05+$ness06+$ness07 . "<br><br>";
+            "<br>Grade 8 Students: " . $ness08 . 
+            "<br>Grade 9 Students: " . $ness09 . 
+            "<br>Grade 10 Students: " . $ness10 . 
+            "<br>Grade 11 Students: " . $ness11 . 
+            "<br>Grade 12 Students: " . $ness12 . 
+            "<br>Total NESS Students: " . $nessK+$ness01+$ness02+$ness03+$ness04+$ness05+$ness06+$ness07+$ness08+$ness09+$ness10+$ness11+$ness12 . "<br><br>";
 
         echo "<b>AAMES</b><br>AAMES Kindergarten Students: " . $aamesK . 
             "<br>Grade 1 Students: " . $aames01 .
@@ -113,6 +118,25 @@ class ViewEmployeeController extends Controller
         //         'user_uid' => NULL
         //     ]
         // );
+
+        echo "=============================================<br>";
+
+        $file = fopen("/Users/rbarrameda/Desktop/Student Data.csv","r");
+
+        var_dump(fgetcsv($file));
+
+        echo "<br><br>";
+
+        while ($row = fgetcsv($file)) {
+            $studnum = str_replace('/[\xA0\xC2]/', '', $row[1]);
+            $student = User::find('cn=' . $studnum . ',ou=Domain Users,dc=nisgaa,dc=bc,dc=ca');
+            if($student !== NULL) echo $row[1] . " = " . $row[10] . " " . $row[9] . " - " . $student->getFirstAttribute('mail') . " - " . $row[45] . " - Grade " . $row[26] . "<br>";
+        }
+
+        fclose($file);
+
+        // $student = User::find('cn=,ou=Domain Users,dc=nisgaa,dc=bc,dc=ca');
+        // echo $student->getFirstAttribute('mail') . "<br>";
     }
 
     /**
