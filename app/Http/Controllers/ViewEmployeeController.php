@@ -18,6 +18,8 @@ class ViewEmployeeController extends Controller
 
     public function test ()
     {
+        ini_set('max_execution_time', 600);
+        // phpinfo();
         $students = Group::findBy('cn', 'student')->members()->get();
         $nessK=0; $ness01=0; $ness02=0; $ness03=0; $ness04=0; $ness05=0; $ness06=0; $ness07=0; $ness08=0; $ness09=0; $ness10=0; $ness11=0; $ness12=0;
         $aamesK=0; $aames01=0; $aames02=0; $aames03=0; $aames04=0; $aames05=0; $aames06=0; $aames07=0;
@@ -78,62 +80,137 @@ class ViewEmployeeController extends Controller
             "<br>Grade 6 Students: " . $nbes06 . 
             "<br>Grade 7 Students: " . $nbes07 . 
             "<br>Total NBES Students: " . $nbesK+$nbes01+$nbes02+$nbes03+$nbes04+$nbes05+$nbes06+$nbes07 . "<br><br>";
-        // foreach($employees as $employee): 
-        //     DB::connection('mysql2')
-        //     ->table('lglist')
-        //     ->where('userid', $employee->getFirstAttribute('samaccountname'))
-        //     ->delete();
+        // // foreach($employees as $employee): 
+        // //     DB::connection('mysql2')
+        // //     ->table('lglist')
+        // //     ->where('userid', $employee->getFirstAttribute('samaccountname'))
+        // //     ->delete();
 
-        //     DB::connection('mysql2')
-        //     ->table('lglist')
-        //     ->updateOrInsert(
-        //         [
-        //             'userid' => $employee->getFirstAttribute('samaccountname')
-        //         ],
-        //         [
-        //             'userid' => $employee->getFirstAttribute('samaccountname'),
-        //             'school' => 'Withdrawn',
-        //             'localgroup' => 'nondistrict'
-        //         ]
-        //     );
+        // //     DB::connection('mysql2')
+        // //     ->table('lglist')
+        // //     ->updateOrInsert(
+        // //         [
+        // //             'userid' => $employee->getFirstAttribute('samaccountname')
+        // //         ],
+        // //         [
+        // //             'userid' => $employee->getFirstAttribute('samaccountname'),
+        // //             'school' => 'Withdrawn',
+        // //             'localgroup' => 'nondistrict'
+        // //         ]
+        // //     );
 
-        //     DB::connection('mysql2')
-        //     ->table('users')
-        //     ->where('userid', $employee->getFirstAttribute('samaccountname'))
-        //     ->update(
-        //         [
-        //             'comment' => 'Withdrawn'
-        //         ]
-        //     );
-        //     echo $employee->getFirstAttribute('samaccountname') . " " . "<br>";
-        // endforeach;
+        // //     DB::connection('mysql2')
+        // //     ->table('users')
+        // //     ->where('userid', $employee->getFirstAttribute('samaccountname'))
+        // //     ->update(
+        // //         [
+        // //             'comment' => 'Withdrawn'
+        // //         ]
+        // //     );
+        // //     echo $employee->getFirstAttribute('samaccountname') . " " . "<br>";
+        // // endforeach;
 
-        // DB::connection('mysql2')
-        // ->table('info')
-        // ->where('Teacher', 'like', '%locker%')
-        // ->update(
-        //     [
-        //         'School' => 'NESS',
-        //         'Student' => NULL,
-        //         'user_uid' => NULL
-        //     ]
-        // );
+        // // DB::connection('mysql2')
+        // // ->table('info')
+        // // ->where('Teacher', 'like', '%locker%')
+        // // ->update(
+        // //     [
+        // //         'School' => 'NESS',
+        // //         'Student' => NULL,
+        // //         'user_uid' => NULL
+        // //     ]
+        // // );
 
-        echo "=============================================<br>";
+        // echo "=============================================<br>";
 
-        $file = fopen("/Users/rbarrameda/Desktop/Student Data.csv","r");
+        // $file = fopen("C:\Users\Rugie Ann Barrameda\Desktop\studentdata.csv","r");
 
-        var_dump(fgetcsv($file));
+        // var_dump(fgetcsv($file));
 
-        echo "<br><br>";
+        // echo "<br><br>";
 
-        while ($row = fgetcsv($file)) {
-            $studnum = str_replace('/[\xA0\xC2]/', '', $row[1]);
-            $student = User::find('cn=' . $studnum . ',ou=Domain Users,dc=nisgaa,dc=bc,dc=ca');
-            if($student !== NULL) echo $row[1] . " = " . $row[10] . " " . $row[9] . " - " . $student->getFirstAttribute('mail') . " - " . $row[45] . " - Grade " . $row[26] . "<br>";
-        }
+        // while ($row = fgetcsv($file)) {
+        //     $studnum = str_replace('/[\xA0\xC2]/', '', $row[1]);
+        //     $student = User::find('cn=' . $studnum . ',ou=Domain Users,dc=nisgaa,dc=bc,dc=ca');
 
-        fclose($file);
+        //     if($student !== NULL) {
+        //         $school = $row[45];
+        //         $grade = "Grade " . $row[26];
+
+        //         // convert school
+        //         switch($school){
+        //             case "Nisga'a K-12": 
+        //                 $school = "NESS";
+        //                 break;
+        //             case "Nathan Barton Elementary": 
+        //                 $school = "NBES";
+        //                 break;
+        //             case "Alvin A.McKay Elementary": 
+        //                 $school = "AAMES";
+        //                 break;
+        //             case "Gitwinksihlkw Elementary": 
+        //                 $school = "GES";
+        //                 break;
+        //         }
+
+        //         if($grade != "Grade 12" && $grade != "Grade 11" && $grade != "Grade 10" && $grade != "Grade KF") $grade = str_replace("Grade ", "Grade 0", $grade);
+        //         $grade = strtolower($school) . str_replace("Grade ", "", $grade);
+        //         $grade = str_replace("F", "", $grade);
+        //         $firstname = $row[10];
+        //         $lastname = $row[9];
+        //         $fullname = $lastname . " " . $firstname;
+        //         $username = $row[1];
+        //         $description = $school . " Student";
+        //         $password = "P@ss" . substr($row[4], -4);
+        //         $password = strval($password);
+
+        //         echo $username . " = " . $lastname . " " . $firstname . " - " . $student->getFirstAttribute('mail') . " - " . $school . " - " . $grade . " - " . $password . "<br>";
+
+        //         $uid = DB::connection('mysql2')
+        //         ->table('users')
+        //         ->orderBy('uid', 'desc')
+        //         ->first();
+                
+        //         $uid = $uid->uid + 1;
+        //         $data_id = '-' . $uid;
+
+        //         DB::connection('mysql2')
+        //         ->table('users')
+        //         ->updateOrInsert(
+        //             ['userid' => $username],
+        //             [
+        //                 'userid' => $username,
+        //                 'fullname' => $fullname,
+        //                 'comment' => $description,
+        //                 'uid' => $uid,
+        //                 'pt' => $password,
+        //                 'data_id' => $data_id
+        //             ]
+        //         );
+                
+        //         DB::connection('mysql2')
+        //         ->table('lglist')
+        //         ->upsert([
+        //             [
+        //                 'userid' => $username,
+        //                 'school' => $school,
+        //                 'localgroup' => 'student'
+        //             ],
+        //             [
+        //                 'userid' => $username,
+        //                 'school' => $school,
+        //                 'localgroup' => $grade
+        //             ],
+        //             [
+        //                 'userid' => $username,
+        //                 'school' => $school,
+        //                 'localgroup' => 'A1 Student Assignment'
+        //             ]
+        //         ], ['userid', 'school'], ['localgroup']);
+        //     }
+        // }
+
+        // fclose($file);
 
         // $student = User::find('cn=,ou=Domain Users,dc=nisgaa,dc=bc,dc=ca');
         // echo $student->getFirstAttribute('mail') . "<br>";

@@ -45,9 +45,12 @@ $('#inactive_employee_table').DataTable({
 });
 
 $('#log_table').DataTable({
-    "bSort": false,
+    "bSort": true,
     "lengthChange": false,
-    "iDisplayLength": 10
+    "iDisplayLength": 10,
+    'aaSorting': [
+        [2, 'desc']
+    ]
 });
 
 // Custom JQuery Validator
