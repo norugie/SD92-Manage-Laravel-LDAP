@@ -121,99 +121,106 @@ class ViewEmployeeController extends Controller
         // //     ]
         // // );
 
-        // echo "=============================================<br>";
+        echo "=============================================<br>";
 
-        // $file = fopen("C:\Users\Rugie Ann Barrameda\Desktop\studentdata.csv","r");
+        $file = fopen("/Users/rbarrameda/Desktop/studdata.csv","r");
 
-        // var_dump(fgetcsv($file));
+        var_dump(fgetcsv($file));
 
-        // echo "<br><br>";
+        echo "<br><br>";
+        
+        $uid = 7013;
+        while ($row = fgetcsv($file)) {
+            $studnum = str_replace('/[\xA0\xC2]/', '', $row[1]);
+            $student = User::find('cn=' . $studnum . ',ou=Domain Users,dc=nisgaa,dc=bc,dc=ca');
 
-        // while ($row = fgetcsv($file)) {
-        //     $studnum = str_replace('/[\xA0\xC2]/', '', $row[1]);
-        //     $student = User::find('cn=' . $studnum . ',ou=Domain Users,dc=nisgaa,dc=bc,dc=ca');
+            if($student !== NULL) {
+                $school = $row[45];
+                $grade = "Grade " . $row[26];
 
-        //     if($student !== NULL) {
-        //         $school = $row[45];
-        //         $grade = "Grade " . $row[26];
+                // convert school
+                switch($school){
+                    case "Nisga'a K-12": 
+                        $school = "NESS";
+                        break;
+                    case "Nathan Barton Elementary": 
+                        $school = "NBES";
+                        break;
+                    case "Alvin A.McKay Elementary": 
+                        $school = "AAMES";
+                        break;
+                    case "Gitwinksihlkw Elementary": 
+                        $school = "GES";
+                        break;
+                }
 
-        //         // convert school
-        //         switch($school){
-        //             case "Nisga'a K-12": 
-        //                 $school = "NESS";
-        //                 break;
-        //             case "Nathan Barton Elementary": 
-        //                 $school = "NBES";
-        //                 break;
-        //             case "Alvin A.McKay Elementary": 
-        //                 $school = "AAMES";
-        //                 break;
-        //             case "Gitwinksihlkw Elementary": 
-        //                 $school = "GES";
-        //                 break;
-        //         }
+                if($grade != "Grade 12" && $grade != "Grade 11" && $grade != "Grade 10" && $grade != "Grade KF") $grade = str_replace("Grade ", "Grade 0", $grade);
+                $grade = strtolower($school) . str_replace("Grade ", "", $grade);
+                $grade = str_replace("F", "", $grade);
+                $firstname = $row[10];
+                $lastname = $row[9];
+                $fullname = $lastname . " " . $firstname;
+                $username = $row[1];
+                $description = $school . " Student";
+                $password = "P@ss" . substr($row[4], -4);
+                $password = strval($password);
 
-        //         if($grade != "Grade 12" && $grade != "Grade 11" && $grade != "Grade 10" && $grade != "Grade KF") $grade = str_replace("Grade ", "Grade 0", $grade);
-        //         $grade = strtolower($school) . str_replace("Grade ", "", $grade);
-        //         $grade = str_replace("F", "", $grade);
-        //         $firstname = $row[10];
-        //         $lastname = $row[9];
-        //         $fullname = $lastname . " " . $firstname;
-        //         $username = $row[1];
-        //         $description = $school . " Student";
-        //         $password = "P@ss" . substr($row[4], -4);
-        //         $password = strval($password);
-
-        //         echo $username . " = " . $lastname . " " . $firstname . " - " . $student->getFirstAttribute('mail') . " - " . $school . " - " . $grade . " - " . $password . "<br>";
-
-        //         $uid = DB::connection('mysql2')
-        //         ->table('users')
-        //         ->orderBy('uid', 'desc')
-        //         ->first();
+                echo $username . " = " . $lastname . " " . $firstname . " - " . $student->getFirstAttribute('mail') . " - " . $school . " - " . $grade . " - " . $password . "<br>";
                 
-        //         $uid = $uid->uid + 1;
-        //         $data_id = '-' . $uid;
+                // $uid = $uid + 1;
+                // $data_id = '-' . $uid;
 
-        //         DB::connection('mysql2')
-        //         ->table('users')
-        //         ->updateOrInsert(
-        //             ['userid' => $username],
-        //             [
-        //                 'userid' => $username,
-        //                 'fullname' => $fullname,
-        //                 'comment' => $description,
-        //                 'uid' => $uid,
-        //                 'pt' => $password,
-        //                 'data_id' => $data_id
-        //             ]
-        //         );
+                // DB::connection('mysql2')
+                // ->table('users')
+                // ->updateOrInsert(
+                //     ['userid' => $username],
+                //     [
+                //         'userid' => $username,
+                //         'fullname' => $fullname,
+                //         'comment' => $description,
+                //         'uid' => $uid,
+                //         'pt' => $password,
+                //         'data_id' => $data_id
+                //     ]
+                // );
                 
-        //         DB::connection('mysql2')
-        //         ->table('lglist')
-        //         ->upsert([
-        //             [
-        //                 'userid' => $username,
-        //                 'school' => $school,
-        //                 'localgroup' => 'student'
-        //             ],
-        //             [
-        //                 'userid' => $username,
-        //                 'school' => $school,
-        //                 'localgroup' => $grade
-        //             ],
-        //             [
-        //                 'userid' => $username,
-        //                 'school' => $school,
-        //                 'localgroup' => 'A1 Student Assignment'
-        //             ]
-        //         ], ['userid', 'school'], ['localgroup']);
-        //     }
-        // }
+                // DB::connection('mysql2')
+                // ->table('lglist')
+                // ->upsert([
+                //     [
+                //         'userid' => $username,
+                //         'school' => $school,
+                //         'localgroup' => 'student'
+                //     ],
+                //     [
+                //         'userid' => $username,
+                //         'school' => $school,
+                //         'localgroup' => $grade
+                //     ],
+                //     [
+                //         'userid' => $username,
+                //         'school' => $school,
+                //         'localgroup' => 'A3 Student Assignment'
+                //     ]
+                // ], ['userid', 'school'], ['localgroup']);
+            }
+        }
 
-        // fclose($file);
+        fclose($file);
 
-        // $student = User::find('cn=,ou=Domain Users,dc=nisgaa,dc=bc,dc=ca');
-        // echo $student->getFirstAttribute('mail') . "<br>";
+        $slot = 183;
+
+        for($i=155;$i<=$slot;$i++){
+            DB::connection('mysql2')
+            ->table('cart_slot')
+            ->upsert([
+                [
+                    'cart' => 63,
+                    'abs_slotindex' => $i,
+                    'connection_status' => 0
+                ]
+            ], ['cart', 'connection_status'], ['abs_slotindex']); 
+        }
     }
 
     /**
