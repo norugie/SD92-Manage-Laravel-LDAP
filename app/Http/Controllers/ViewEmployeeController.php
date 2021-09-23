@@ -19,7 +19,8 @@ class ViewEmployeeController extends Controller
     public function test ()
     {
         ini_set('max_execution_time', 600);
-        // phpinfo();
+
+        // // phpinfo();
         $students = Group::findBy('cn', 'student')->members()->get();
         $nessK=0; $ness01=0; $ness02=0; $ness03=0; $ness04=0; $ness05=0; $ness06=0; $ness07=0; $ness08=0; $ness09=0; $ness10=0; $ness11=0; $ness12=0;
         $aamesK=0; $aames01=0; $aames02=0; $aames03=0; $aames04=0; $aames05=0; $aames06=0; $aames07=0;
@@ -121,6 +122,68 @@ class ViewEmployeeController extends Controller
         // //     ]
         // // );
 
+        // echo "=============================================<br>";
+
+        // $lockers = DB::connection('mysql2')->table('cart')
+        // ->leftJoin('cart_type', 'cart_type.cart_type_id', '=', 'cart.cart_type_id')
+        // ->select('cart.cart_id', 'cart.school_id', 'cart.cart_desc', 'cart.slot_start_number')
+        // ->where('cart_type.cart_type_name', 'like', '%Locker%')
+        // ->orderBy('cart.cart_name', 'asc')
+        // ->get();
+
+        // $slot_num = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28];
+
+        // $studs = DB::connection('mysql2')->table('users')
+        //         ->join('lglist', 'lglist.userid', '=', 'users.userid')
+        //         ->select('users.fullname', 'users.comment', 'users.uid', 'lglist.localgroup')
+        //         ->where('lglist.localgroup', 'ness09')
+        //         ->where('users.comment', 'like', '%Student%')
+        //         ->get();
+
+        // foreach($lockers as $cart): 
+        //     foreach($slot_num as $sn): 
+        //         $slot = DB::connection('mysql2')->table('info')
+        //         ->select('Name', 'user_uid')
+        //         ->where('Cart', $cart->cart_id)
+        //         ->where('Cart_Slot', $sn)
+        //         ->orderBy('Cart_Slot', 'asc')
+        //         ->first();
+
+
+        //         DB::connection('mysql2')
+        //         ->table('info')
+        //         ->where('Name', $slot->Name)
+        //         ->update(['user_uid' => NULL]);
+        //         echo "<br>";
+
+        //     endforeach;
+        // endforeach;
+
+        // foreach($studs as $st):
+        //     echo "<b>Computer Assignment for " . $st->fullname . " - " . $st->uid . "</b>: ";
+
+        //     foreach($slot_num as $sn): 
+        //         $slot = DB::connection('mysql2')->table('info')
+        //         ->select('Name', 'user_uid')
+        //         ->where('Cart', 60)
+        //         ->where('Cart_Slot', $sn)
+        //         ->orderBy('Cart_Slot', 'asc')
+        //         ->first();
+
+        //         if($slot->user_uid === NULL) {
+        //             // var_dump($slot);
+        //             // echo "<br>";
+        //             // break;
+        //             DB::connection('mysql2')
+        //             ->table('info')
+        //             ->where('Name', $slot->Name)
+        //             ->update(['user_uid' => $st->uid]);
+        //             echo $slot->Name . "<br>";
+        //             break;
+        //         }
+        //     endforeach;
+        // endforeach;
+
         echo "=============================================<br>";
 
         $file = fopen("/Users/rbarrameda/Desktop/studdata.csv","r");
@@ -130,6 +193,7 @@ class ViewEmployeeController extends Controller
         echo "<br><br>";
         
         $uid = 7013;
+        // $uid = 7800;
         while ($row = fgetcsv($file)) {
             $studnum = str_replace('/[\xA0\xC2]/', '', $row[1]);
             $student = User::find('cn=' . $studnum . ',ou=Domain Users,dc=nisgaa,dc=bc,dc=ca');
@@ -154,7 +218,7 @@ class ViewEmployeeController extends Controller
                         break;
                 }
 
-                if($grade != "Grade 12" && $grade != "Grade 11" && $grade != "Grade 10" && $grade != "Grade KF") $grade = str_replace("Grade ", "Grade 0", $grade);
+                // if($grade != "Grade 12" && $grade != "Grade 11" && $grade != "Grade 10" && $grade != "Grade KF") $grade = str_replace("Grade ", "Grade 0", $grade);
                 $grade = strtolower($school) . str_replace("Grade ", "", $grade);
                 $grade = str_replace("F", "", $grade);
                 $firstname = $row[10];
@@ -166,61 +230,56 @@ class ViewEmployeeController extends Controller
                 $password = strval($password);
 
                 echo $username . " = " . $lastname . " " . $firstname . " - " . $student->getFirstAttribute('mail') . " - " . $school . " - " . $grade . " - " . $password . "<br>";
-                
-                // $uid = $uid + 1;
-                // $data_id = '-' . $uid;
 
-                // DB::connection('mysql2')
-                // ->table('users')
-                // ->updateOrInsert(
-                //     ['userid' => $username],
-                //     [
-                //         'userid' => $username,
-                //         'fullname' => $fullname,
-                //         'comment' => $description,
-                //         'uid' => $uid,
-                //         'pt' => $password,
-                //         'data_id' => $data_id
-                //     ]
-                // );
+                DB::connection('mysql2')
+                ->table('users')
+                ->updateOrInsert(
+                    ['userid' => $username],
+                    [
+                        'userid' => $username,
+                        'fullname' => $fullname,
+                        'comment' => $description,
+                        'pt' => $password
+                    ]
+                );
                 
-                // DB::connection('mysql2')
-                // ->table('lglist')
-                // ->upsert([
-                //     [
-                //         'userid' => $username,
-                //         'school' => $school,
-                //         'localgroup' => 'student'
-                //     ],
-                //     [
-                //         'userid' => $username,
-                //         'school' => $school,
-                //         'localgroup' => $grade
-                //     ],
-                //     [
-                //         'userid' => $username,
-                //         'school' => $school,
-                //         'localgroup' => 'A3 Student Assignment'
-                //     ]
-                // ], ['userid', 'school'], ['localgroup']);
+                DB::connection('mysql2')
+                ->table('lglist')
+                ->upsert([
+                    [
+                        'userid' => $username,
+                        'school' => $school,
+                        'localgroup' => 'student'
+                    ],
+                    [
+                        'userid' => $username,
+                        'school' => $school,
+                        'localgroup' => $grade
+                    ],
+                    [
+                        'userid' => $username,
+                        'school' => $school,
+                        'localgroup' => 'A3 Student Assignment'
+                    ]
+                ], ['userid', 'school'], ['localgroup']);
             }
         }
 
         fclose($file);
 
-        $slot = 183;
+        // $slot = 183;
 
-        for($i=155;$i<=$slot;$i++){
-            DB::connection('mysql2')
-            ->table('cart_slot')
-            ->upsert([
-                [
-                    'cart' => 63,
-                    'abs_slotindex' => $i,
-                    'connection_status' => 0
-                ]
-            ], ['cart', 'connection_status'], ['abs_slotindex']); 
-        }
+        // for($i=155;$i<=$slot;$i++){
+        //     DB::connection('mysql2')
+        //     ->table('cart_slot')
+        //     ->upsert([
+        //         [
+        //             'cart' => 63,
+        //             'abs_slotindex' => $i,
+        //             'connection_status' => 0
+        //         ]
+        //     ], ['cart', 'connection_status'], ['abs_slotindex']); 
+        // }
     }
 
     /**
