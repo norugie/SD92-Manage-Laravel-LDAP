@@ -2,10 +2,10 @@
     "locations": {
         "SDO": {
             "name": "School District Office",
-            "address": "",
-            "city": "",
-            "province": "",
-            "postal_code": "",
+            "address": "4702 Huwilp Road, PO Box 240",
+            "city": "Gitlaxt'aamiks",
+            "province": "BC",
+            "postal_code": "V0J 1A0",
             "phone": "+1 (250) 633-2228",
             "local_roles": {
                 "accountingclerk": "Accounting Clerk",
@@ -37,9 +37,9 @@
         "TechOffice": {
             "name": "IT Department",
             "address": "",
-            "city": "",
-            "province": "",
-            "postal_code": "",
+            "city": "Gitlaxt'aamiks",
+            "province": "BC",
+            "postal_code": "V0J 1A0",
             "phone": "+1 (250) 633-2937",
             "local_roles": {
                 "supertech": "Tech Administrator"
@@ -49,9 +49,9 @@
         "Maintenance": {
             "name": "Maintenance Department",
             "address": "",
-            "city": "",
-            "province": "",
-            "postal_code": "",
+            "city": "Gitlaxt'aamiks",
+            "province": "BC",
+            "postal_code": "V0J 1A0",
             "phone": "+1 (250) 633-2228",
             "local_roles": {
                 "busdriver": "Bus Driver",

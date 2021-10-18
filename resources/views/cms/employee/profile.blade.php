@@ -84,10 +84,10 @@
                                             <div class="card-top">
                                                 <div class="card-title">EMPLOYEE</div>
                                                 <div class="card-img">
-                                                    @if($employee->getFirstAttribute('extensionAttribute1') !== NULL)
-                                                        <img src="https://manage.nisgaa.bc.ca/upload/user_photos/uid_{{ $employee->getFirstAttribute('uid') }}.jpg" alt="" width="57" height="90" style="width: 250px; height: 250px; margin-left: -15px; margin-top: 0px;">
+                                                    @if($employee->getFirstAttribute('uid') !== NULL)
+                                                        <img src="https://manage.nisgaa.bc.ca/upload/user_photos/uid_{{ $employee->getFirstAttribute('uid') }}.jpg" alt="" width="57" height="90" style="width: 250px; height: 250px; margin-left: -18px; margin-top: 0px;">
                                                     @else
-                                                        <img src="/cms/images/users/user-placeholder.png" alt="" width="57" height="90" style="width: 250px; height: 250px; margin-left: -15px; margin-top: 0px;">
+                                                        <img src="/cms/images/users/user-placeholder.png" alt="" width="57" height="90" style="width: 250px; height: 250px; margin-left: -18px; margin-top: 0px;">
                                                     @endif
                                                 </div>
                                                 <div class="card-top-display">
