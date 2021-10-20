@@ -83,10 +83,14 @@
                                             <div class="card-top">
                                                 <div class="card-title">EMPLOYEE</div>
                                                 <div class="card-img">
-                                                    @if($employee->getFirstAttribute('uid') !== NULL)
-                                                        <img src="https://manage.nisgaa.bc.ca/upload/user_photos/uid_{{ $employee->getFirstAttribute('uid') }}.jpg" alt="" width="57" height="90" style="width: 250px; height: 250px; margin-left: -18px; margin-top: 0px;">
-                                                    @else
+                                                    @php
+                                                        $user_image = 'https://manage.nisgaa.bc.ca/upload/user_photos/uid_'. $employee->getFirstAttribute('uidNumber').'.jpg';
+                                                        $file_headers = @get_headers($user_image);        
+                                                    @endphp
+                                                    @if(!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found')
                                                         <img src="/cms/images/users/user-placeholder.png" alt="" width="57" height="90" style="width: 250px; height: 250px; margin-left: -18px; margin-top: 0px;">
+                                                    @else
+                                                        <img src="https://manage.nisgaa.bc.ca/upload/user_photos/uid_{{ $employee->getFirstAttribute('uidNumber') }}.jpg" alt="" width="57" height="90" style="width: 250px; height: 250px; margin-left: -18px; margin-top: 0px; object-fit: cover;">
                                                     @endif
                                                 </div>
                                                 <div class="card-top-display">
