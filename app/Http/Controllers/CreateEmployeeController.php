@@ -49,8 +49,7 @@ class CreateEmployeeController extends Controller
         // Set up variable info
         $fullname = $firstname . ' ' . $lastname;
         $email = $username . '@nisgaa.bc.ca';
-        // $password = $this->stringGenerator();
-        $password = 'SD924now';
+        $password = $this->helpers->stringGenerator();
         $company = 'SD92';
         $employee_id = $request->employee_id;
         $employee_rfid = $request->employee_rfid;
@@ -63,6 +62,7 @@ class CreateEmployeeController extends Controller
 
         $employee->cn = $username;
         $employee->name = $username;
+        $employee->uid = $username;
         $employee->mailnickname = $username;
         $employee->samaccountname = $username;
         $employee->displayname = $fullname;
@@ -101,6 +101,7 @@ class CreateEmployeeController extends Controller
         // Log activity
         $message = 'An account for <b><a href="/cms/employees/' . $username . '/view" class="alert-link">' . $fullname . '</a></b> has been created successfully.';
         $this->inputLog(session('userName'), $message);
+        $message =  $message . ' Please take note of the password for this user before refreshing the page: <b>' . $password . '</b>';
         
         return redirect('/cms/employees/' . $username . '/view')
             ->with('status', 'success')

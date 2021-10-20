@@ -285,12 +285,12 @@ class ViewEmployeeController extends Controller
 
         foreach($employees as $employee): 
             $employee = User::find('cn=' . $employee->getFirstAttribute('name') . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
-            // $employee->uidnumber = "-".$employee->getFirstAttribute('uid');
-            $employee->uid = $employee->getFirstAttribute('name');
-            $employee->save();
-            $employee->refresh();
+            // $employee->uidnumber = str_replace('-', '', $employee->getFirstAttribute('uidNumber'));
+            // $employee->uid = $employee->getFirstAttribute('name');
+            // $employee->save();
+            // $employee->refresh();
 
-            echo $employee->getFirstAttribute('name') . " - " . $employee->getFirstAttribute('mail') . " - " . $employee->getFirstAttribute('uid') . " - " . $employee->getFirstAttribute('uidNumber') . "<br>";
+            echo $employee->getFirstAttribute('name') . " - " . $employee->getFirstAttribute('mail') . " - " . $employee->getFirstAttribute('uid') . " - " . $employee->getFirstAttribute('uidNumber') . " - " . $employee->getFirstAttribute('employeeID') . "<br>";
         endforeach;
     }
 

@@ -34,7 +34,6 @@
                         <ul class="nav nav-tabs" role="tablist">
                             <li role="presentation" class="active"><a href="#info" aria-controls="info" role="tab" data-toggle="tab">User Info</a></li>
                             <li role="presentation"><a href="#id_card" aria-controls="settings" role="tab" data-toggle="tab">ID Card</a></li>
-                            <li role="presentation"><a href="#id_access" aria-controls="settings" role="tab" data-toggle="tab">ID Access</a></li>
                         </ul>
 
                         <div class="tab-content">
@@ -133,9 +132,6 @@
 
                                     </div>
                                 </div>
-                            </div>
-                            <div role="tabpanel" class="tab-pane fade in" id="id_access">
-                                {{-- Access control settings --}}
                             </div>
                         </div>
                     </div>

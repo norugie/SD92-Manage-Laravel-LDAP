@@ -54,7 +54,7 @@ class HelperController extends Controller
         }
         
         // Set employee uID
-        $employee->uid = $uid;
+        $employee->uidnumber = $uid;
 
         // Save set object values for employee
         $employee->save();
@@ -105,18 +105,19 @@ class HelperController extends Controller
     }
 
     /**
-     * Generates a password based on employee number set in SDS and employee username
+     * Generates a human-readable randomly generated password
      *
-     * @param String $username
-     * @param Int $employeenum
      * @return String $password
      */
-    public function stringGenerator (String $username, Int $employeenum)
+    public function stringGenerator ()
     {  
-        $length = 8;
-        $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789';
+        // $length = 8;
+        // $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789';
         
-        return substr(str_shuffle(str_repeat($chars, $length)), 0, $length);
+        // return substr(str_shuffle(str_repeat($chars, $length)), 0, $length);
+        $words = file('cms/words.txt', FILE_IGNORE_NEW_LINES);
+        $password = $words[array_rand($words)] . rand(0, 9) . $words[array_rand($words)] . rand(0, 9);
+        return $password;
     }
 
     /**
@@ -130,28 +131,6 @@ class HelperController extends Controller
     }
 
     /**
-     * Adds a user to admins.txt. Used by addAdmins.sh in JAMF
-     *
-     * @param String $username
-     */
-    public function addEmployeeToAdmins (String $username)
-    {
-        $fp = fopen('cms/admins.txt', 'a'); //opens file in append mode  
-        fwrite($fp, $employee->getFirstAttribute('samaccountname') . PHP_EOL);
-        fclose($fp);
-    }
-
-    /**
-     * Removes a user from admins.txt. Used by addAdmins.sh in JAMF
-     *
-     * @param String $username
-     */
-    public function removeEmployeeFromAdmins (String $username)
-    {
-        file_put_contents('cms/admins.txt', preg_replace('/\n'.$username.'/', '', file_get_contents('cms/admins.txt')));
-    }
-
-    /**
      * Handle sorting to which Office365 license group an account gets assigned to, based on set account groups
      *
      * @param mixed $groups
@@ -159,8 +138,6 @@ class HelperController extends Controller
      */
     public function licensingSorter($groups)
     {
-        $license;
-
         // Automatically assign account to A1 license if $groups is NULL
         if($groups === NULL) $license = "A1 Staff Assignment";
         else {
@@ -332,9 +309,6 @@ class HelperController extends Controller
      */
     public function setEmployeeIDAccessInK12Admin (Int $uid, String $location)
     {
-        $loc_id;
-
-        // 
         switch($location): 
             case "SDO": 
                 $loc_id = 5;
