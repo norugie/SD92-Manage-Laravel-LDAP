@@ -87,7 +87,8 @@ class UpdateEmployeeController extends Controller
             ],
             [
                 'employee_department.required' => 'Select employee department/school'
-            ]);
+            ]
+        );
             
         // Set up string of usernames into an array
         $employees = explode(',', rtrim($request->employee_multiple, ','));
