@@ -42,16 +42,13 @@ class HelperController extends Controller
         $employee->department = $department;
         $employee->description = $description;
 
-        // Sets the $uid to be used in the process, depending on whether the uID variable is set in the $employee object
-        if($employee->uid === NULL) {
-            $uid = DB::connection('mysql2')
-                    ->table('users')
-                    ->orderBy('uid', 'desc')
-                    ->first();
-            $uid = $uid->uid + 1;
-        } else {
-            $uid = $employee->getFirstAttribute('uid');
-        }
+        // Sets the $uidNumber as $uid to be used in the process
+        $uid = DB::connection('mysql2')
+                ->table('users')
+                ->orderBy('uid', 'desc')
+                ->first();
+        $uid = $uid->uid + 1;
+
         
         // Set employee uID
         $employee->uidnumber = $uid;
