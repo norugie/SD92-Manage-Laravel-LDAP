@@ -3,6 +3,13 @@
 @section( 'custom-css' )
 
     <link href="/cms/css/card.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" integrity="sha512-0SPWAwpC/17yYyZ/4HSllgaK7/gg9OlVozq8K7rf3J8LvCjYEEIfzzpnA2/SSjpGIunCSD18r3UhvDcu/xncWA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+@endsection
+
+@section('custom-js')
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js" integrity="sha512-ooSWpxJsiXe6t4+PPjCgYmVfr1NS5QXJACcR/FPpsdm6kqG1FmQ2SVyg2RXeVuCRBLr0lWHnWJP6Zs1Efvxzww==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 @endsection
 
@@ -83,15 +90,7 @@
                                             <div class="card-top">
                                                 <div class="card-title">EMPLOYEE</div>
                                                 <div class="card-img">
-                                                    @php
-                                                        $user_image = 'https://manage.nisgaa.bc.ca/upload/user_photos/uid_'. $employee->getFirstAttribute('uidNumber').'.jpg';
-                                                        $file_headers = @get_headers($user_image);        
-                                                    @endphp
-                                                    @if(!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found')
-                                                        <img src="/cms/images/users/user-placeholder.png" alt="" width="57" height="90" style="width: 250px; height: 250px; margin-left: -18px; margin-top: 0px;">
-                                                    @else
-                                                        <img src="https://manage.nisgaa.bc.ca/upload/user_photos/uid_{{ $employee->getFirstAttribute('uidNumber') }}.jpg" alt="" width="57" height="90" style="width: 250px; height: 250px; margin-left: -18px; margin-top: 0px; object-fit: cover;">
-                                                    @endif
+                                                    <img src="{{ $employee_pic }}" alt="" width="57" height="90" style="width: 250px; height: 250px; margin-left: -18px; margin-top: 0px; object-fit: cover;">
                                                 </div>
                                                 <div class="card-top-display">
                                                     <div class="card-logo">
@@ -102,12 +101,6 @@
                                                         School District No. 92 (Nisga'a)<br>
 
                                                         @if( $config['locations'][$employee->getFirstAttribute('department')]['address'] !== "" )
-                                                        {{-- {{ $config['locations'][$employee->getFirstAttribute('department')]['address'] . ",<br>" . 
-                                                            $config['locations'][$employee->getFirstAttribute('department')]['city'] . ", " . 
-                                                            $config['locations'][$employee->getFirstAttribute('department')]['province'] . " " . 
-                                                            $config['locations'][$employee->getFirstAttribute('department')]['postal_code'] . "<br>"
-                                                        }} --}}
-
                                                         {!! 
                                                             $config['locations'][$employee->getFirstAttribute('department')]['address'] . ",<br>" .
                                                             $config['locations'][$employee->getFirstAttribute('department')]['city'] . ", " . 
