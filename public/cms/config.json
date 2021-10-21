@@ -36,7 +36,7 @@
         },
         "TechOffice": {
             "name": "IT Department",
-            "address": "",
+            "address": "4701 Huwilp Road",
             "city": "Gitlaxt'aamiks",
             "province": "BC",
             "postal_code": "V0J 1A0",
@@ -48,7 +48,7 @@
         },
         "Maintenance": {
             "name": "Maintenance Department",
-            "address": "",
+            "address": "5211 Tait Avenue",
             "city": "Gitlaxt'aamiks",
             "province": "BC",
             "postal_code": "V0J 1A0",

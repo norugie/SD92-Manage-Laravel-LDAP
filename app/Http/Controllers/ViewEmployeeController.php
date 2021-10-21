@@ -338,6 +338,13 @@ class ViewEmployeeController extends Controller
                 ->with('status', 'danger')
                 ->with('message', 'The user you are looking for does not exist in our directory.');
 
+        // Fetch employee pic from School Management System
+        $user_image = 'https://manage.nisgaa.bc.ca/upload/user_photos/uid_'. $employee->getFirstAttribute('uidNumber').'.jpg';
+        $file_headers = @get_headers($user_image); 
+
+        // Check if file exists in the School Management System. If not, use image placeholder
+        if(!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found' ? $employee_pic = "/cms/images/users/user-placeholder.png" : $employee_pic = $user_image);
+
         // Fetch employee groups data
         $groups = $employee->groups()->get();
         $locations = [];
@@ -362,6 +369,7 @@ class ViewEmployeeController extends Controller
 
         return view('cms.employee.' . $path, [
             'employee' => $employee,
+            'employee_pic' => $employee_pic,
             'config' => $this->config,
             'locations' => $locations,
             'sub_departments' => $sub_departments
