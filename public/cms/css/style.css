@@ -5428,6 +5428,8 @@ section.content {
     border: 2px solid #fff;
     padding: 2px;
     margin: 2px;
+    object-fit: cover;
+    width: 135px;
     max-height: 135px;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;

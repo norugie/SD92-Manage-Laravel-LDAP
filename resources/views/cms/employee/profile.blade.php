@@ -10,6 +10,7 @@
 @section('custom-js')
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js" integrity="sha512-ooSWpxJsiXe6t4+PPjCgYmVfr1NS5QXJACcR/FPpsdm6kqG1FmQ2SVyg2RXeVuCRBLr0lWHnWJP6Zs1Efvxzww==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="/cms/js/cropper-card.js"></script>
 
 @endsection
 
@@ -21,7 +22,7 @@
                 <div class="profile-header">&nbsp;</div>
                 <div class="profile-body">
                     <div class="image-area">
-                        <img src="/cms/images/users/user-placeholder.png" alt="AdminBSB - Profile Image" />
+                        <img src="{{ $employee_pic }}" alt="AdminBSB - Profile Image" />
                     </div>
                     <div class="content-area">
                         <h3>{{ $employee->getFirstAttribute('displayname') }}</h3>
@@ -81,7 +82,7 @@
                                 {{-- ID card settings --}}
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <p class="font-12"><i><b>Note:</b> The displayed card is only a rough preview. The final card may have slightly different layout.</i></p><br>
+                                        <p class="font-12"><i><b>Note:</b> The displayed card is only a rough preview. The final card may have slightly different layout. Active image fetched from the School Management System cannot be edited.</i></p><br>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -90,7 +91,8 @@
                                             <div class="card-top">
                                                 <div class="card-title">EMPLOYEE</div>
                                                 <div class="card-img">
-                                                    <img src="{{ $employee_pic }}" alt="" width="57" height="90" style="width: 250px; height: 250px; margin-left: -18px; margin-top: 0px; object-fit: cover;">
+                                                    <img id="employee-card-img" src="{{ $employee_pic }}" alt="" style="object-fit: cover;">
+                                                    {{-- <img id="employee-card-img" src="{{ $employee_pic }}"> --}}
                                                 </div>
                                                 <div class="card-top-display">
                                                     <div class="card-logo">
