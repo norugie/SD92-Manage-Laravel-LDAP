@@ -22,7 +22,7 @@
                 <div class="profile-header">&nbsp;</div>
                 <div class="profile-body">
                     <div class="image-area">
-                        <img src="{{ $employee_pic }}" alt="AdminBSB - Profile Image" />
+                        <img src="{{ $employee_pic }}" alt="Employee ID Card Image" />
                     </div>
                     <div class="content-area">
                         <h3>{{ $employee->getFirstAttribute('displayname') }}</h3>
@@ -91,8 +91,7 @@
                                             <div class="card-top">
                                                 <div class="card-title">EMPLOYEE</div>
                                                 <div class="card-img">
-                                                    <img id="employee-card-img" src="{{ $employee_pic }}" alt="" style="object-fit: cover;">
-                                                    {{-- <img id="employee-card-img" src="{{ $employee_pic }}"> --}}
+                                                    <img id="employee-card-img" src="{{ $employee_pic }}" alt="Employee ID Card Image">
                                                 </div>
                                                 <div class="card-top-display">
                                                     <div class="card-logo">
