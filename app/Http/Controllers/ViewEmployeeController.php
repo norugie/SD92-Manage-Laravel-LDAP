@@ -281,17 +281,68 @@ class ViewEmployeeController extends Controller
         //     ], ['cart', 'connection_status'], ['abs_slotindex']); 
         // }
 
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment; filename="employees.csv"');
+        
+        $lines = [];
+
+        $fp = fopen('php://output', 'wb');
+
         $employees = Group::findBy('cn', 'activestaff')->members()->get();
 
         foreach($employees as $employee): 
-            $employee = User::find('cn=' . $employee->getFirstAttribute('name') . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
+            $employee = User::find('cn=' . $employee->getFirstAttribute('samaccountname') . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
+            $school = $employee->getFirstAttribute('department');
+            $groups = $employee->groups()->get();
+            // foreach($groups as $group):
+            //     if(strpos($group->getName(), 'ness') !== FALSE || strpos($group->getName(), 'aames') !== FALSE || strpos($group->getName(), 'ges') !== FALSE || strpos($group->getName(), 'nbes') !== FALSE) 
+            //         $school = substr($group->getName(), 0, -1);
+            // endforeach;
             // $employee->uidnumber = str_replace('-', '', $employee->getFirstAttribute('uidNumber'));
             // $employee->uid = $employee->getFirstAttribute('name');
             // $employee->save();
             // $employee->refresh();
 
-            echo $employee->getFirstAttribute('name') . " - " . $employee->getFirstAttribute('mail') . " - " . $employee->getFirstAttribute('uid') . " - " . $employee->getFirstAttribute('uidNumber') . " - " . $employee->getFirstAttribute('employeeID') . "<br>";
+            // echo $employee->getFirstAttribute('name') . " - " . $employee->getFirstAttribute('mail') . " - " . $employee->getFirstAttribute('uid') . " - " . $employee->getFirstAttribute('uidNumber') . " - " . $employee->getFirstAttribute('employeeID') . "<br>";
+            // $school = str_replace('0', '', $school);
+            // $school = str_replace('1', '', $school);
+            // echo $employee->getFirstAttribute('samaccountname') . " - " . $employee->getFirstAttribute('mail') . " - " . $employee->getFirstAttribute('givenname') . " " . $employee->getFirstAttribute('sn') . " - " . strtoupper($school) . "<br>";
+
+            $line = array(
+                $this->str_wrap(strtoupper($school)), 
+                $this->str_wrap($employee->getFirstAttribute('samaccountname')), 
+                $this->str_wrap($employee->getFirstAttribute('samaccountname')), 
+                $this->str_wrap($employee->getFirstAttribute('sn')), 
+                $this->str_wrap($employee->getFirstAttribute('givenname')), 
+                '','', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 
+                $this->str_wrap($employee->getFirstAttribute('samaccountname') . "@nisgaa.bc.ca"), 
+                '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',);
+
+            array_push($lines, $line);
+
+            // echo $line . "<br>";
         endforeach;
+
+        foreach ($lines as $l) {
+            fputcsv($fp, $l, ',', ' ');
+            // $this->alternative_fputcsv($fp, $l);
+        }
+
+        fclose($fp);
+    }
+
+    function alternative_fputcsv($handle, $fields, $delimiter = ",", $enclosure = '"', $newline = "\r\n") {
+        $string = $enclosure . implode($enclosure . $delimiter . $enclosure, $fields) . $enclosure . $newline;
+        return fwrite($handle, $string);
+    }
+
+    function encodeFunc($value) {
+        return "\"$value\"";
+    }
+
+    function str_wrap($string = '', $char = '"')
+    {
+        return str_pad($string, strlen($string) + 2, $char, STR_PAD_BOTH);
     }
 
     /**
