@@ -49,10 +49,9 @@ class EnableEmployeeController extends Controller
     public function enableInactiveMultiple (Request $request)
     {
 
-        // Set up string of usernames into an array
+        // Set string of usernames into an array
         $employees = explode(',', rtrim($request->employee_enable, ','));
 
-        // dd($request);
         // Loop through username array
         foreach($employees as $username): 
             // Process employee roles, return $employee object
@@ -64,7 +63,7 @@ class EnableEmployeeController extends Controller
                 'employee_lastname' => $employee->getFirstAttribute('sn')
             ]);
 
-            // Set up employee account roles
+            // Set employee account roles
             $this->update->updateEmployeeRoles($username, $request);
 
             // Log activity per loop
@@ -89,7 +88,7 @@ class EnableEmployeeController extends Controller
      */
     public function enableInactiveAccounts (String $username)
     {
-        // Set up employee object values
+        // Set employee object values
         $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
         
         // Unset MS Exchange Hide from Address List option

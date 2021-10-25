@@ -49,7 +49,7 @@ class DisableEmployeeController extends Controller
      */
     public function disableEmployeeMultiple (Request $request)
     {
-        // Set up string of usernames into an array
+        // Set string of usernames into an array
         $employees = explode(',', rtrim($request->employee_disable, ','));
 
         // Loop through username array
@@ -79,7 +79,7 @@ class DisableEmployeeController extends Controller
      */
     public function disableEmployeeAccounts (String $username)
     {
-        // Set up employee object values
+        // Set employee object values
         $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
 
         // Return NULL if $employee is NULL

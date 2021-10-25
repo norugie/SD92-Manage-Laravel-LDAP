@@ -13,6 +13,12 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    /**
+     * Handle process for logging activity
+     *
+     * @param String $user
+     * @param String $description
+     */
     public function inputLog(String $user, String $description)
     {
         $log = new Log();
@@ -21,6 +27,11 @@ class Controller extends BaseController
         $log->save();
     }
 
+    /**
+     * Return data for /dashboard page
+     * 
+     * @return \Illuminate\View\View
+     */
     public function requestLog ()
     {
         $log = new Log();
