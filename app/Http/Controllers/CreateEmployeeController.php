@@ -46,7 +46,7 @@ class CreateEmployeeController extends Controller
             $username = $username . $ctr++;
         }
 
-        // Set up variable info
+        // Set variable info
         $fullname = $firstname . ' ' . $lastname;
         $email = $username . '@nisgaa.bc.ca';
         $password = $this->helpers->stringGenerator();
@@ -87,7 +87,7 @@ class CreateEmployeeController extends Controller
         $employee->userAccountControl = $uac;
         $employee->save();
         
-        // Set up employee roles
+        // Set employee roles
         $roles = $this->helpers->setEmployeeRoles($username, $request);
 
         if($roles !== NULL){

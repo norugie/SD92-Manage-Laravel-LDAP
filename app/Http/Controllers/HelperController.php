@@ -29,7 +29,7 @@ class HelperController extends Controller
      */
     public function setEmployeeRoles (String $username, Request $request)
     {
-        // Set up variable info
+        // Set variable info
         $roles = []; 
         $reverse_fullname = $request->employee_lastname . " " . $request->employee_firstname;
         $department = $request->employee_department;
@@ -37,12 +37,12 @@ class HelperController extends Controller
         $locations = $request->employee_locations;
         $employee_roles = $request->employee_roles;
 
-        // Set up employee object values
+        // Set employee object values
         $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
         $employee->department = $department;
         $employee->description = $description;
 
-        // Sets the $uidNumber as $uid to be used in the process
+        // Set $uidNumber as $uid to be used in the process
         $uid = DB::connection('mysql2')
                 ->table('users')
                 ->orderBy('uid', 'desc')
@@ -53,13 +53,13 @@ class HelperController extends Controller
         // Set employee uID
         $employee->uidnumber = $uid;
 
-        // Save set object values for employee
+        // Save object values for employee
         $employee->save();
         $employee->refresh();
 
         // Separate sub-departments from roles
         if($employee_roles !== NULL){
-            // remove dept- tag from sub-departments
+            // Remove "dept-" tag from sub-departments
             foreach($employee_roles as $i):
                 if(strpos($i, 'dept-') === FALSE) array_push($roles, $i);
                 else {
@@ -108,12 +108,9 @@ class HelperController extends Controller
      */
     public function stringGenerator ()
     {  
-        // $length = 8;
-        // $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789';
-        
-        // return substr(str_shuffle(str_repeat($chars, $length)), 0, $length);
         $words = file('cms/words.txt', FILE_IGNORE_NEW_LINES);
         $password = $words[array_rand($words)] . rand(0, 9) . $words[array_rand($words)] . rand(0, 9);
+
         return $password;
     }
 
@@ -198,7 +195,7 @@ class HelperController extends Controller
     }
 
     /**
-     * Handle process for disabling ID in K12Admin
+     * Handle process for setting employee department description in K12Admin
      *
      * @param String $username
      * @param String $description
@@ -281,7 +278,7 @@ class HelperController extends Controller
     }
 
     /**
-     * Handle process for disabling ID access in K12Admin
+     * Handle process for disabling all ID access in K12Admin
      *
      * @param Int $uid
      */

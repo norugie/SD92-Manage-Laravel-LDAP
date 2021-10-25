@@ -48,7 +48,7 @@ class UpdateEmployeeController extends Controller
         $employee_rfid = $request->employee_rfid;
         $employee_roles = $request->employee_roles;
 
-        // Set up employee object values
+        // Set employee object values
         $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
 
         $employee->displayname = $fullname;
@@ -61,7 +61,7 @@ class UpdateEmployeeController extends Controller
         $employee->save();
         $employee->refresh();
 
-        // Set up employee account roles
+        // Set employee account roles
         $this->updateEmployeeRoles($username, $request);
 
         // Log activity
@@ -121,11 +121,11 @@ class UpdateEmployeeController extends Controller
      */
     public function updateEmployeeRoles (String $username, Request $request)
     {
-        // Set up variable info
+        // Set variable info
         $roles = $this->helpers->setEmployeeRoles($username, $request);
         $current_groups = [];
 
-        // Set up employee object values
+        // Set employee object values
         $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
 
         // Fetch employee groups data
