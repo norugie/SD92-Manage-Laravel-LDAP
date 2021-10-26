@@ -282,9 +282,47 @@ class ViewEmployeeController extends Controller
         // }
 
         header('Content-Type: text/csv');
-        header('Content-Disposition: attachment; filename="employees.csv"');
+        header('Content-Disposition: attachment; filename="employees_ness_fd_revised.csv"');
         
         $lines = [];
+        $lines[0] = array(
+            "SiteShortName",
+            "Barcode",
+            "DistrictID",
+            "LastName",
+            "FirstName",
+            "MiddleName",
+            "Nickname",
+            "PatronType",
+            "AccessLevel",
+            "Status",
+            "Gender",
+            "Homeroom",
+            "GradeLevel",
+            "CardExpires",
+            "IsAcceptableUsePolicyOnFile",
+            "IsTeacher",
+            "GraduationYear",
+            "BirthDate",
+            "UserName",
+            "Password",
+            "EmailPrimary",
+            "EmailSecondary",
+            "AddressPrimaryLine1",
+            "AddressPrimaryLine2",
+            "AddressPrimaryCity",
+            "AddressPrimaryState",
+            "AddressPrimaryZipCode",
+            "AddressPrimaryPhoneNumberPrimary",
+            "AddressPrimaryPhoneNumberSecondary",
+            "AddressSecondaryLine1",
+            "AddressSecondaryLine2",
+            "AddressSecondaryCity",
+            "AddressSecondaryState",
+            "AddressSecondaryZipCode",
+            "AddressSecondaryPhoneNumberPrimary",
+            "AddressSecondaryPhoneNumberSecondary"
+        );
 
         $fp = fopen('php://output', 'wb');
 
@@ -293,38 +331,98 @@ class ViewEmployeeController extends Controller
         foreach($employees as $employee): 
             $employee = User::find('cn=' . $employee->getFirstAttribute('samaccountname') . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
             $school = $employee->getFirstAttribute('department');
+
             $groups = $employee->groups()->get();
-            // foreach($groups as $group):
-            //     if(strpos($group->getName(), 'ness') !== FALSE || strpos($group->getName(), 'aames') !== FALSE || strpos($group->getName(), 'ges') !== FALSE || strpos($group->getName(), 'nbes') !== FALSE) 
-            //         $school = substr($group->getName(), 0, -1);
-            // endforeach;
+            foreach($groups as $group):
+                // if(strpos($group->getName(), 'ness') !== FALSE || strpos($group->getName(), 'aames') !== FALSE || strpos($group->getName(), 'ges') !== FALSE || strpos($group->getName(), 'nbes') !== FALSE) {
+                //     $homeroom = $group->getName();
+                //     $school = substr($group->getName(), 0, -1);
+                //     $grade = substr($group->getName(), -2);
+                // }
+                if(strpos($group->getName(), 'teacher') !== FALSE) {
+                    $pt = "Teacher";
+                    $al = "Patron";
+                    $it = "True";
+                    break;
+                } else {
+                    $pt = "Staff";
+                    $al = "Patron";
+                    $it = "False";
+                }
+            endforeach;
+
+            if($employee->getFirstAttribute('samaccountname') === "vmorgan") {
+                $pt = "Librarian";
+            }
+
+            if($school === "TechOffice" || $employee->getFirstAttribute('samaccountname') === "vmorgan"){
+                $al = "Administrator";
+            }
             // $employee->uidnumber = str_replace('-', '', $employee->getFirstAttribute('uidNumber'));
             // $employee->uid = $employee->getFirstAttribute('name');
             // $employee->save();
             // $employee->refresh();
 
             // echo $employee->getFirstAttribute('name') . " - " . $employee->getFirstAttribute('mail') . " - " . $employee->getFirstAttribute('uid') . " - " . $employee->getFirstAttribute('uidNumber') . " - " . $employee->getFirstAttribute('employeeID') . "<br>";
+
             // $school = str_replace('0', '', $school);
             // $school = str_replace('1', '', $school);
+            // $grade = str_replace('sK', 'K', $grade);
+            // if($grade === 'K' ? $grad_year = 12+2021+1 : $grad_year = (12-$grade)+2021+1);
+
             // echo $employee->getFirstAttribute('samaccountname') . " - " . $employee->getFirstAttribute('mail') . " - " . $employee->getFirstAttribute('givenname') . " " . $employee->getFirstAttribute('sn') . " - " . strtoupper($school) . "<br>";
 
-            $line = array(
-                $this->str_wrap(strtoupper($school)), 
-                $this->str_wrap($employee->getFirstAttribute('samaccountname')), 
-                $this->str_wrap($employee->getFirstAttribute('samaccountname')), 
-                $this->str_wrap($employee->getFirstAttribute('sn')), 
-                $this->str_wrap($employee->getFirstAttribute('givenname')), 
-                '','', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 
-                $this->str_wrap($employee->getFirstAttribute('samaccountname') . "@nisgaa.bc.ca"), 
-                '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',);
+            // if($school === "ness"){
+            //     $line = array(
+            //         $this->str_wrap(strtoupper($school)), 
+            //         $this->str_wrap($employee->getFirstAttribute('samaccountname')), 
+            //         $this->str_wrap($employee->getFirstAttribute('samaccountname')), 
+            //         $this->str_wrap($employee->getFirstAttribute('sn')), 
+            //         $this->str_wrap($employee->getFirstAttribute('givenname')), 
+            //         '','', 
+            //         $this->str_wrap("Student"), 
+            //         $this->str_wrap("Patron"), 
+            //         '', '', 
+            //         $this->str_wrap(strtoupper($homeroom)), 
+            //         $this->str_wrap($grade), 
+            //         '', '', 
+            //         $this->str_wrap("False"), 
+            //         $this->str_wrap($grad_year), 
+            //         '', 
+            //         $this->str_wrap($employee->getFirstAttribute('samaccountname')), 
+            //         '', 
+            //         $this->str_wrap($employee->getFirstAttribute('samaccountname') . "@nisgaa.bc.ca"), 
+            //         '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',);
+    
+            //     array_push($lines, $line);
+            // }
 
-            array_push($lines, $line);
+            if($school === "NESS" || $school === "SDO" || $school === "TechOffice"){
+                $line = array(
+                    $this->str_wrap(strtoupper($school)), 
+                    $this->str_wrap("SD92".$employee->getFirstAttribute('uidNumber')), 
+                    $this->str_wrap("SD92".$employee->getFirstAttribute('uidNumber')), 
+                    $this->str_wrap($employee->getFirstAttribute('sn')), 
+                    $this->str_wrap($employee->getFirstAttribute('givenname')), 
+                    '','', 
+                    $this->str_wrap($pt), 
+                    $this->str_wrap($al), 
+                    '', '', '', '', '', '', 
+                    $this->str_wrap($it), 
+                    '', '', 
+                    $this->str_wrap($employee->getFirstAttribute('samaccountname')), 
+                    '', 
+                    $this->str_wrap($employee->getFirstAttribute('samaccountname') . "@nisgaa.bc.ca"), 
+                    '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',);
+    
+                array_push($lines, $line);
+            }
 
             // echo $line . "<br>";
         endforeach;
 
         foreach ($lines as $l) {
-            fputcsv($fp, $l, ',', ' ');
+            fputcsv($fp, $l, ',', chr(0));
             // $this->alternative_fputcsv($fp, $l);
         }
 
