@@ -123,8 +123,8 @@ class DisableEmployeeController extends Controller
         $this->helpers->setEmployeeLocalGroupInK12Admin($username, '', 'Incoming');
 
         // Disable employee ID card
-        $this->helpers->disableEmployeeAllIDAccessInK12Admin($employee->getFirstAttribute('uid'));
-        $this->helpers->disableEmployeeIDInK12Admin($employee->getFirstAttribute('uid'));
+        $this->helpers->disableEmployeeAllIDAccessInK12Admin($employee->getFirstAttribute('uidNumber'));
+        $this->helpers->disableEmployeeIDInK12Admin($employee->getFirstAttribute('uidNumber'));
 
         // Set account description to oldstaff in K12Admin
         $this->helpers->setEmployeeCommentInK12Admin($employee->getFirstAttribute('samaccountname'), 'oldstaff');
