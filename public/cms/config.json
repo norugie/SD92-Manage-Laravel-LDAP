@@ -175,6 +175,7 @@
         "secretary": "Secretary",
         "substitute": "Substitute Teacher",
         "teacher": "Teacher",
-        "viceprincipal": "Vice-Principal"
+        "viceprincipal": "Vice-Principal",
+        "zoomuser": "Zoom User"
     }
 }
