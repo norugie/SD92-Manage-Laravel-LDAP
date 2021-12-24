@@ -86,9 +86,12 @@ class CreateEmployeeController extends Controller
 
         $employee->userAccountControl = $uac;
         $employee->save();
-        
+
         // Set employee roles
         $roles = $this->helpers->setEmployeeRoles($username, $request);
+
+        // Set employee initial password in K12Admin
+        $this->helpers->setEmployeePasswordInK12Admin($username, $password);
 
         if($roles !== NULL){
             // Adding role groups
