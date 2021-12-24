@@ -195,6 +195,24 @@ class HelperController extends Controller
     }
 
     /**
+     * Handle process for setting employee initial password in K12Admin
+     *
+     * @param String $username
+     * @param String $description
+     */
+    public function setEmployeePasswordInK12Admin (String $username, String $password)
+    {
+        DB::connection('mysql2')
+        ->table('users')
+        ->where('userid', $username)
+        ->update(
+            [
+                'pt' => $password
+            ]
+        );
+    }
+
+    /**
      * Handle process for setting employee department description in K12Admin
      *
      * @param String $username
