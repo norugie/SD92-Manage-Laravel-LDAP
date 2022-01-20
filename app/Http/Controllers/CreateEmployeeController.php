@@ -34,7 +34,8 @@ class CreateEmployeeController extends Controller
                 'employee_firstname.required' => 'This field is required.',
                 'employee_lastname.required' => 'This field is required.',
                 'employee_department.required' => 'Select employee department/school'
-            ]);
+            ]
+        );
 
         // Username availability check
         $firstname = $request->employee_firstname;
