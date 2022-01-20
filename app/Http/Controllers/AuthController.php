@@ -40,8 +40,7 @@ class AuthController extends Controller
         $providedState = $request->query('state');
 
         if (!isset($expectedState)) {
-            // If there is no expected state in the session,
-            // do nothing and redirect to the home page.
+            // If there is no expected state in the session, do nothing and redirect to /dashboard
             return redirect('/cms/dashboard');
         }
 
@@ -80,14 +79,17 @@ class AuthController extends Controller
                 $groups = $graph->createCollectionRequest('GET', '/me/memberOf')
                     ->setReturnType(Model\Group::class)
                     ->execute(); // Get O365 logged in user group list
-                $gs = array();
+                $gs = array(); // Temporary container for user groups
 
+                // Put user groups in temporary container
                 foreach ($groups as $group) :
                     array_push($gs, $group->getDisplayName());
                 endforeach;
 
+                // If user is part of HR or supertech, redirect user to /dashboard. Otherwise, redirect user to /restricted
                 if (in_array('supertech', $gs) || in_array('HR', $gs) ? $redirect = '/cms/dashboard' : $redirect = '/restricted');
 
+                // Set token info before redirecting user
                 $tokenCache = new TokenCache();
                 $tokenCache->storeTokens($accessToken, $user);
 
@@ -106,6 +108,7 @@ class AuthController extends Controller
 
     public function signout()
     {
+        // Clear saved token when signing out
         $tokenCache = new TokenCache();
         $tokenCache->clearTokens();
         return view('signout');

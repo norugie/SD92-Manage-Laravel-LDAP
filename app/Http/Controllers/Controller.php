@@ -38,6 +38,8 @@ class Controller extends BaseController
 
         $startDate = Carbon::now()->subDays(30);
         $endDate = Carbon::now();
+
+        // Displayed logs only show logs from the last 30 days
         return $log->whereBetween("created_at", [$startDate, $endDate])
                 ->orderBy('created_at', 'DESC')
                 ->get();

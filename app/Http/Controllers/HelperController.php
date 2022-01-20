@@ -57,16 +57,9 @@ class HelperController extends Controller
         $employee->save();
         $employee->refresh();
 
-        // Separate sub-departments from roles
+        // Separate sub-departments from roles in $roles array
         if($employee_roles !== NULL){
-            // Remove "dept-" tag from sub-departments
-            foreach($employee_roles as $i):
-                if(strpos($i, 'dept-') === FALSE) array_push($roles, $i);
-                else {
-                    $i = substr_replace($i, '', 0, 5);
-                    array_push($roles, $i);
-                }
-            endforeach;
+            $roles = $this->separateSubDepartmentsFromRoles($employee_roles, $roles);
         }
 
         // Push default roles to $roles array
@@ -122,6 +115,26 @@ class HelperController extends Controller
     public function passwordConverter (String $password)
     {
         return iconv("UTF-8", "UTF-16LE", '"' . $password . '"');
+    }
+
+    /**
+     * Separate sub-departments from roles
+     *
+     * @param Array $employee_roles
+     * @param Array $roles
+     * @return Array $roles
+     */
+    public function separateSubDepartmentsFromRoles (Array $employee_roles, Array $roles)
+    {
+        // Remove "dept-" tag from sub-departments
+        foreach($employee_roles as $role):
+            if(strpos($role, 'dept-') === FALSE) array_push($roles, $role);
+            else {
+                $role = substr_replace($role, '', 0, 5);
+                array_push($roles, $role);
+            }
+        endforeach;
+        return $roles;
     }
 
     /**
