@@ -82,7 +82,13 @@
                                 {{-- ID card settings --}}
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <p class="font-12"><i><b>Note:</b> The displayed card is only a rough preview. The final card may have slightly different layout. Active image fetched from the School Management System cannot be edited.</i></p><br>
+                                        <p class="font-12"><i><b>Note:</b> The displayed card is only a rough preview. The final card may have slightly different layout. Active image fetched from the School Management System cannot be edited.</i></p>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label for="new_employee_card_img">
+                                            <button type="button" id="upload_id_image" class="btn bg-green waves-effect" style="display: inline-block;" onclick="$('#new_employee_card_img').trigger('click'); return false;"><i class="material-icons">image</i><span>UPDATE ID IMAGE</span></button>
+                                        </label>
+                                        <input type="file" id="new_employee_card_img" name="new_employee_card_img" style="display: none;">
                                     </div>
                                 </div>
                                 <div class="row">
@@ -91,7 +97,7 @@
                                             <div class="card-top">
                                                 <div class="card-title">EMPLOYEE</div>
                                                 <div class="card-img">
-                                                    <img id="employee-card-img" src="{{ $employee_pic }}" alt="Employee ID Card Image">
+                                                    <img id="employee_card_img" src="{{ $employee_pic }}" alt="Employee ID Card Image">
                                                 </div>
                                                 <div class="card-top-display">
                                                     <div class="card-logo">
@@ -137,5 +143,14 @@
             </div>
         </div>
     </div>
+
+    {{-- Modal - Image Cropper --}}
+    @include( 'cms.layout.modals.image' )
+
+@endsection
+
+@section( 'custom-js' )
+
+    <script src="/cms/js/cropper-card.js"></script>
 
 @endsection
