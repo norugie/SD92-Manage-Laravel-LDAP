@@ -34,7 +34,7 @@
 .card-title {
     float: left;
     margin-top: 25px;
-    margin-left: 76px;
+    margin-left: 78px;
     font-size: 25px;
 }
 
@@ -42,8 +42,8 @@
     position: absolute;
     float: left;
     margin-top: 70px;
-    margin-left: 18px;
-    border-width: medium;
+    margin-left: 20px;
+    border-width: thin;
     border-style: solid;
     border-color: #000000;
     width: 250px;
