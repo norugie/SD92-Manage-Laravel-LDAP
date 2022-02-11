@@ -52,10 +52,8 @@
 }
 
 .card-img img {
-    width: 322px;
-    height: 321px;
-    margin-left: -44px;
-    margin-top: -14px;
+    width: 250px;
+    height: 250px;
     object-fit: cover;
 }
 
