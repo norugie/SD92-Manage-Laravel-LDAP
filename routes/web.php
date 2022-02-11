@@ -54,6 +54,20 @@ Route::group(['middleware' => 'authAD', 'prefix' => 'cms'], function (){
         // View Employee Reroute
         Route::get('/{username}', function ( String $username ) { return redirect('/cms/employees/' . $username . '/view'); });
 
+        Route::controller('UpdateEmployeeController')->group(function (){
+            // Update Employee - Move Multiple Accounts
+            Route::post('/update', 'updateEmployeeRolesMultiple');
+            // Update Employee - Profile
+            Route::post('/{username}/update', 'updateEmployeeProfile');
+        });
+
+        Route::controller('DisableEmployeeController')->group(function (){
+            // Disable Employee - Disable Multiple Accounts
+            Route::post('/disable', 'disableEmployeeMultiple');
+            // Disable Employee - Profile
+            Route::get('/{username}/disable', 'disableEmployeeProfile');
+        });
+
         Route::controller('ViewEmployeeController')->group(function (){
             // View Employee - Index
             Route::get('/', 'enabledEmployeeAccountsIndex');
@@ -61,20 +75,6 @@ Route::group(['middleware' => 'authAD', 'prefix' => 'cms'], function (){
             Route::get('/create', 'createEmployeeForm');
             // View Employee - Profile
             Route::get('/{username}/{action}', 'viewEmployeeProfileUpdate');
-        });
-
-        Route::controller('UpdateEmployeeController')->group(function (){
-            // Update Employee - Move Multiple Accounts
-            Route::post('/update', 'updateEmployeeRolesMultiple');
-            // Update Employee - Profile
-            Route::post('/{username}/update', 'updateEmployeeProfile');
-        });
-        
-        Route::controller('DisableEmployeeController')->group(function (){
-            // Disable Employee - Disable Multiple Accounts
-            Route::post('/disable', 'disableEmployeeMultiple');
-            // Disable Employee - Profile
-            Route::get('/{username}/disable', 'disableEmployeeProfile');
         });
     });
 
