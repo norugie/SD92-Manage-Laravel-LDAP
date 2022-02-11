@@ -48,35 +48,48 @@ Route::group(['middleware' => 'authAD', 'prefix' => 'cms'], function (){
     Route::get('/dashboard', [DashboardController::class, 'index']);
 
     Route::group(['prefix' => 'employees'], function (){
-        // Employee Index
-        Route::get('/', [ViewEmployeeController::class, 'enabledEmployeeAccountsIndex']);
-
-        // Employee - Create
-        Route::get('/create', [ViewEmployeeController::class, 'createEmployeeForm']);
+        // Create Employee - Profile
         Route::post('/create', [CreateEmployeeController::class, 'createEmployee']);
 
-        // Employee - Move Multiple Accounts
-        Route::post('/update', [UpdateEmployeeController::class, 'updateEmployeeRolesMultiple']);
-
-        // Employee - Disable Multiple Accounts
-        Route::post('/disable', [DisableEmployeeController::class, 'disableEmployeeMultiple']);
-
-        // Employee View, Update, Disable
+        // View Employee Reroute
         Route::get('/{username}', function ( String $username ) { return redirect('/cms/employees/' . $username . '/view'); });
-        Route::get('/{username}/disable', [DisableEmployeeController::class, 'disableEmployeeProfile']);
-        Route::get('/{username}/{action}', [ViewEmployeeController::class, 'viewEmployeeProfileUpdate']);
-        Route::post('/{username}/update', [UpdateEmployeeController::class, 'updateEmployeeProfile']);
+
+        Route::controller('ViewEmployeeController')->group(function (){
+            // View Employee - Index
+            Route::get('/', 'enabledEmployeeAccountsIndex');
+            // View Employee - Create
+            Route::get('/create', 'createEmployeeForm');
+            // View Employee - Profile
+            Route::get('/{username}/{action}', 'viewEmployeeProfileUpdate');
+        });
+
+        Route::controller('UpdateEmployeeController')->group(function (){
+            // Update Employee - Move Multiple Accounts
+            Route::post('/update', 'updateEmployeeRolesMultiple');
+            // Update Employee - Profile
+            Route::post('/{username}/update', 'updateEmployeeProfile');
+        });
+        
+        Route::controller('DisableEmployeeController')->group(function (){
+            // Disable Employee - Disable Multiple Accounts
+            Route::post('/disable', 'disableEmployeeMultiple');
+            // Disable Employee - Profile
+            Route::get('/{username}/disable', 'disableEmployeeProfile');
+        });
     });
 
     Route::group(['prefix' => 'inactive'], function (){
-        // Inactive Index
+        // Inactive Employee - Index
         Route::get('/', [ViewEmployeeController::class, 'disabledEmployeeAccountsIndex']);
 
-        // Employee - Disable Multiple Accounts
-        Route::post('/enable', [EnableEmployeeController::class, 'enableInactiveMultiple']);
-
-        // Inactive Enable
+        // View Inactive Employee Reroute
         Route::get('/{username}', function () { return redirect('/cms/inactive/'); });
-        Route::get('/{username}/enable', [EnableEmployeeController::class, 'enableInactiveProfile']);
+
+        Route::controller('EnableEmployeeController')->group(function (){
+            // Employee - Disable Multiple Accounts
+            Route::post('/enable', 'enableInactiveMultiple');
+            // Inactive Enable
+            Route::get('/{username}/enable', 'enableInactiveProfile');
+        });
     });
 });
