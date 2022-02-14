@@ -17,9 +17,11 @@ use App\Http\Controllers\UserController;
 | Web Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register web routes for your application. These
+| Web routes for the SD92 User Manager web app. These
 | routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
+| contains the "web" middleware group.
+| Please refrain from rearranging the order of the routes as it
+| could affect some of the functionalities.
 |
 */
 
@@ -42,9 +44,8 @@ Route::get('/signout', [AuthController::class, 'signout']);
 // Test
 Route::get('/test', [ViewEmployeeController::class, 'test']);
 
-// Route::get('/test', [EmployeeController::class, 'setEmployeeID']);
-
 Route::group(['middleware' => 'authAD', 'prefix' => 'cms'], function (){
+    // View Dashboard - Log Index
     Route::get('/dashboard', [DashboardController::class, 'index']);
 
     Route::group(['prefix' => 'employees'], function (){
@@ -69,9 +70,9 @@ Route::group(['middleware' => 'authAD', 'prefix' => 'cms'], function (){
         });
 
         Route::controller('ViewEmployeeController')->group(function (){
-            // View Employee - Index
+            // View Employee - Active Employee Index
             Route::get('/', 'enabledEmployeeAccountsIndex');
-            // View Employee - Create
+            // View Employee - Create Employee
             Route::get('/create', 'createEmployeeForm');
             // View Employee - Profile
             Route::get('/{username}/{action}', 'viewEmployeeProfileUpdate');
@@ -79,16 +80,16 @@ Route::group(['middleware' => 'authAD', 'prefix' => 'cms'], function (){
     });
 
     Route::group(['prefix' => 'inactive'], function (){
-        // Inactive Employee - Index
+        // Inactive Employee - Inactive Employee Index
         Route::get('/', [ViewEmployeeController::class, 'disabledEmployeeAccountsIndex']);
 
         // View Inactive Employee Reroute
         Route::get('/{username}', function () { return redirect('/cms/inactive/'); });
 
         Route::controller('EnableEmployeeController')->group(function (){
-            // Employee - Disable Multiple Accounts
+            // Enable Employee - Enable Multiple Accounts
             Route::post('/enable', 'enableInactiveMultiple');
-            // Inactive Enable
+            // Enable Employee - Profile
             Route::get('/{username}/enable', 'enableInactiveProfile');
         });
     });
