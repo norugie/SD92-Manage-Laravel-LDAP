@@ -60,6 +60,8 @@ Route::group(['middleware' => 'authAD', 'prefix' => 'cms'], function (){
             Route::post('/update', 'updateEmployeeRolesMultiple');
             // Update Employee - Profile
             Route::post('/{username}/update', 'updateEmployeeProfile');
+            // Update Employee - Profile ID
+            Route::post('/{username}/upload', 'updateEmployeeProfileIDImage');
         });
 
         Route::controller('DisableEmployeeController')->group(function (){
