@@ -25,6 +25,7 @@
                                     <th></th>
                                     <th>Name</th>
                                     <th>Username</th>
+                                    <th>System User ID</th>
                                     <th>Email Address</th>
                                     <th>Main School/Department</th>
                                     <th>Options</th>
@@ -35,6 +36,7 @@
                                     <th></th>
                                     <th>Name</th>
                                     <th>Username</th>
+                                    <th>System User ID</th>
                                     <th>Email Address</th>
                                     <th>Main School/Department</th>
                                     <th>Options</th>
@@ -51,6 +53,7 @@
                                     </td>
                                     <td><a href="/cms/employees/{{ $employee->getFirstAttribute('samaccountname') }}/view">{{ $employee->getFirstAttribute('displayname') }}</a></td>
                                     <td>{{ $employee->getFirstAttribute('samaccountname') }}</td>
+                                    <td>{{ $employee->getFirstAttribute('uidNumber') }}</td>
                                     <td>{{ $employee->getFirstAttribute('mail') }}</td>
                                     <td>{{ $employee->getFirstAttribute('department') }}</td>
                                     <td>

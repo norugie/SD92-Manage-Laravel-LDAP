@@ -48,7 +48,7 @@
                             <div role="tabpanel" class="tab-pane fade in active" id="info">
                                 {{-- User Info and Groups here --}}
                                 <p><b>Employee ID: </b>{{ $employee->getFirstAttribute('employeeID') }}</p>
-                                <p><b>System User ID: </b>{{ $employee->getFirstAttribute('uid') }}</p>
+                                <p><b>System User ID: </b>{{ $employee->getFirstAttribute('uidNumber') }}</p>
                                 <p><b>Employee ID Card Code: </b>{{ $employee->getFirstAttribute('employeeNumber') }}</p>
                                 <p><b>Employee Name: </b>{{ $employee->getFirstAttribute('displayname') }}</p>
                                 <p><b>District Email Address: </b>{{ $employee->getFirstAttribute('mail') }}</p>
@@ -86,7 +86,7 @@
                                     </div>
                                     <div class="col-md-12">
                                         <label for="new_employee_card_img">
-                                            <button type="button" id="upload_id_image" class="btn bg-green waves-effect" style="display: inline-block;" onclick="$('#new_employee_card_img').trigger('click'); return false;"><i class="material-icons">image</i><span>UPDATE ID IMAGE</span></button>
+                                            <button type="button" id="upload_id_image" class="btn bg-green waves-effect" style="display: inline-block;" data-username="{{ $employee->getFirstAttribute('samaccountname') }}" onclick="$('#new_employee_card_img').trigger('click'); return false;"><i class="material-icons">image</i><span>UPDATE ID IMAGE</span></button>
                                         </label>
                                         <input type="file" id="new_employee_card_img" name="new_employee_card_img" style="display: none;">
                                     </div>
