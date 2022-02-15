@@ -81,22 +81,15 @@ class UpdateEmployeeController extends Controller
      */
     public function updateEmployeeProfileIDImage (String $userID, Request $request)
     {
+        // Base path for images
         $url = '/cms/images/users/';
 
-        // $image_directory = glob(public_path($url) . $userID ."*.*");
-
-        // foreach($image_directory as $file){
-        //     $prev_ext = pathinfo($file, PATHINFO_EXTENSION);
-        //     $new_name = "previous_" . $userID . "." . $prev_ext;
-        //     rename($file, public_path($url) . $new_name);
-        // } 
-
+        // Decode base64 data for image
         $data = $request->image;
-
         $image_parts = explode(";base64", $data);
         $data = base64_decode($image_parts[1]);
         
-        // Set path for image
+        // Set path for new image
         $filename = $userID .'.png';
         $path = $url . $filename;
 

@@ -22,7 +22,7 @@
                 <div class="profile-header">&nbsp;</div>
                 <div class="profile-body">
                     <div class="image-area">
-                        <img src="{{ $employee_pic }}" alt="Employee ID Card Image" />
+                        <img id="employee_profile_img" src="{{ $employee_pic }}" alt="Employee ID Card Image" />
                     </div>
                     <div class="content-area">
                         <h3>{{ $employee->getFirstAttribute('displayname') }}</h3>
