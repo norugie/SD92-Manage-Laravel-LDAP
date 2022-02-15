@@ -10,7 +10,6 @@ namespace App\Http\Controllers;
  * 
  */
 
-
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -43,12 +42,20 @@ class HelperController extends Controller
         $employee->description = $description;
 
         // Set $uidNumber as $uid to be used in the process
-        $uid = DB::connection('mysql2')
+        $entry_check = DB::connection('mysql2')
+                        ->table('users')
+                        ->where('userid', $username)
+                        ->pluck('uid')
+                        ->first();
+        if($entry_check){
+            $uid = $entry_check;
+        } else {
+            $uid = DB::connection('mysql2')
                 ->table('users')
                 ->orderBy('uid', 'desc')
                 ->first();
-        $uid = $uid->uid + 1;
-
+            $uid = $uid->uid + 1;
+        }
         
         // Set employee uID
         $employee->uidnumber = $uid;
