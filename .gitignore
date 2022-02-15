@@ -1,6 +1,8 @@
 /node_modules
 /public/hot
 /public/storage
+/public/cms/images/users
+!/public/cms/images/users/user-placeholder.png
 /storage/*.key
 /vendor
 .env

@@ -313,11 +313,16 @@ class ViewEmployeeController extends Controller
                 ->with('message', 'The user you are looking for does not exist in our directory.');
 
         // Fetch $user_image from School Management System
-        $user_image = 'https://manage.nisgaa.bc.ca/upload/user_photos/uid_'. $employee->getFirstAttribute('uidNumber').'.jpg';
-        $file_headers = @get_headers($user_image); 
+        // $user_image = 'https://manage.nisgaa.bc.ca/upload/user_photos/uid_'. $employee->getFirstAttribute('uidNumber').'.jpg';
+        // $file_headers = @get_headers($user_image); 
 
         // Check if $user_image exists in the School Management System. If not, use image placeholder for $employee_pic
-        if(!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found' ? $employee_pic = "/cms/images/users/user-placeholder.png" : $employee_pic = $user_image);
+        // if(!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found' ? $employee_pic = "/cms/images/users/user-placeholder.png" : $employee_pic = $user_image);
+
+        $url = '/cms/images/users/';
+
+        $image_directory = glob(public_path($url) . $employee->getFirstAttribute('uidNumber') ."*.png");
+        if($image_directory ? $employee_pic = $url . pathinfo($image_directory[0], PATHINFO_BASENAME) : $employee_pic = $url . "user-placeholder.png");
 
         // Fetch employee groups data
         $groups = $employee->groups()->get();

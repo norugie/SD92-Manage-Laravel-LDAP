@@ -1,15 +1,15 @@
 @extends ( 'cms.layout.layout' )
 
 @section( 'custom-css' )
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="/cms/css/card.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" integrity="sha512-0SPWAwpC/17yYyZ/4HSllgaK7/gg9OlVozq8K7rf3J8LvCjYEEIfzzpnA2/SSjpGIunCSD18r3UhvDcu/xncWA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 @endsection
 
 @section('custom-js')
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js" integrity="sha512-ooSWpxJsiXe6t4+PPjCgYmVfr1NS5QXJACcR/FPpsdm6kqG1FmQ2SVyg2RXeVuCRBLr0lWHnWJP6Zs1Efvxzww==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cropper/1.0.1/jquery-cropper.min.js" integrity="sha512-V8cSoC5qfk40d43a+VhrTEPf8G9dfWlEJgvLSiq2T2BmgGRmZzB8dGe7XAABQrWj3sEfrR5xjYICTY4eJr76QQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="/cms/js/cropper-card.js"></script>
 
 @endsection
@@ -80,13 +80,20 @@
                             </div>
                             <div role="tabpanel" class="tab-pane fade in" id="id_card">
                                 {{-- ID card settings --}}
+                                {{-- <div class="row">
+                                    <form action="/cms/employees/{{ $employee->getFirstAttribute('uidNumber') }}/update/image" method="POST">
+                                    @csrf 
+                                        <input type="text" name="image">
+                                        <button type="submit">test</button>
+                                    </form>
+                                </div> --}}
                                 <div class="row">
                                     <div class="col-md-12">
                                         <p class="font-12"><i><b>Note:</b> The displayed card is only a rough preview. The final card may have slightly different layout. Active image fetched from the School Management System cannot be edited.</i></p>
                                     </div>
                                     <div class="col-md-12">
                                         <label for="new_employee_card_img">
-                                            <button type="button" id="upload_id_image" class="btn bg-green waves-effect" style="display: inline-block;" data-username="{{ $employee->getFirstAttribute('samaccountname') }}" onclick="$('#new_employee_card_img').trigger('click'); return false;"><i class="material-icons">image</i><span>UPDATE ID IMAGE</span></button>
+                                            <button type="button" id="upload_id_image" class="btn bg-green waves-effect" style="display: inline-block;" data-usernumber="{{ $employee->getFirstAttribute('uidNumber') }}" onclick="$('#new_employee_card_img').trigger('click'); return false;"><i class="material-icons">image</i><span>UPDATE ID IMAGE</span></button>
                                         </label>
                                         <input type="file" id="new_employee_card_img" name="new_employee_card_img" style="display: none;">
                                     </div>

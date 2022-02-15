@@ -1,16 +1,17 @@
 (function() {
 
-    var modal = $('#imageCropper');
+    var $modal = $('#imageCropper');
     var image = document.getElementById('employee_card_img_crop_area');
-    var username = $('#upload_id_image').data('username');
+    var userID = $('#upload_id_image').data('usernumber');
     var cropper;
+    console.log(userID);
 
     $('#new_employee_card_img').change(function(event) {
         var files = event.target.files;
 
         var done = function(url) {
             image.src = url;
-            modal.modal('show');
+            $modal.modal('show');
         };
 
         if (files && files.length > 0) {
@@ -22,7 +23,7 @@
         }
     });
 
-    modal.on('shown.bs.modal', function() {
+    $modal.on('shown.bs.modal', function() {
         cropper = new Cropper(image, {
             aspectRatio: 1,
             viewMode: 3,
@@ -34,23 +35,27 @@
     });
 
     $('#save_crop').click(function() {
-        var canvas = cropper.getCropperCanvas({
-            width: 250,
-            height: 250
+        canvas = cropper.getCroppedCanvas({
+            width: 400,
+            height: 400
         });
 
         canvas.toBlob(function(blob) {
-            var url = URL.createObjectURL(blob);
+            url = URL.createObjectURL(blob);
             var reader = new FileReader();
             reader.readAsDataURL(blob);
             reader.onloadend = function() {
                 var base64data = reader.result;
+                console.log(base64data)
                 $.ajax({
-                    url: '/cms/employees/' + username + '/upload',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: '/cms/employees/' + userID + '/update/image',
                     method: 'POST',
                     data: { image: base64data },
-                    success: function(data) {
-                        modal.modal('hide');
+                    success: function() {
+                        location.reload();
                     }
                 });
             };

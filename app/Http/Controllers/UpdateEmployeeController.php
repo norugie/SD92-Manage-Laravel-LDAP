@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\HelperController;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File; 
 use Illuminate\Http\Request;
 use App\Ldap\User;
 use App\Ldap\Group;
@@ -79,9 +79,29 @@ class UpdateEmployeeController extends Controller
      * @param String $username
      * @param \Illuminate\Http\Request $request
      */
-    public function updateEmployeeProfileIDImage (String $username, Request $request)
+    public function updateEmployeeProfileIDImage (String $userID, Request $request)
     {
+        $url = '/cms/images/users/';
 
+        // $image_directory = glob(public_path($url) . $userID ."*.*");
+
+        // foreach($image_directory as $file){
+        //     $prev_ext = pathinfo($file, PATHINFO_EXTENSION);
+        //     $new_name = "previous_" . $userID . "." . $prev_ext;
+        //     rename($file, public_path($url) . $new_name);
+        // } 
+
+        $data = $request->image;
+
+        $image_parts = explode(";base64", $data);
+        $data = base64_decode($image_parts[1]);
+        
+        // Set path for image
+        $filename = $userID .'.png';
+        $path = $url . $filename;
+
+        // Upload image to designated image folder
+        file_put_contents(public_path($path), $data);
     }
 
     /**
