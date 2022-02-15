@@ -4,7 +4,6 @@
     var image = document.getElementById('employee_card_img_crop_area');
     var userID = $('#upload_id_image').data('usernumber');
     var cropper;
-    console.log(userID);
 
     $('#new_employee_card_img').change(function(event) {
         var files = event.target.files;
@@ -46,7 +45,6 @@
             reader.readAsDataURL(blob);
             reader.onloadend = function() {
                 var base64data = reader.result;
-                console.log(base64data)
                 $.ajax({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
