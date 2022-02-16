@@ -2,6 +2,7 @@
 
     var $modal = $('#imageCropper');
     var image = document.getElementById('employee_card_img_crop_area');
+    var username = $('#upload_id_image').data('username');
     var userID = $('#upload_id_image').data('usernumber');
     var cropper;
 
@@ -49,7 +50,7 @@
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    url: '/cms/employees/' + userID + '/update/image',
+                    url: '/cms/employees/' + username + '/update/image/' + userID,
                     method: 'POST',
                     data: { image: base64data },
                     success: function() {
