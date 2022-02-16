@@ -79,7 +79,7 @@ class UpdateEmployeeController extends Controller
      * @param String $username
      * @param \Illuminate\Http\Request $request
      */
-    public function updateEmployeeProfileIDImage (String $userID, Request $request)
+    public function updateEmployeeProfileIDImage (String $username, Int $userID, Request $request)
     {
         // Base path for images
         $url = '/cms/images/users/';
@@ -90,7 +90,7 @@ class UpdateEmployeeController extends Controller
         $data = base64_decode($image_parts[1]);
         
         // Set path for new image
-        $filename = $userID .'.png';
+        $filename = $userID . '_' . $username . '.png';
         $path = $url . $filename;
 
         // Upload image to designated image folder

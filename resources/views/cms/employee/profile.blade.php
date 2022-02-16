@@ -79,21 +79,13 @@
                                 </p>
                             </div>
                             <div role="tabpanel" class="tab-pane fade in" id="id_card">
-                                {{-- ID card settings --}}
-                                {{-- <div class="row">
-                                    <form action="/cms/employees/{{ $employee->getFirstAttribute('uidNumber') }}/update/image" method="POST">
-                                    @csrf 
-                                        <input type="text" name="image">
-                                        <button type="submit">test</button>
-                                    </form>
-                                </div> --}}
                                 <div class="row">
                                     <div class="col-md-12">
                                         <p class="font-12"><i><b>Note:</b> The displayed card is only a rough preview. The final card may have slightly different layout. Active image fetched from the School Management System cannot be edited.</i></p>
                                     </div>
                                     <div class="col-md-12">
                                         <label for="new_employee_card_img">
-                                            <button type="button" id="upload_id_image" class="btn bg-green waves-effect" style="display: inline-block;" data-usernumber="{{ $employee->getFirstAttribute('uidNumber') }}" onclick="$('#new_employee_card_img').trigger('click'); return false;"><i class="material-icons">image</i><span>UPDATE ID IMAGE</span></button>
+                                            <button type="button" id="upload_id_image" class="btn bg-green waves-effect" style="display: inline-block;" data-username="{{ $employee->getFirstAttribute('samaccountname') }}" data-usernumber="{{ $employee->getFirstAttribute('uidNumber') }}" onclick="$('#new_employee_card_img').trigger('click'); return false;"><i class="material-icons">image</i><span>UPDATE ID IMAGE</span></button>
                                         </label>
                                         <input type="file" id="new_employee_card_img" name="new_employee_card_img" style="display: none;">
                                     </div>
