@@ -11,7 +11,7 @@
     $('#download_employee_id_card').click(generateCardPDF);
 
     function generateCardPDF() {
-        var doc = new jsPDF('l', 'px', [205, 330]);
+        var doc = new jsPDF('l', 'mm', [85, 54]);
         var cardtoprint = document.getElementById("profile_card");
 
         html2canvas(cardtoprint, {
@@ -19,11 +19,12 @@
             useCORS: true,
             width: margins.width,
             height: margins.height,
-            quality: 3
+            quality: 4
         }).then((canvas) => {
             //Canvas (convert to PNG)
             doc.addImage(canvas.toDataURL("image/png"), 'PNG', margins.left, margins.top);
             doc.save("Document.pdf");
         });
+
     }
 })();
