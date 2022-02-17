@@ -377,15 +377,5 @@ class HelperController extends Controller
 
     }
 
-    /**
-     * Handle upload of ID image to K12Admin
-     *
-     * @param Request $request
-     */
-    public function uploadEmployeeIDImage (Request $request)
-    {
-        // 
-    }
-
     // --- END: K12Admin-related processes here --- //
 }

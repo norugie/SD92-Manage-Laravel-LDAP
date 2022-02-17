@@ -1,5 +1,12 @@
 @extends ( 'cms.layout.layout' )
 
+@section( 'custom-js' )
+
+    <script src="/cms/js/mv-da-dt-buttons.js"></script>
+    <script src="/cms/js/emp-form.js"></script>
+
+@endsection
+
 @section ( 'content' )
 
     <div class="row clearfix">
@@ -86,12 +93,5 @@
 
     {{-- Modal - Disable Accounts --}}
     @include( 'cms.layout.modals.disable' )
-
-@endsection
-
-@section( 'custom-js' )
-
-    <script src="/cms/js/mv-da-dt-buttons.js"></script>
-    <script src="/cms/js/emp-form.js"></script>
 
 @endsection

@@ -10,10 +10,6 @@
 
 @section('custom-js')
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.debug.js" ></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js" ></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.js"></script>
-    <script src="https://cdn.bootcss.com/html2pdf.js/0.9.1/html2pdf.js"></script>  
     <script src="/cms/plugins/cropper/cropper.min.js"></script>
     <script src="/cms/js/cropper-card.js"></script>
     <script src="/cms/js/jspdf-card.js"></script>
@@ -155,11 +151,5 @@
 
     {{-- Modal - Image Cropper --}}
     @include( 'cms.layout.modals.image' )
-
-@endsection
-
-@section( 'custom-js' )
-
-    <script src="/cms/js/cropper-card.js"></script>
 
 @endsection
