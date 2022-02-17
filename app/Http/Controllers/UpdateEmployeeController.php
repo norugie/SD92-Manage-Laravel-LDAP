@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\HelperController;
-use Illuminate\Support\Facades\File; 
 use Illuminate\Http\Request;
 use App\Ldap\User;
 use App\Ldap\Group;

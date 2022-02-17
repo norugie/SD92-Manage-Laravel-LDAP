@@ -1,5 +1,11 @@
 @extends ( 'cms.layout.layout' )
 
+@section( 'custom-js' )
+
+    <script src="/cms/js/emp-form.js"></script>
+
+@endsection
+
 @section ( 'content' )
 
     <div class="row clearfix">
@@ -115,11 +121,5 @@
             </div>
         </div>
     </div>
-
-@endsection
-
-@section( 'custom-js' )
-
-    <script src="/cms/js/emp-form.js"></script>
 
 @endsection
