@@ -95,6 +95,17 @@ class UpdateEmployeeController extends Controller
 
         // Upload image to designated image folder
         file_put_contents(public_path($path), $data);
+
+        // Set employee object values
+        $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
+        $fullname = $employee->getFirstAttribute('displayname');
+        
+        // Log activity
+        $message = 'The profile ID card for <b><a href="/cms/employees/' . $username . '/view" class="alert-link">' . $fullname . '</a></b> has been updated successfully.';
+        $this->inputLog(session('userName'), $message);
+
+        session()->flash('status', 'success');
+        session()->flash('message', $message);
     }
 
     /**
