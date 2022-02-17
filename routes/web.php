@@ -78,6 +78,8 @@ Route::group(['middleware' => 'authAD', 'prefix' => 'cms'], function (){
             Route::get('/create', 'createEmployeeForm');
             // View Employee - Profile
             Route::get('/{username}/{action}', 'viewEmployeeProfileUpdate');
+            // View Employee - Profile ID Download
+            Route::get('/{username}/download/image', 'viewEmployeeProfileIDImageDownload');
         });
     });
 

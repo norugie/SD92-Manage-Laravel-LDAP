@@ -77,6 +77,7 @@ class UpdateEmployeeController extends Controller
      * Handle process for updating employee profile ID image
      *
      * @param String $username
+     * @param String $userID
      * @param \Illuminate\Http\Request $request
      */
     public function updateEmployeeProfileIDImage (String $username, Int $userID, Request $request)
