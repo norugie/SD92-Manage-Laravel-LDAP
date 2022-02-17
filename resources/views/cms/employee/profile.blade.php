@@ -1,16 +1,21 @@
 @extends ( 'cms.layout.layout' )
 
 @section( 'custom-css' )
+
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="/cms/css/card.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" integrity="sha512-0SPWAwpC/17yYyZ/4HSllgaK7/gg9OlVozq8K7rf3J8LvCjYEEIfzzpnA2/SSjpGIunCSD18r3UhvDcu/xncWA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+    
 @endsection
 
 @section('custom-js')
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.debug.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js" ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js" integrity="sha512-ooSWpxJsiXe6t4+PPjCgYmVfr1NS5QXJACcR/FPpsdm6kqG1FmQ2SVyg2RXeVuCRBLr0lWHnWJP6Zs1Efvxzww==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cropper/1.0.1/jquery-cropper.min.js" integrity="sha512-V8cSoC5qfk40d43a+VhrTEPf8G9dfWlEJgvLSiq2T2BmgGRmZzB8dGe7XAABQrWj3sEfrR5xjYICTY4eJr76QQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="/cms/js/cropper-card.js"></script>
+    <script src="/cms/js/jspdf-card.js"></script>
 
 @endsection
 
@@ -88,11 +93,14 @@
                                             <button type="button" id="upload_id_image" class="btn bg-green waves-effect" style="display: inline-block;" data-username="{{ $employee->getFirstAttribute('samaccountname') }}" data-usernumber="{{ $employee->getFirstAttribute('uidNumber') }}" onclick="$('#new_employee_card_img').trigger('click'); return false;"><i class="material-icons">image</i><span>UPDATE ID IMAGE</span></button>
                                         </label>
                                         <input type="file" id="new_employee_card_img" name="new_employee_card_img" style="display: none;">
+                                        <label for="download_employee_id_card">
+                                            <button type="button" id="download_employee_id_card" class="btn bg-blue waves-effect" style="display: inline-block;"><i class="material-icons">file_download</i><span>DOWNLOAD ID</span></button>
+                                        </label>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <div class="card-id">
+                                        <div id="profile_card" class="card-id">
                                             <div class="card-top">
                                                 <div class="card-title">EMPLOYEE</div>
                                                 <div class="card-img">
