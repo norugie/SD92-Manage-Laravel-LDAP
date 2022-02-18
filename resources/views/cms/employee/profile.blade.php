@@ -82,7 +82,7 @@
                             <div role="tabpanel" class="tab-pane fade in" id="id_card">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <p class="font-12"><i><b>Note:</b> The displayed card is only a rough preview. The final card may have slightly different layout. Active image fetched from the School Management System cannot be edited.</i></p>
+                                        <p class="font-12"><i><b>Note:</b> The displayed card is only a rough preview. The final card may have slightly different layout.</i></p>
                                     </div>
                                     <div class="col-md-12">
                                         <label for="new_employee_card_img">
@@ -90,7 +90,6 @@
                                         </label>
                                         <input type="file" id="new_employee_card_img" name="new_employee_card_img" style="display: none;">
                                         <label for="download_id_card">
-                                            {{-- <button type="button" id="download_employee_id_card" class="btn bg-blue waves-effect" style="display: inline-block;"><i class="material-icons">file_download</i><span>DOWNLOAD ID</span></button> --}}
                                             <a href="/cms/employees/{{ $employee->getFirstAttribute('samaccountname') }}/download/image" id="download_id_card" type="button" class="btn bg-blue waves-effect" style="display: inline-block;" download><i class="material-icons">file_download</i><span>DOWNLOAD ID</span></a>
                                         </label>
                                     </div>
