@@ -12,8 +12,7 @@
 
     <script src="/cms/plugins/cropper/cropper.min.js"></script>
     <script src="/cms/js/cropper-card.js"></script>
-    <script src="/cms/js/jspdf-card.js"></script>
-
+    
 @endsection
 
 @section ( 'content' )
