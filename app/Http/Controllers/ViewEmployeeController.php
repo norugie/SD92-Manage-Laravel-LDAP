@@ -156,7 +156,6 @@ class ViewEmployeeController extends Controller
         // Set employee object values
         $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
 
-        // dd($employee);
         $employee_info = $this->collectEmployeeInfo($employee);
 
         $name = $employee->getFirstAttribute('displayname');
@@ -203,110 +202,6 @@ class ViewEmployeeController extends Controller
         $this->fpdf->Image($barcode,43,28,34,6,'PNG');
         $this->fpdf->Image($employee_pic,3.2,12.5,32.5,35,'PNG');
 
-        $this->fpdf->Output();
-
-        exit;
-
-        // dd($employee_info);
-        // if (!isset($_GET['studID']))
-        //         die('No student selected.');
-
-        // $sdID = $_GET['studID'];                // The uid of the student to create the id for (will be changed to get it from the previous page)
-        // $student = new User($sdID);                                                             // Creates the student object based off the uid received
-
-        // $original_photo = "upload/user_photos/uid_$sdID.jpg";
-        // if (!file_exists($original_photo))
-        // die('Photo no longer exists.');
-
-        // $fname = $student->getFname();
-        // if (isset($_GET['fname']))
-        //         $fname = $_GET['fname'];
-
-        // $schoolObj = $student -> getSchool();
-        // if (is_array($schoolObj)) {
-        //         $schoolObj = $schoolObj[count($schoolObj) - 1];
-        // }
-        // $school = $schoolObj -> getName();                              // string - School abreviation associated with the selected student
-        // $addr1 = $schoolObj -> getAddress();                    // string - Street address (if it exists) of the school
-        // $addr2 = $schoolObj -> getCity();                               // string - City that the school is in
-        // $tele = $schoolObj -> getPhone();                               // string - telephone number of the school
-        // $bcID = $student -> getStudID();                                                        // int - BC ID for the selected student
-        // $name = $fname . " ".$student->getLname();              // Assigned the full name of the student
-        // $logo = 'images/id/logo.png';                                                   // The URL of the School District Logo
-        // $code = "upload/temp/barcode_$sdID.png";                                                                                // Creates the barcode for the student, based on uid
-        // barcode($sdID, $code);
-        // $studPhoto = "upload/temp/cropped_$bcID.jpg";                           // The URL of the student photo to be used
-
-        // // generate cropped & resized image
-        // $crop = $student->getPortraitCrop();
-        // if (!$crop)
-        //         die('Could not find image crop information.');
-        //         $x1 = $crop['x1'];
-        // $y1 = $crop['y1'];
-        // $x2 = $crop['x2'];
-        // $y2 = $crop['y2'];
-        // $tempWidth = $x2-$x1;                                           // calculates the width of the selection
-        // $tempHeight = $y2-$y1;                                          // calculates the height of the selection
-        // $tempImg = imagecreatetruecolor(219*2, 250*2);  // Creates an image object the width of what the student ID photo will be
-        // $origImg = imagecreatefromjpeg($original_photo);        // Opens an image object of the current student ID
-        // // uses the selected part of the image, and resamples it into the new image to be used for the ID
-        // imagecopyresampled($tempImg, $origImg, 0, 0, $x1, $y1, 219*2, 250*2, $tempWidth, $tempHeight);
-        // imagejpeg($tempImg, $studPhoto, 100);                   // saves the image to that location
-        // imagedestroy($tempImg);                                         // destroys the temp image stored in memory
-
-        // //This creates the PDF document with the correct formatting, and displays it in the browser
-        // $card = new FPDF('L','mm',array(85,54));
-        // $card->SetMargins(0,0,0);
-        // $card->AddPage();
-        // $card->SetFont('Helvetica','B',12);
-        // $card->SetTextColor(255,255,255);
-        // $card->SetFillColor(224,19,24);
-        // $card->Rect(0,38,85,16,'F');
-        // $card->SetFillColor(0,0,0);
-        // $card->Rect(0,0,85,16,'F');
-        // $card->Rect(5.4,15,30.4,30,'F');
-        // $card->SetXY(5.75,5);
-        // if ($student -> getPermissions() <= 1)
-        //         $card->Cell(29.5,2.5,'STUDENT',0,0,'C',FALSE);
-        // else
-        //         $card->Cell(29.5,2.5,'EMPLOYEE',0,0,'C',FALSE);
-
-        // $card->SetFontSize(7.5);
-        // $card->SetXY(36,3.75);
-        // $card->Cell(37,2,$school,0,0,'R',FALSE);
-        // $card->SetFontSize(6);
-        // $card->SetXY(36,7);
-        // $card->Cell(37,1,'School District 92 (Nisga\'a)',0,0,'R',FALSE);
-        // $card->SetFontSize(5);
-        // $card->SetXY(36,9.3);
-        // if ($addr1) {
-        //         $card->Cell(37,1,$addr1,0,0,'R',FALSE);
-        //         $card->SetXY(36,11.4);
-        //         $card->Cell(37,1,$addr2,0,0,'R',FALSE);
-        //         $card->SetXY(36,13.5);
-        //         $card->Cell(37,1,$tele,0,0,'R',FALSE);
-        // }
-        // else {
-        //         $card->Cell(37,1,$addr2,0,0,'R',FALSE);
-        //         $card->SetXY(36,11.4);
-        //         $card->Cell(37,1,$tele,0,0,'R',FALSE);
-        // }
-        // $card->Image($logo,73.5,2.5,8.5,13.3,'PNG');
-        // $card->SetTextColor(0,0,0);
-        // $card->SetFontSize(12);
-        // $card->SetXY(36,18.25);
-        // $card->Cell(49,4,$name,0,0,'C',FALSE);
-        // $card->SetXY(36,23.25);
-
-        // if ($student -> getPermissions() <= 1 && $bcID != $student->getUid())
-        //         $card->Cell(49,4,$bcID,0,0,'C',FALSE);
-
-        // $card->Image($code,43,29.25,34,6,'PNG');
-        // $card->Image($studPhoto,5.75,9.6,29.5,35,'JPG');
-
-        // $card->Output("card_$sdID.pdf", 'D');
-        // unlink($studPhoto);                     // Deletes the temporary student photo created for thgis specific ID card
-        // unlink($code);                          // Delets the temporary barcode image created for thios specific ID card
-
+        $this->fpdf->Output('card_' . $username . '.pdf', 'D');
     }
 }

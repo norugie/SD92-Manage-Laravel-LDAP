@@ -12,7 +12,7 @@
 
     <script src="/cms/plugins/cropper/cropper.min.js"></script>
     <script src="/cms/js/cropper-card.js"></script>
-    
+
 @endsection
 
 @section ( 'content' )
@@ -91,7 +91,7 @@
                                         <input type="file" id="new_employee_card_img" name="new_employee_card_img" style="display: none;">
                                         <label for="download_id_card">
                                             {{-- <button type="button" id="download_employee_id_card" class="btn bg-blue waves-effect" style="display: inline-block;"><i class="material-icons">file_download</i><span>DOWNLOAD ID</span></button> --}}
-                                            <a href="/cms/employees/{{ $employee->getFirstAttribute('samaccountname') }}/download/image" id="download_id_card" type="button" class="btn bg-blue waves-effect" style="display: inline-block;"><i class="material-icons">file_download</i><span>DOWNLOAD ID</span></a>
+                                            <a href="/cms/employees/{{ $employee->getFirstAttribute('samaccountname') }}/download/image" id="download_id_card" type="button" class="btn bg-blue waves-effect" style="display: inline-block;" download><i class="material-icons">file_download</i><span>DOWNLOAD ID</span></a>
                                         </label>
                                     </div>
                                 </div>
