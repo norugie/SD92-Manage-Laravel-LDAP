@@ -46,12 +46,6 @@ Route::group(['middleware' => 'authAD', 'prefix' => 'cms'], function (){
     Route::get('/dashboard', [DashboardController::class, 'index']);
 
     Route::group(['prefix' => 'employees'], function (){
-        // Create Employee - Profile
-        Route::post('/create', [CreateEmployeeController::class, 'createEmployee']);
-
-        // View Employee Reroute
-        Route::get('/{username}', function ( String $username ) { return redirect('/cms/employees/' . $username . '/view'); });
-
         Route::controller('UpdateEmployeeController')->group(function (){
             // Update Employee - Move Multiple Accounts
             Route::post('/update', 'updateEmployeeRolesMultiple');
@@ -78,20 +72,27 @@ Route::group(['middleware' => 'authAD', 'prefix' => 'cms'], function (){
             // View Employee - Profile ID Download
             Route::get('/{username}/download/image', 'viewEmployeeProfileIDImageDownload');
         });
+
+        // Create Employee - Profile
+        Route::post('/create', [CreateEmployeeController::class, 'createEmployee']);
+
+        // View Employee Reroute
+        Route::get('/{username}', function ( String $username ) { return redirect('/cms/employees/' . $username . '/view'); });
+        
     });
 
     Route::group(['prefix' => 'inactive'], function (){
-        // Inactive Employee - Inactive Employee Index
-        Route::get('/', [ViewEmployeeController::class, 'disabledEmployeeAccountsIndex']);
-
-        // View Inactive Employee Reroute
-        Route::get('/{username}', function () { return redirect('/cms/inactive/'); });
-
         Route::controller('EnableEmployeeController')->group(function (){
             // Enable Employee - Enable Multiple Accounts
             Route::post('/enable', 'enableInactiveMultiple');
             // Enable Employee - Profile
             Route::get('/{username}/enable', 'enableInactiveProfile');
         });
+
+        // Inactive Employee - Inactive Employee Index
+        Route::get('/', [ViewEmployeeController::class, 'disabledEmployeeAccountsIndex']);
+
+        // View Inactive Employee Reroute
+        Route::get('/{username}', function () { return redirect('/cms/inactive/'); });
     });
 });
