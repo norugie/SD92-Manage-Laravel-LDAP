@@ -97,13 +97,14 @@
                 <!-- Menu -->
                 <div class="menu">
                     <ul class="list">
-                        <li class="header">MAIN NAVIGATION</li>
+                        <li class="header">GENERAL</li>
                         <li id="dashboard" class="{{ Request::is( 'cms/dashboard' ) ? 'active' : '' }}">
                             <a href="/cms/dashboard">
                                 <i class="material-icons">dashboard</i>
                                 <span>Dashboard</span>
                             </a>
                         </li>
+                        <li class="header">EMPLOYEES</li>
                         <li id="employees" class="{{ Request::is( 'cms/employees' ) || Request::is( 'cms/employees/*' ) ? 'active' : '' }}">
                             <a href="/cms/employees">
                                 <i class="material-icons">people</i>
@@ -114,6 +115,19 @@
                             <a href="/cms/inactive">
                                 <i class="material-icons">lock</i>
                                 <span>Inactive Employee List</span>
+                            </a>
+                        </li>
+                        <li class="header">STUDENTS</li>
+                        <li id="students" class="{{ Request::is( 'cms/students' ) || Request::is( 'cms/students/*' ) ? 'active' : '' }}">
+                            <a href="/cms/students">
+                                <i class="material-icons">people</i>
+                                <span>Active Student List</span>
+                            </a>
+                        </li>
+                        <li id="lockers" class="{{ Request::is( 'cms/lockers' ) || Request::is( 'cms/lockers/*' ) ? 'active' : '' }}">
+                            <a href="/cms/lockers">
+                                <i class="material-icons">domain</i>
+                                <span>Student Locker Status</span>
                             </a>
                         </li>
                     </ul>
