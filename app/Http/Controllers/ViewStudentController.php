@@ -24,8 +24,13 @@ class ViewStudentController extends Controller
     public function enabledStudentAccountsIndex ()
     {
         $students = Group::findBy('cn', 'student')->members()->get();
-        return view('cms.student.student', [
-            'students' => $students
-        ]);
+        // echo count($students);
+
+        for($i=0;$i<=count($students);$i++){
+            
+        }
+        // return view('cms.student.student', [
+        //     'students' => $students
+        // ]);
     }
 }
