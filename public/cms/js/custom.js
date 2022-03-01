@@ -53,6 +53,15 @@ $('#log_table').DataTable({
     ]
 });
 
+$('#student_table').DataTable({
+    "bSort": true,
+    "lengthChange": false,
+    "iDisplayLength": 10,
+    'aaSorting': [
+        [0, 'asc']
+    ]
+});
+
 // Custom JQuery Validator
 $('.new_form_validate').validate({
     unhighlight: function(input) {

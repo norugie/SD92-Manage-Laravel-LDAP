@@ -130,8 +130,6 @@ class ViewEmployeeController extends Controller
             'locations' => $employee_info['locations'],
             'sub_departments' => $employee_info['sub_departments']
         ]);
-
-        // dd($employee);
     }
 
     /**

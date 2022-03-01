@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HelperEmployeeController;
 use App\Http\Controllers\ViewEmployeeController;
+use App\Http\Controllers\ViewStudentController;
 use App\Http\Controllers\CreateEmployeeController;
 use App\Http\Controllers\UpdateEmployeeController;
 use App\Http\Controllers\DisableEmployeeController;
@@ -94,5 +95,10 @@ Route::group(['middleware' => 'authAD', 'prefix' => 'cms'], function (){
 
         // View Inactive Employee Reroute
         Route::get('/{username}', function () { return redirect('/cms/inactive/'); });
+    });
+
+    Route::group(['prefix' => 'students'], function(){
+        // View Student - Active Student Index
+        Route::get('/', [ViewStudentController::class, 'enabledStudentAccountsIndex']);
     });
 });
