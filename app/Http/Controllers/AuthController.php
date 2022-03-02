@@ -73,7 +73,7 @@ class AuthController extends Controller
                 $graph = new Graph();
                 $graph->setAccessToken($accessToken->getToken());
 
-                $user = $graph->createRequest('GET', '/me?$select=displayName,givenName,surname,mail,department,id,userPrincipalName')
+                $user = $graph->createRequest('GET', '/me?$select=displayName, givenName, surname, mail, department, id, userPrincipalName')
                     ->setReturnType(Model\User::class)
                     ->execute(); // Get O365 logged in user
                 $groups = $graph->createCollectionRequest('GET', '/me/memberOf')

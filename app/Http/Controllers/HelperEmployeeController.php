@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 /**
  * 
- * This controller file is used across other controllers. The HelperController class
+ * This controller file is used across other controllers. The HelperEmployeeController class
  * contains methods used to handle most of the processes needed to create, update,
- * enable, or disable AD accounts.
+ * enable, or disable employee AD accounts.
  * 
  */
 
@@ -17,7 +17,7 @@ use App\Ldap\User;
 use App\Ldap\Group;
 use LdapRecord\Models\Attributes\Password;
 
-class HelperController extends Controller
+class HelperEmployeeController extends Controller
 {
     /**
      * Handle process for setting roles to employee accounts

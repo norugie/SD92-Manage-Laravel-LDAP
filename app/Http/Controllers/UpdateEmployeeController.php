@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\HelperController;
+use App\Http\Controllers\HelperEmployeeController;
 use Illuminate\Http\Request;
 use App\Ldap\User;
 use App\Ldap\Group;
@@ -12,7 +12,7 @@ class UpdateEmployeeController extends Controller
 {
     public function __construct ()
     {
-        $this->helpers = new HelperController;
+        $this->helpers = new HelperEmployeeController;
     }
 
     /**
