@@ -21,6 +21,7 @@
                                     <th>Username</th>
                                     <th>Email Address</th>
                                     <th>School</th>
+                                    <th>Initial Password</th>
                                 </tr>
                             </thead>
                             <tfoot>
@@ -29,6 +30,7 @@
                                     <th>Username</th>
                                     <th>Email Address</th>
                                     <th>School</th>
+                                    <th>Initial Password</th>
                                 </tr>
                             </tfoot>
                             <tbody>
@@ -38,6 +40,12 @@
                                     <td>{{ $student->getFirstAttribute('samaccountname') }}</td>
                                     <td>{{ $student->getFirstAttribute('mail') }}</td>
                                     <td>{{ $student->getFirstAttribute('school') }}</td>
+                                    <td>
+                                        <details>
+                                            <summary class="dt-button btn bg-blue waves-effect">Show Pass</summary>
+                                            {{ $student->getFirstAttribute('initialpassword') }}
+                                        </details>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
