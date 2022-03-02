@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\HelperController;
+use App\Http\Controllers\HelperEmployeeController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Ldap\User;
@@ -14,7 +14,7 @@ class DisableEmployeeController extends Controller
 {
     public function __construct ()
     {
-        $this->helpers = new HelperController;
+        $this->helpers = new HelperEmployeeController;
     }
     
     /**

@@ -2,16 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\HelperEmployeeController;
 use App\Http\Controllers\ViewEmployeeController;
 use App\Http\Controllers\ViewStudentController;
 use App\Http\Controllers\CreateEmployeeController;
 use App\Http\Controllers\UpdateEmployeeController;
 use App\Http\Controllers\DisableEmployeeController;
 use App\Http\Controllers\EnableEmployeeController;
-use App\Http\Controllers\InactiveController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------

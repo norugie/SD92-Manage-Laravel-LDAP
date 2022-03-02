@@ -20,6 +20,7 @@
                                     <th>Name</th>
                                     <th>Username</th>
                                     <th>Email Address</th>
+                                    <th>School</th>
                                 </tr>
                             </thead>
                             <tfoot>
@@ -27,14 +28,16 @@
                                     <th>Name</th>
                                     <th>Username</th>
                                     <th>Email Address</th>
+                                    <th>School</th>
                                 </tr>
                             </tfoot>
                             <tbody>
                                 @foreach($students as $student)
                                 <tr>
-                                    <td><a href="/cms/students/{{ $student->getFirstAttribute('samaccountname') }}/view">{{ $student->getFirstAttribute('displayname') }}</a></td>
+                                    <td><a href="/cms/students/{{ $student->getFirstAttribute('samaccountname') }}/view">{{ $student->getFirstAttribute('fullname') }}</a></td>
                                     <td>{{ $student->getFirstAttribute('samaccountname') }}</td>
                                     <td>{{ $student->getFirstAttribute('mail') }}</td>
+                                    <td>{{ $student->getFirstAttribute('school') }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
