@@ -24,26 +24,39 @@ class ViewStudentController extends Controller
      * 
      * @return \Illuminate\View\View
      */
-    public function enabledStudentAccountsIndex ($prefix)
+    public function enabledStudentAccountsIndex ()
     {
 
-        echo $prefix;
+        $students = Group::findBy('cn', 'student')->members()->get();
 
-        // $students = Group::findBy('cn', 'student')->members()->get();
-        // // dd($students);
+        foreach($students as $student):
+            $info = $this->getStudentInfo($student->getFirstAttribute('samaccountname'));
+            $student->setAttribute('fullname', $info['fullname']);
+            $student->setAttribute('school', $info['school']);
+            $student->setAttribute('initialpassword', $info['pt']);
+        endforeach;
 
-        // foreach($students as $student):
-        //     $k12student = $this->helpers->getStudentInfoFromK12Admin($student->getFirstAttribute('samaccountname'));
-        //     $fullname = explode(',', $k12student->fullname);
-        //     $fullname = $fullname[1] . " " . $fullname[0];
-        //     $school = explode(' ', $k12student->comment);
-        //     $school = $school[0];
-        //     $student->setAttribute('fullname', $fullname);
-        //     $student->setAttribute('school', $school);
-        // endforeach;
+        return view('cms.student.student', [
+            'students' => $students
+        ]);
+    }
 
-        // return view('cms.student.student', [
-        //     'students' => $students
-        // ]);
+    /**
+     * Return student name with better formatting
+     * 
+     * @param String $username
+     * @return Array $info
+     */
+    public function getStudentInfo ($username)
+    {
+        $k12student = $this->helpers->getStudentInfoFromK12Admin($username);
+        $fullname = explode(',', $k12student->fullname);
+        $fullname = $fullname[1] . " " . $fullname[0];
+        $school = explode(' ', $k12student->comment);
+        $school = $school[0];
+
+        $info = ['fullname' => $fullname, 'school' => $school, 'pt' => $k12student->pt];
+
+        return $info;
     }
 }
