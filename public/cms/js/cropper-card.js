@@ -1,12 +1,12 @@
 (function() {
 
     var $modal = $('#imageCropper');
-    var image = document.getElementById('employee_card_img_crop_area');
+    var image = document.getElementById('card_img_crop_area');
     var username = $('#upload_id_image').data('username');
     var userID = $('#upload_id_image').data('usernumber');
     var cropper;
 
-    $('#new_employee_card_img').change(function(event) {
+    $('#new_card_img').change(function(event) {
         var files = event.target.files;
 
         var done = function(url) {

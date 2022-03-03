@@ -2,15 +2,15 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="imageCropperLabel">New Employee ID Image</h4>
+                <h4 class="modal-title" id="imageCropperLabel">New ID Image</h4>
             </div>
-            <form action="/cms/employees/crop" method="POST">
+            <form method="POST">
                 <div class="modal-body">
                     <div class="img-container">
                         <div class="row">
                             <div class="col-md-8">
                                 {{-- Image Crop Area --}}
-                                <img src="" class="img-responsive" id="employee_card_img_crop_area" alt="Employee ID Card New Image Crop Area">
+                                <img src="" class="img-responsive" id="card_img_crop_area" alt="ID Card New Image Crop Area">
                             </div>
                             <div class="col-md-4">
                                 {{-- Image Crop Preview --}}

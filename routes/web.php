@@ -97,5 +97,14 @@ Route::group(['middleware' => 'authAD', 'prefix' => 'cms'], function (){
     Route::group(['prefix' => 'students'], function(){
         // View Student - Active Student Index
         Route::get('/', [ViewStudentController::class, 'enabledStudentAccountsIndex']);
+
+        Route::controller('ViewStudentController')->group(function (){
+            // View Student - Active Student Index
+            Route::get('/', 'enabledStudentAccountsIndex');
+            // View Student - Profile
+            Route::get('/{username}/view', 'viewStudentProfile');
+            // View Student - Profile ID Download
+            Route::get('/{username}/download/image', 'viewStudentProfileIDImageDownload');
+        });
     });
 });

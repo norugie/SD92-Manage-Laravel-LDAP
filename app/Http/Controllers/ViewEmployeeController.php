@@ -54,7 +54,7 @@ class ViewEmployeeController extends Controller
      * @param Object #employee
      * @return $employee_info
      */
-    public function collectEmployeeInfo (Object $employee)
+    public function getEmployeeInfo (Object $employee)
     {
         $employee_info = [];
 
@@ -116,7 +116,7 @@ class ViewEmployeeController extends Controller
                     ->with('message', 'The user you are looking for no longer has an active account in our directory');
         }
         
-        $employee_info = $this->collectEmployeeInfo($employee);
+        $employee_info = $this->getEmployeeInfo($employee);
 
         // Set up path based on {action}
         // Default {action} value = "view"
@@ -154,7 +154,7 @@ class ViewEmployeeController extends Controller
         // Set employee object values
         $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
 
-        $employee_info = $this->collectEmployeeInfo($employee);
+        $employee_info = $this->getEmployeeInfo($employee);
 
         $name = $employee->getFirstAttribute('displayname');
         $department = $this->config['locations'][$employee->getFirstAttribute('department')]['name'];
