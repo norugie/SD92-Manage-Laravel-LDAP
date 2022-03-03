@@ -19,6 +19,7 @@
                                 <tr>
                                     <th>Name</th>
                                     <th>Username</th>
+                                    <th>System User ID</th>
                                     <th>Email Address</th>
                                     <th>School</th>
                                     <th>Initial Password</th>
@@ -28,6 +29,7 @@
                                 <tr>
                                     <th>Name</th>
                                     <th>Username</th>
+                                    <th>System User ID</th>
                                     <th>Email Address</th>
                                     <th>School</th>
                                     <th>Initial Password</th>
@@ -38,6 +40,7 @@
                                 <tr>
                                     <td><a href="/cms/students/{{ $student->getFirstAttribute('samaccountname') }}/view">{{ $student->getFirstAttribute('fullname') }}</a></td>
                                     <td>{{ $student->getFirstAttribute('samaccountname') }}</td>
+                                    <td>{{ $student->getFirstAttribute('sysid') }}</td>
                                     <td>{{ $student->getFirstAttribute('mail') }}</td>
                                     <td>{{ $student->getFirstAttribute('school') }}</td>
                                     <td>
