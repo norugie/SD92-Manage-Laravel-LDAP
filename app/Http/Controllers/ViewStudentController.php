@@ -30,9 +30,7 @@ class ViewStudentController extends Controller
         $students = Group::findBy('cn', 'student')->members()->get();
 
         foreach($students as $student):
-            $student_info = $this->getStudentInfo($student);
-            $student->setAttribute('fullname', $student_info['fullname']);
-            $student->setAttribute('school', $student_info['school']);
+            $student = $this->getStudentInfo($student);
         endforeach;
 
         return view('cms.student.student', [
@@ -44,7 +42,7 @@ class ViewStudentController extends Controller
      * Return student info taken from K12Admin with better formatting
      * 
      * @param Object $student
-     * @return Array $student_info
+     * @return Object $student
      */
     public function getStudentInfo (Object $student)
     {
@@ -70,8 +68,14 @@ class ViewStudentController extends Controller
             'pt' => $k12student->pt, 
             'student_pic' => $student_pic
         ];
+
+        $student->setAttribute('fullname', $student_info['fullname']);
+        $student->setAttribute('sysid', $student_info['sysid']);
+        $student->setAttribute('school', $student_info['school']);
+        $student->setAttribute('initialpassword', $student_info['pt']);
+        $student->setAttribute('studentpic', $student_info['student_pic']);
         
-        return $student_info;
+        return $student;
     }
 
     /**
@@ -99,13 +103,7 @@ class ViewStudentController extends Controller
                     ->with('message', 'The user you are looking for no longer has an active account in our directory');
         }
         
-        $student_info = $this->getStudentInfo($student);
-
-        $student->setAttribute('fullname', $student_info['fullname']);
-        $student->setAttribute('sysid', $student_info['sysid']);
-        $student->setAttribute('school', $student_info['school']);
-        $student->setAttribute('initialpassword', $student_info['pt']);
-        $student->setAttribute('studentpic', $student_info['student_pic']);
+        $student = $this->getStudentInfo($student);
 
         return view('cms.student.profile', [
             'student' => $student,
