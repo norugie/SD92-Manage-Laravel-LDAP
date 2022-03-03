@@ -23,6 +23,8 @@ use App\Http\Controllers\AuthController;
 |
 */
 
+Route::get('/cms/lockers', [ViewStudentController::class, 'lockerStatusDisplay']);
+
 Route::get('/', function () {
     return redirect('/cms/dashboard');
 })->middleware('authAD');
@@ -95,9 +97,6 @@ Route::group(['middleware' => 'authAD', 'prefix' => 'cms'], function (){
     });
 
     Route::group(['prefix' => 'students'], function(){
-        // View Student - Active Student Index
-        Route::get('/', [ViewStudentController::class, 'enabledStudentAccountsIndex']);
-
         Route::controller('ViewStudentController')->group(function (){
             // View Student - Active Student Index
             Route::get('/', 'enabledStudentAccountsIndex');
@@ -105,6 +104,13 @@ Route::group(['middleware' => 'authAD', 'prefix' => 'cms'], function (){
             Route::get('/{username}/view', 'viewStudentProfile');
             // View Student - Profile ID Download
             Route::get('/{username}/download/image', 'viewStudentProfileIDImageDownload');
+        });
+    });
+
+    Route::group(['prefix' => 'lockers'], function(){
+        Route::controller('ViewStudentController')->group(function (){
+            // View Lockers - Locker Status
+            Route::get('/', 'lockerStatusDisplay');
         });
     });
 });

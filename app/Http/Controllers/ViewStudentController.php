@@ -39,6 +39,16 @@ class ViewStudentController extends Controller
     }
 
     /**
+     * Return data for /lockers page
+     * 
+     * @return \Illuminate\View\View
+     */
+    public function lockerStatusDisplay ()
+    {
+        return view ('cms.locker.locker');
+    }
+
+    /**
      * Return student info taken from K12Admin with better formatting
      * 
      * @param Object $student
