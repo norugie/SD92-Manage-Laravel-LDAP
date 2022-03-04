@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\HelperStudentController;
 use App\Ldap\User;
 use App\Ldap\Group;
+use Illuminate\Support\Facades\DB;
 use LdapRecord\Models\Attributes\AccountControl;
 
 class ViewStudentController extends Controller
@@ -45,7 +46,23 @@ class ViewStudentController extends Controller
      */
     public function lockerStatusDisplay ()
     {
-        return view ('cms.locker.locker');
+        $carts = $this->helpers->getLockerCartIndexFromK12Admin();
+
+        // while ($row = mysqli_fetch_assoc($result)) {
+        //     $row['start_number'] = (int)$row['start_number']; // used temporarily when looking up from `info` table
+        //     $this->carts[] = $row + array('_slots' => array());
+        // }
+
+        foreach ($carts as $cart):
+            $lockers = $this->helpers->getLockerInfoFromK12Admin($cart);
+            var_dump($lockers);
+            echo "<br><br><br>";
+            // $cart->setAttribute('lockers', $lockers);
+        endforeach;
+        
+
+        dd($carts);
+        // return view ('cms.locker.locker');
     }
 
     /**
