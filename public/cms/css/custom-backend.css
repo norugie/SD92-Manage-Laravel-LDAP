@@ -80,3 +80,19 @@
     text-align: left;
     vertical-align: middle;
 }
+
+.table-bordered-locker tbody tr td,
+.table-bordered-locker tbody tr th {
+    padding: 5px;
+    border: 1px solid #eee;
+}
+
+.table-bordered-locker thead tr th {
+    padding: 5px;
+    border: 1px solid #eee;
+}
+
+.table-bordered-locker tfoot tr th {
+    padding: 5px;
+    border: 1px solid #eee;
+}
