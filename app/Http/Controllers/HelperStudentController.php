@@ -59,12 +59,18 @@ class HelperStudentController extends Controller
      */
     public function getLockerInfoFromK12Admin(Object $cart)
     {
+        $cid = $cart->cart_id;
+        $start_number = $cart->slot_start_number;
         $lockers = DB::connection('mysql2')
         ->table('cart_slot')
-        ->leftJoin('info', 'cart_slot.abs_slotindex', '=', 'info.Cart_Slot')
+        ->leftJoin('info', function($join) use ($cid, $start_number){
+            $join->on('info.Cart', '=', \DB::raw($cid))
+            ->on(\DB::raw($start_number . '+ info.Cart_Slot - 1'), '=', 'cart_slot.abs_slotindex');
+        })
         ->leftJoin('users', 'users.uid', '=', 'info.user_uid')
-        ->select('cart_slot.abs_slotindex', 'info.Name', 'info.Cart_Slot', 'users.fullname')
-        ->where('cart_slot.cart', '=', $cart->cart_id)
+        ->select('info.Name', 'users.fullname', 'cart_slot.abs_slotindex')
+        ->where('cart_slot.cart', '=', $cid)
+        ->orderBy('cart_slot.abs_slotindex', 'ASC')
         ->get();
         
         return $lockers;
