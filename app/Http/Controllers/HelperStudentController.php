@@ -43,7 +43,7 @@ class HelperStudentController extends Controller
         $carts = DB::connection('mysql2')
         ->table('cart')
         ->leftJoin('cart_type', 'cart.cart_type_id', '=', 'cart_type.cart_type_id')
-        ->select('cart.cart_id', 'cart.school_id', 'cart.cart_desc', 'cart.slot_start_number')
+        ->select('cart.cart_id', 'cart.school_id', 'cart.cart_desc', 'cart.slot_start_number', 'cart_type.slot_amount')
         ->where('cart_type.cart_type_name', 'like', '%Locker%')
         ->orderBy('cart.cart_name', 'ASC')
         ->get();
