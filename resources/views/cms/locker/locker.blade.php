@@ -1,48 +1,58 @@
 @extends ( 'cms.layout.layout' )
 
 @section ( 'content' )
-
-
     <div class="row clearfix">
-        <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
-            <div class="card">
-                <div class="header">
-                    <div class="row clearfix">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-xs-sm-center">
-                            <h4>Cart Locker #1</h4>      
+        @foreach ($carts as $cart)
+            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <div class="row clearfix">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-xs-sm-center">
+                                <h4>Cart {{ $cart->cart_desc }}</h4>      
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="body table-responsive">
-                    <table class="table table-bordered-locker">
-                        <thead>
-                            <tr>
-                                <th>Status</th>
-                                <th>Locker Number</th>
-                                <th>Assigned student</th>
-                            </tr>
-                        </thead>
-                        <tfoot>
-                            <tr>
-                                <th>Status</th>
-                                <th>Locker Number</th>
-                                <th>Assigned student</th>
-                            </tr>
-                        </tfoot>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <center><div style="background:green;width:16px;height:16px;border-radius:8px"></div></center>
-                                </td>
-                                <td>15</td>
-                                <td>Emma Wilson</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="body table-responsive">
+                        <table class="table table-bordered-locker">
+                            <tbody>                    
+                                @if ($cart->slot_amount == 28)
+                                    @for ($i = 0; $i < 14; $i++)
+                                        @php
+                                            $slotA = $i;
+                                            $slotB = $i + 14;
+                                        @endphp
+                                        <tr>
+                                            <td>
+                                                <center><div style="background:@php if($cart->lockers[$slotA]->connection_status == TRUE ? $color = 'green' : $color = '#ccc'); echo $color; @endphp;width:16px;height:16px;border-radius:8px"></div></center>
+                                            </td>
+                                            <td>@php echo $cart->lockers[$slotA]->abs_slotindex; @endphp</td>
+                                            <td>@php echo $cart->lockers[$slotA]->Name @endphp</td>
+                                            <td>@php echo $cart->lockers[$slotA]->fullname; @endphp</td>
+                                            <td>
+                                                <center><div style="background:@php if($cart->lockers[$slotB]->connection_status == TRUE ? $color = 'green' : $color = '#ccc'); echo $color; @endphp;width:16px;height:16px;border-radius:8px"></div></center>
+                                            </td>
+                                            <td>@php echo $cart->lockers[$slotB]->abs_slotindex; @endphp</td>
+                                            <td>@php echo $cart->lockers[$slotB]->Name @endphp</td>
+                                            <td>@php echo $cart->lockers[$slotB]->fullname; @endphp</td>
+                                        </tr>
+                                    @endfor
+                                @else
+                                    @foreach($cart->lockers as $locker)
+                                        <tr>
+                                            <td>
+                                                <center><div style="background:{{ $locker->connection_status == TRUE ? 'green' : '#ccc' }};width:16px;height:16px;border-radius:8px"></div></center>
+                                            </td>
+                                            <td>{{ $locker->abs_slotindex }}</td>
+                                            <td>{{ $locker->Name }}</td>
+                                            <td>{{ $locker->fullname }}</td>
+                                        </tr>
+                                    @endforeach  
+                                @endif
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
+        @endforeach
     </div>
-
-
 @endsection
