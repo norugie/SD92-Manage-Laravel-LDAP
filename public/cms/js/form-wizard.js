@@ -1,4 +1,4 @@
-$(function () {
+$(function() {
 
     var form = $('#wizard_form').show();
 
@@ -7,7 +7,7 @@ $(function () {
         bodyTag: "fieldset",
         titleTemplate: "#title#",
         transitionEffect: 'slideLeft',
-        onInit: function (event) {
+        onInit: function(event) {
             $.AdminBSB.input.activate();
 
             //Set tab width
@@ -18,18 +18,15 @@ $(function () {
             //set button waves effect
             setButtonWavesEffect(event);
         },
-        onStepChanging: function ()
-        {
+        onStepChanging: function() {
             form.validate().settings.ignore = ":disabled,:hidden";
             return form.valid();
         },
-        onFinishing: function ()
-        {
+        onFinishing: function() {
             form.validate().settings.ignore = ":disabled";
             return form.valid();
         },
-        onFinished: function ()
-        {   
+        onFinished: function() {
             $('#ctr_value_event').attr('value', ctr_event);
             form.submit();
         }

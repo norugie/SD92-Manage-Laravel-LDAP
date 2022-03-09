@@ -68,7 +68,7 @@ class HelperStudentController extends Controller
             ->on(\DB::raw($start_number . '+ info.Cart_Slot - 1'), '=', 'cart_slot.abs_slotindex');
         })
         ->leftJoin('users', 'users.uid', '=', 'info.user_uid')
-        ->select('info.Name', 'users.fullname', 'users.uid', 'cart_slot.abs_slotindex', 'cart_slot.connection_status')
+        ->select('info.Name', 'users.fullname', 'users.userid', 'users.uid', 'cart_slot.abs_slotindex', 'cart_slot.connection_status')
         ->where('cart_slot.cart', '=', $cid)
         ->orderBy('cart_slot.abs_slotindex', 'ASC')
         ->get();

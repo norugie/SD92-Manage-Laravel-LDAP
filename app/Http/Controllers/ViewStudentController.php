@@ -52,29 +52,35 @@ class ViewStudentController extends Controller
         foreach ($carts as $cart):
             $lockers = $this->helpers->getLockerInfoFromK12Admin($cart);
             $cart->lockers = $lockers;
-            // $slotA = [];
-            // $slotB = [];
-            // if($cart->slot_amount == 28){
-            //     $i = 1;
-            //     foreach ($lockers as $locker):
-            //         if($i <= 14)
-            //             array_push($slotA, $locker);
-            //         else
-            //             array_push($slotB, $locker);
-            //         $i++;
-            //     endforeach;
-            //     $cart->slotA = $slotA;
-            //     $cart->slotB = $slotB;
-            // } else $cart->lockers = $lockers;
-            // var_dump($cart->lockers);
-            // var_dump($cart->lockers[1]->fullname);
         endforeach;
-
-        // dd($carts);
 
         return view('cms.locker.locker', [
             'carts' => $carts
         ]);
+    }
+
+    /**
+     * Return data for /lockers/logs page
+     *
+     * @param Int $id 
+     * @return \Illuminate\View\View
+     */
+    public function lockerLogsDisplayIndex ()
+    {
+        echo "All logs";
+        // return view('cms.locker.log');
+    }
+
+    /**
+     * Return data for /lockers/logs/{id} page
+     *
+     * @param Int $id 
+     * @return \Illuminate\View\View
+     */
+    public function lockerLogsDisplayIndexIdSpecified (Int $id)
+    {
+        echo $id;
+        // return view('cms.locker.log');
     }
 
     /**
