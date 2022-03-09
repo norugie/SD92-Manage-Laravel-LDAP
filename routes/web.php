@@ -111,6 +111,10 @@ Route::group(['middleware' => 'authAD', 'prefix' => 'cms'], function (){
         Route::controller('ViewStudentController')->group(function (){
             // View Lockers - Locker Status
             Route::get('/', 'lockerStatusDisplay');
+            // View Lockers - Logs
+            Route::get('/logs', 'lockerLogsDisplayIndex');
+            // View Lockers - Logs
+            Route::get('/logs/{id}', 'lockerLogsDisplayIndexIdSpecified');
         });
     });
 });
