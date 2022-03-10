@@ -72,6 +72,12 @@ class HelperEmployeeController extends Controller
         // Push default roles to $roles array
         array_push($roles, $department, 'employee', 'activestaff', $this->licensingSorter($employee_roles));
 
+        // Check if $roles has "employeeexempt", then pop "employee" out of the array
+        if(in_array('employeeexempt', $roles)){
+            $key = array_search("employee", $roles);
+            unset($roles[$key]);
+        }
+
         // Update K12 account information here
         $this->setEmployeeInK12Admin($username, $reverse_fullname, $description, $uid, $request->employee_rfid);
         
