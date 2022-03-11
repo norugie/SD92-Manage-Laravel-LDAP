@@ -36,13 +36,13 @@
             <div class="card">
                 <div class="body">
                     <div>
-                        <ul class="nav nav-tabs" role="tablist">
-                            <li role="presentation" class="active"><a href="#info" aria-controls="info" role="tab" data-toggle="tab">User Info</a></li>
-                            <li role="presentation"><a href="#id_card" aria-controls="settings" role="tab" data-toggle="tab">ID Card</a></li>
+                        <ul class="nav nav-tabs" id="nav-tab" role="tablist">
+                            <li class="nav-item"><a href="#user" class="nav-link active" id="user_tab" data-toggle="tab" role="tab" aria-controls="user" aria-selected="true">User Info</a></li>
+                            <li class="nav-item"><a href="#id_card" class="nav-link" id="id_card_tab" data-toggle="tab" role="tab" aria-controls="id_card" aria-selected="false">ID Card</a></li>
                         </ul>
 
-                        <div class="tab-content">
-                            <div role="tabpanel" class="tab-pane fade in active" id="info">
+                        <div class="tab-content" id="userInfoTabContent">
+                            <div class="tab-pane fade show active" id="user" role="tabpanel" aria-labelledby="user_tab">
                                 {{-- User Info and Groups here --}}
                                 <p><b>System User ID: </b>{{ $student->getFirstAttribute('sysid') }}</p>
                                 <p><b>Student ID Card Code: </b>{{ $student->getFirstAttribute('studentNumber') }}</p>
@@ -51,7 +51,7 @@
                                 <p><b>District Username: </b>{{ $student->getFirstAttribute('samaccountname') }}</p>
                                 <p><b>School: </b>@if($student->getFirstAttribute('school') !== NULL) {{ $config['locations'][$student->getFirstAttribute('school')]['name'] }} @endif</p>
                             </div>
-                            <div role="tabpanel" class="tab-pane fade in" id="id_card">
+                            <div class="tab-pane fade" id="id_card" role="tabpanel" aria-labelledby="id_card_tab">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <p class="font-12"><i><b>Note:</b> The displayed card is only a rough preview. The final card may have slightly different layout.</i></p>

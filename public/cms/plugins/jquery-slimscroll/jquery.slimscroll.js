@@ -2,13 +2,13 @@
  * Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
  * and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
  *
- * Version: 1.3.0
+ * Version: 1.3.8
  *
  */
-(function ($) {
+(function($) {
 
-    jQuery.fn.extend({
-        slimScroll: function (options) {
+    $.fn.extend({
+        slimScroll: function(options) {
 
             var defaults = {
 
@@ -82,13 +82,13 @@
             var o = $.extend(defaults, options);
 
             // do it for every element that matches selector
-            this.each(function () {
+            this.each(function() {
 
                 var isOverPanel, isOverBar, isDragg, queueHide, touchDif,
-                  barHeight, percentScroll, lastScroll,
-                  divS = '<div></div>',
-                  minBarHeight = 30,
-                  releaseScroll = false;
+                    barHeight, percentScroll, lastScroll,
+                    divS = '<div></div>',
+                    minBarHeight = 30,
+                    releaseScroll = false;
 
                 // used in event handlers and for better minification
                 var me = $(this);
@@ -99,8 +99,8 @@
                     var offset = me.scrollTop();
 
                     // find bar and rail
-                    bar = me.parent().find('.' + o.barClass);
-                    rail = me.parent().find('.' + o.railClass);
+                    bar = me.siblings('.' + o.barClass);
+                    rail = me.siblings('.' + o.railClass);
 
                     getBarHeight();
 
@@ -113,17 +113,19 @@
                             var height = me.parent().parent().height();
                             me.parent().css('height', height);
                             me.css('height', height);
+                        } else if ('height' in options) {
+                            var h = options.height;
+                            me.parent().css('height', h);
+                            me.css('height', h);
                         }
 
                         if ('scrollTo' in options) {
                             // jump to a static point
                             offset = parseInt(o.scrollTo);
-                        }
-                        else if ('scrollBy' in options) {
+                        } else if ('scrollBy' in options) {
                             // jump by value pixels
                             offset += parseInt(o.scrollBy);
-                        }
-                        else if ('destroy' in options) {
+                        } else if ('destroy' in options) {
                             // remove slimscroll elements
                             bar.remove();
                             rail.remove();
@@ -136,6 +138,10 @@
                     }
 
                     return;
+                } else if ($.isPlainObject(options)) {
+                    if ('destroy' in options) {
+                        return;
+                    }
                 }
 
                 // optionally set height to the parent's height
@@ -143,13 +149,13 @@
 
                 // wrap content
                 var wrapper = $(divS)
-                  .addClass(o.wrapperClass)
-                  .css({
-                      position: 'relative',
-                      overflow: 'hidden',
-                      width: o.width,
-                      height: o.height
-                  });
+                    .addClass(o.wrapperClass)
+                    .css({
+                        position: 'relative',
+                        overflow: 'hidden',
+                        width: o.width,
+                        height: o.height
+                    });
 
                 // update style for the div
                 me.css({
@@ -160,35 +166,35 @@
 
                 // create scrollbar rail
                 var rail = $(divS)
-                  .addClass(o.railClass)
-                  .css({
-                      width: o.size,
-                      height: '100%',
-                      position: 'absolute',
-                      top: 0,
-                      display: (o.alwaysVisible && o.railVisible) ? 'block' : 'none',
-                      'border-radius': o.railBorderRadius,
-                      background: o.railColor,
-                      opacity: o.railOpacity,
-                      zIndex: 90
-                  });
+                    .addClass(o.railClass)
+                    .css({
+                        width: o.size,
+                        height: '100%',
+                        position: 'absolute',
+                        top: 0,
+                        display: (o.alwaysVisible && o.railVisible) ? 'block' : 'none',
+                        'border-radius': o.railBorderRadius,
+                        background: o.railColor,
+                        opacity: o.railOpacity,
+                        zIndex: 90
+                    });
 
                 // create scrollbar
                 var bar = $(divS)
-                  .addClass(o.barClass)
-                  .css({
-                      background: o.color,
-                      width: o.size,
-                      position: 'absolute',
-                      top: 0,
-                      opacity: o.opacity,
-                      display: o.alwaysVisible ? 'block' : 'none',
-                      'border-radius': o.borderRadius,
-                      BorderRadius: o.borderRadius,
-                      MozBorderRadius: o.borderRadius,
-                      WebkitBorderRadius: o.borderRadius,
-                      zIndex: 99
-                  });
+                    .addClass(o.barClass)
+                    .css({
+                        background: o.color,
+                        width: o.size,
+                        position: 'absolute',
+                        top: 0,
+                        opacity: o.opacity,
+                        display: o.alwaysVisible ? 'block' : 'none',
+                        'border-radius': o.borderRadius,
+                        BorderRadius: o.borderRadius,
+                        MozBorderRadius: o.borderRadius,
+                        WebkitBorderRadius: o.borderRadius,
+                        zIndex: 99
+                    });
 
                 // set position
                 var posCss = (o.position == 'right') ? { right: o.distance } : { left: o.distance };
@@ -204,24 +210,25 @@
 
                 // make it draggable and no longer dependent on the jqueryUI
                 if (o.railDraggable) {
-                    bar.bind("mousedown", function (e) {
+                    bar.bind("mousedown", function(e) {
                         var $doc = $(document);
                         isDragg = true;
                         t = parseFloat(bar.css('top'));
                         pageY = e.pageY;
 
-                        $doc.bind("mousemove.slimscroll", function (e) {
+                        $doc.bind("mousemove.slimscroll", function(e) {
                             currTop = t + e.pageY - pageY;
                             bar.css('top', currTop);
-                            scrollContent(0, bar.position().top, false);// scroll content
+                            scrollContent(0, bar.position().top, false); // scroll content
                         });
 
-                        $doc.bind("mouseup.slimscroll", function (e) {
-                            isDragg = false; hideBar();
+                        $doc.bind("mouseup.slimscroll", function(e) {
+                            isDragg = false;
+                            hideBar();
                             $doc.unbind('.slimscroll');
                         });
                         return false;
-                    }).bind("selectstart.slimscroll", function (e) {
+                    }).bind("selectstart.slimscroll", function(e) {
                         e.stopPropagation();
                         e.preventDefault();
                         return false;
@@ -229,38 +236,38 @@
                 }
 
                 // on rail over
-                rail.hover(function () {
+                rail.hover(function() {
                     showBar();
-                }, function () {
+                }, function() {
                     hideBar();
                 });
 
                 // on bar over
-                bar.hover(function () {
+                bar.hover(function() {
                     isOverBar = true;
-                }, function () {
+                }, function() {
                     isOverBar = false;
                 });
 
                 // show on parent mouseover
-                me.hover(function () {
+                me.hover(function() {
                     isOverPanel = true;
                     showBar();
                     hideBar();
-                }, function () {
+                }, function() {
                     isOverPanel = false;
                     hideBar();
                 });
 
                 // support for mobile
-                me.bind('touchstart', function (e, b) {
+                me.bind('touchstart', function(e, b) {
                     if (e.originalEvent.touches.length) {
                         // record where touch started
                         touchDif = e.originalEvent.touches[0].pageY;
                     }
                 });
 
-                me.bind('touchmove', function (e) {
+                me.bind('touchmove', function(e) {
                     // prevent scrolling the page if necessary
                     if (!releaseScroll) {
                         e.originalEvent.preventDefault();
@@ -282,8 +289,7 @@
                     // scroll content to bottom
                     bar.css({ top: me.outerHeight() - bar.outerHeight() });
                     scrollContent(0, true);
-                }
-                else if (o.start !== 'top') {
+                } else if (o.start !== 'top') {
                     // assume jQuery selector
                     scrollContent($(o.start).position().top, null, true);
 
@@ -292,7 +298,7 @@
                 }
 
                 // attach scroll events
-                attachWheel();
+                attachWheel(this);
 
                 function _onWheel(e) {
                     // use mouse wheel only when mouse is over
@@ -305,11 +311,8 @@
                     if (e.detail) { delta = e.detail / 3; }
 
                     var target = e.target || e.srcTarget || e.srcElement;
-                    /* console.log($(target).closest('.' + o.wrapperClass).attr("class"));
-                     console.log(me.parent().attr("class"));*/
                     if ($(target).closest('.' + o.wrapperClass).is(me.parent())) {
                         // scroll content
-
                         scrollContent(delta, true);
                     }
 
@@ -319,7 +322,6 @@
                 }
 
                 function scrollContent(y, isWheel, isJump) {
-
                     releaseScroll = false;
                     var delta = y;
                     var maxTop = me.outerHeight() - bar.outerHeight();
@@ -365,13 +367,12 @@
                     hideBar();
                 }
 
-                function attachWheel() {
+                function attachWheel(target) {
                     if (window.addEventListener) {
-                        this.addEventListener('DOMMouseScroll', _onWheel, false);
-                        this.addEventListener('mousewheel', _onWheel, false);
-                        //this.addEventListener('MozMousePixelScroll', _onWheel, false );
-                    }
-                    else {
+                        target.addEventListener('DOMMouseScroll', _onWheel, false);
+                        target.addEventListener('mousewheel', _onWheel, false);
+                        target.addEventListener('wheel', _onWheel, false);
+                    } else {
                         document.attachEvent("onmousewheel", _onWheel)
                     }
                 }
@@ -401,8 +402,7 @@
                             var msg = (~~percentScroll == 0) ? 'top' : 'bottom';
                             me.trigger('slimscroll', msg);
                         }
-                    }
-                    else {
+                    } else {
                         releaseScroll = false;
                     }
                     lastScroll = percentScroll;
@@ -420,7 +420,7 @@
                 function hideBar() {
                     // only hide when options allow it
                     if (!o.alwaysVisible) {
-                        queueHide = setTimeout(function () {
+                        queueHide = setTimeout(function() {
                             if (!(o.disableFadeOut && isOverPanel) && !isOverBar && !isDragg) {
                                 bar.fadeOut('slow');
                                 rail.fadeOut('slow');
@@ -436,8 +436,8 @@
         }
     });
 
-    jQuery.fn.extend({
-        slimscroll: jQuery.fn.slimScroll
+    $.fn.extend({
+        slimscroll: $.fn.slimScroll
     });
 
 })(jQuery);

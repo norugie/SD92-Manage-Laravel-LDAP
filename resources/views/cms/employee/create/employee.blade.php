@@ -63,7 +63,7 @@
                                     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                         <label for="employee_locations">Locations</label>
                                         <div class="form-group">
-                                            <select class="form-control show-tick" multiple name="employee_locations[]" id="employee_locations" title="Select employee locations">
+                                            <select class="form-control show-tick select" multiple name="employee_locations[]" id="employee_locations" title="Select employee locations" >
                                                 {{-- Location Options --}}
                                                 @foreach($config['locations'] as $key => $value)
                                                     <option value="{{ $key }}">{{ $value['name'] }}</option>

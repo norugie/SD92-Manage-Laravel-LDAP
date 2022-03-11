@@ -13,7 +13,7 @@
                         </div>
                     </div>
                     <div class="body table-responsive">
-                        <table class="table table-bordered-locker" style="font-size: 1.6rem;">
+                        <table class="table table-bordered-locker" style="font-size: 1rem;">
                             <tbody>                    
                                 @if ($cart->slot_amount == 28)
                                     @for ($i = 0; $i < 14; $i++)

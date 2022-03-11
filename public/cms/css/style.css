@@ -24,6 +24,7 @@
     -ms-text-overflow: ellipsis;
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
+    font-size: 1.2rem;
     overflow: hidden;
 }
 
@@ -113,10 +114,6 @@
     -o-transform: scale(1);
     -webkit-transform: scale(1);
     transform: scale(1);
-}
-
-.navbar-header {
-    padding: 10px 7px;
 }
 
 .navbar-header .bars {
@@ -9311,6 +9308,7 @@ fieldset[disabled] .form-control {
     height: 20px;
     margin-top: -4px;
     margin-right: 17px;
+    display: none;
 }
 
 .navbar .navbar-toggle:before {
@@ -9389,7 +9387,7 @@ fieldset[disabled] .form-control {
 }
 
 .navbar-header {
-    padding: 10px 7px;
+    padding: 5px 5px;
 }
 
 .navbar-header .bars {

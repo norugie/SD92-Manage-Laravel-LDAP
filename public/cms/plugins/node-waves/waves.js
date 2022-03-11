@@ -1,20 +1,22 @@
 /*!
- * Waves v0.7.5
+ * Waves v0.7.6
  * http://fian.my.id/Waves
  *
- * Copyright 2014-2016 Alfiana E. Sibuea and other contributors
+ * Copyright 2014-2018 Alfiana E. Sibuea and other contributors
  * Released under the MIT license
  * https://github.com/fians/Waves/blob/master/LICENSE
  */
 
-;(function(window, factory) {
+;
+(function(window, factory) {
     'use strict';
 
     // AMD. Register as an anonymous module.  Wrap in function so we have access
     // to root via `this`.
     if (typeof define === 'function' && define.amd) {
         define([], function() {
-            return factory.apply(window);
+            window.Waves = factory.call(window);
+            return window.Waves;
         });
     }
 
@@ -31,9 +33,9 @@
 })(typeof global === 'object' ? global : this, function() {
     'use strict';
 
-    var Waves            = Waves || {};
-    var $$               = document.querySelectorAll.bind(document);
-    var toString         = Object.prototype.toString;
+    var Waves = Waves || {};
+    var $$ = document.querySelectorAll.bind(document);
+    var toString = Object.prototype.toString;
     var isTouchAvailable = 'ontouchstart' in window;
 
 
@@ -121,24 +123,24 @@
             element.appendChild(ripple);
 
             // Get click coordinate and element width
-            var pos       = offset(element);
+            var pos = offset(element);
             var relativeY = 0;
             var relativeX = 0;
             // Support for touch devices
-            if('touches' in e && e.touches.length) {
-                relativeY   = (e.touches[0].pageY - pos.top);
-                relativeX   = (e.touches[0].pageX - pos.left);
+            if ('touches' in e && e.touches.length) {
+                relativeY = (e.touches[0].pageY - pos.top);
+                relativeX = (e.touches[0].pageX - pos.left);
             }
             //Normal case
             else {
-                relativeY   = (e.pageY - pos.top);
-                relativeX   = (e.pageX - pos.left);
+                relativeY = (e.pageY - pos.top);
+                relativeX = (e.pageX - pos.left);
             }
             // Support for synthetic events
             relativeX = relativeX >= 0 ? relativeX : 0;
             relativeY = relativeY >= 0 ? relativeY : 0;
 
-            var scale     = 'scale(' + ((element.clientWidth / 100) * 3) + ')';
+            var scale = 'scale(' + ((element.clientWidth / 100) * 3) + ')';
             var translate = 'translate(0,0)';
 
             if (velocity) {
@@ -172,9 +174,9 @@
 
             var duration = e.type === 'mousemove' ? 2500 : Effect.duration;
             rippleStyle['-webkit-transition-duration'] = duration + 'ms';
-            rippleStyle['-moz-transition-duration']    = duration + 'ms';
-            rippleStyle['-o-transition-duration']      = duration + 'ms';
-            rippleStyle['transition-duration']         = duration + 'ms';
+            rippleStyle['-moz-transition-duration'] = duration + 'ms';
+            rippleStyle['-o-transition-duration'] = duration + 'ms';
+            rippleStyle['transition-duration'] = duration + 'ms';
 
             ripple.setAttribute('style', convertStyle(rippleStyle));
         },
@@ -187,6 +189,14 @@
             for (var i = 0, len = ripples.length; i < len; i++) {
                 removeRipple(e, element, ripples[i]);
             }
+
+            if (isTouchAvailable) {
+                element.removeEventListener('touchend', Effect.hide);
+                element.removeEventListener('touchcancel', Effect.hide);
+            }
+
+            element.removeEventListener('mouseup', Effect.hide);
+            element.removeEventListener('mouseleave', Effect.hide);
         }
     };
 
@@ -207,7 +217,7 @@
             }
 
             // Put element class and style to the specified parent
-            var wrapper       = document.createElement('i');
+            var wrapper = document.createElement('i');
             wrapper.className = element.className + ' waves-input-wrapper';
             element.className = 'waves-button-input';
 
@@ -216,8 +226,8 @@
             wrapper.appendChild(element);
 
             // Apply element color and background color to wrapper
-            var elementStyle    = window.getComputedStyle(element, null);
-            var color           = elementStyle.color;
+            var elementStyle = window.getComputedStyle(element, null);
+            var color = elementStyle.color;
             var backgroundColor = elementStyle.backgroundColor;
 
             wrapper.setAttribute('style', 'color:' + color + ';background:' + backgroundColor);
@@ -236,7 +246,7 @@
             }
 
             // Put element as child
-            var wrapper  = document.createElement('i');
+            var wrapper = document.createElement('i');
             parent.replaceChild(wrapper, element);
             wrapper.appendChild(element);
 
@@ -258,7 +268,7 @@
 
         var relativeX = ripple.getAttribute('data-x');
         var relativeY = ripple.getAttribute('data-y');
-        var scale     = ripple.getAttribute('data-scale');
+        var scale = ripple.getAttribute('data-scale');
         var translate = ripple.getAttribute('data-translate');
 
         // Get delay beetween mousedown and mouse leave
@@ -363,8 +373,8 @@
         var element = null;
         var target = e.target || e.srcElement;
 
-        while (target.parentElement !== null) {
-            if (target.classList.contains('waves-effect') && (!(target instanceof SVGElement))) {
+        while (target.parentElement) {
+            if ((!(target instanceof SVGElement)) && target.classList.contains('waves-effect')) {
                 element = target;
                 break;
             }
@@ -400,7 +410,7 @@
 
                 var hidden = false;
 
-                var timer = setTimeout(function () {
+                var timer = setTimeout(function() {
                     timer = null;
                     Effect.show(e, element);
                 }, Effect.delay);
@@ -417,6 +427,8 @@
                         hidden = true;
                         Effect.hide(hideEvent, element);
                     }
+
+                    removeListeners();
                 };
 
                 var touchMove = function(moveEvent) {
@@ -425,12 +437,19 @@
                         timer = null;
                     }
                     hideEffect(moveEvent);
+
+                    removeListeners();
                 };
 
                 element.addEventListener('touchmove', touchMove, false);
                 element.addEventListener('touchend', hideEffect, false);
                 element.addEventListener('touchcancel', hideEffect, false);
 
+                var removeListeners = function() {
+                    element.removeEventListener('touchmove', touchMove);
+                    element.removeEventListener('touchend', hideEffect);
+                    element.removeEventListener('touchcancel', hideEffect);
+                };
             } else {
 
                 Effect.show(e, element);
@@ -510,13 +529,14 @@
         elements = getWavesElements(elements);
         var elementsLen = elements.length;
 
-        options          = options || {};
-        options.wait     = options.wait || 0;
+        options = options || {};
+        options.wait = options.wait || 0;
         options.position = options.position || null; // default = centre of element
 
 
         if (elementsLen) {
-            var element, pos, off, centre = {}, i = 0;
+            var element, pos, off, centre = {},
+                i = 0;
             var mousedown = {
                 type: 'mousedown',
                 button: 1
@@ -534,7 +554,7 @@
                     y: element.clientHeight / 2
                 };
 
-                off      = offset(element);
+                off = offset(element);
                 centre.x = off.left + pos.x;
                 centre.y = off.top + pos.y;
 
