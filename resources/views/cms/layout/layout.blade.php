@@ -13,7 +13,7 @@
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
 
         <!-- Bootstrap Core Css -->
-        <link href="/cms/plugins/bootstrap-v4/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/cms/plugins/bootstrap-v4/css/bootstrap.css" rel="stylesheet">
 
         <!-- Waves Effect Css -->
         <link href="/cms/plugins/node-waves/waves.css" rel="stylesheet" />
@@ -168,7 +168,7 @@
         <script src="/cms/plugins/popper/popper.js"></script>
 
         <!-- Bootstrap Core Js -->
-        <script src="/cms/plugins/bootstrap-v4/js/bootstrap.min.js"></script>
+        <script src="/cms/plugins/bootstrap-v4/js/bootstrap.js"></script>
 
         <!-- Slimscroll Plugin Js -->
         <script src="/cms/plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
