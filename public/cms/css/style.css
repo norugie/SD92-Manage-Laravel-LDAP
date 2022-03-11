@@ -17,6 +17,7 @@
     left: 0;
     z-index: 12;
     width: 100%;
+    padding: 0.1rem;
 }
 
 .navbar .navbar-brand {
@@ -24,7 +25,6 @@
     -ms-text-overflow: ellipsis;
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
-    font-size: 1.2rem;
     overflow: hidden;
 }
 
@@ -116,9 +116,18 @@
     transform: scale(1);
 }
 
+.navbar-header {
+    padding: 10px 7px;
+}
+
 .navbar-header .bars {
     float: left;
     text-decoration: none;
+}
+
+.navbar-signout .signout {
+    color: #fff;
+    float: right;
 }
 
 .navbar-nav>li>a {
@@ -3046,7 +3055,12 @@
     .navbar .navbar-header {
         display: inline-block;
         margin-bottom: -6px;
-        width: calc(100% + 30px);
+        width: 90%;
+    }
+    .navbar .navbar-signout {
+        display: inline-block;
+        margin-bottom: -6px;
+        width: 10%;
     }
     .navbar .nav>li {
         display: inline-block;
@@ -3110,6 +3124,7 @@ h4,
 h5,
 h6 {
     font-weight: bold;
+    margin: 0px;
 }
 
 button,
@@ -5547,7 +5562,7 @@ section.content {
     background-color: transparent !important;
 }
 
-.nav-tabs>li>a:before {
+.nav-tabs>nav-item>nav-link a:before {
     content: '';
     position: absolute;
     left: 0;
@@ -9308,7 +9323,6 @@ fieldset[disabled] .form-control {
     height: 20px;
     margin-top: -4px;
     margin-right: 17px;
-    display: none;
 }
 
 .navbar .navbar-toggle:before {
@@ -9387,7 +9401,7 @@ fieldset[disabled] .form-control {
 }
 
 .navbar-header {
-    padding: 5px 5px;
+    padding: 13px 7px;
 }
 
 .navbar-header .bars {
