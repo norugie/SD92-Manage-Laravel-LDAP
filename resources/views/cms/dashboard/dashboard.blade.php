@@ -8,7 +8,7 @@
                     <div class="header">
                         <div class="row clearfix">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-xs-sm-center">
-                                <h4>LOGS</h4>
+                                <h5>LOGS</h5>
                                 <p class="text-small"><i>Note: The log table below shows the log entries from the past 30 days only.</i></p>
                             </div>
                         </div>

@@ -40,13 +40,15 @@
             <div class="card">
                 <div class="body">
                     <div>
-                        <ul class="nav nav-tabs" role="tablist">
-                            <li role="presentation" class="active"><a href="#info" aria-controls="info" role="tab" data-toggle="tab">User Info</a></li>
-                            <li role="presentation"><a href="#id_card" aria-controls="settings" role="tab" data-toggle="tab">ID Card</a></li>
-                        </ul>
-
-                        <div class="tab-content">
-                            <div role="tabpanel" class="tab-pane fade in active" id="info">
+                        <nav>
+                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                <a class="nav-item nav-link active" id="nav-user-tab" data-toggle="tab" href="#nav-user" role="tab" aria-controls="nav-user" aria-selected="true">User Info</a>
+                                <a class="nav-item nav-link" id="nav-id-tab" data-toggle="tab" href="#nav-id" role="tab" aria-controls="nav-id" aria-selected="false">ID Card</a>
+                            </div>
+                        </nav>
+                        <br>
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade show active" id="nav-user" role="tabpanel" aria-labelledby="nav-user-tab">
                                 {{-- User Info and Groups here --}}
                                 <p><b>Employee ID: </b>{{ $employee->getFirstAttribute('employeeID') }}</p>
                                 <p><b>System User ID: </b>{{ $employee->getFirstAttribute('uidNumber') }}</p>
@@ -79,7 +81,7 @@
                                     @endif
                                 </p>
                             </div>
-                            <div role="tabpanel" class="tab-pane fade in" id="id_card">
+                            <div class="tab-pane fade" id="nav-id" role="tabpanel" aria-labelledby="nav-id-tab">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <p class="font-12"><i><b>Note:</b> The displayed card is only a rough preview. The final card may have slightly different layout.</i></p>

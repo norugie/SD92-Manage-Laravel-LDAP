@@ -15,11 +15,11 @@
         }],
         "dom": 'Bfrtip',
         "buttons": [{
-                text: 'MOVE ACCOUNTS',
+                text: '<i class="material-icons">redo</i><span>MOVE</span>',
                 className: 'btn bg-blue waves-effect move-accounts'
             },
             {
-                text: 'DISABLE ACCOUNTS',
+                text: '<i class="material-icons">do_not_disturb</i><span>DISABLE</span>',
                 className: 'btn bg-red waves-effect disable-accounts'
             }
         ]
@@ -40,7 +40,7 @@
         }],
         "dom": 'Bfrtip',
         "buttons": [{
-            text: 'ENABLE ACCOUNTS',
+            text: '<i class="material-icons">check_circle</i><span>ENABLE</span>',
             className: 'btn bg-blue waves-effect enable-accounts'
         }]
     });

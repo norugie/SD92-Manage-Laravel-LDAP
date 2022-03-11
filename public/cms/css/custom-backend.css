@@ -96,3 +96,8 @@
     padding: 5px;
     border: 1px solid #eee;
 }
+
+.text-small {
+    font-size: 14px;
+    margin: 0;
+}
