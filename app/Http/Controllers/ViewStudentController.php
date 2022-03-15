@@ -26,21 +26,21 @@ class ViewStudentController extends Controller
      * 
      * @return \Illuminate\View\View
      */
-    public function enabledStudentAccountsIndex ()
+    public function enabledStudentAccountsIndex ($school)
     {
+        echo $school;
+        // $students = Group::findBy('cn', 'student')->members()->get();
 
-        $students = Group::findBy('cn', 'student')->members()->get();
+        // foreach($students as $student):
+        //     $student = $this->getStudentInfo($student);
 
-        foreach($students as $student):
-            $student = $this->getStudentInfo($student);
+        //     $grade = $student->groups()->whereContains('cn', $student->getFirstAttribute('school'))->first();
+        //     $student->setAttribute('grade', str_ireplace($student->getFirstAttribute('school'), '', $grade->getFirstAttribute('description')));
+        // endforeach;
 
-            $grade = $student->groups()->whereContains('cn', $student->getFirstAttribute('school'))->first();
-            $student->setAttribute('grade', str_ireplace($student->getFirstAttribute('school'), '', $grade->getFirstAttribute('description')));
-        endforeach;
-
-        return view('cms.student.student', [
-            'students' => $students
-        ]);
+        // return view('cms.student.student', [
+        //     'students' => $students
+        // ]);
     }
 
     /**

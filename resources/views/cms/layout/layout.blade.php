@@ -113,18 +113,54 @@
                             </a>
                         </li>
                         <li class="header">STUDENTS</li>
-                        <li id="students" class="{{ Request::is( 'cms/students' ) || Request::is( 'cms/students/*' ) ? 'active' : '' }}">
+                        {{-- <li id="students" class="{{ Request::is( 'cms/students' ) || Request::is( 'cms/students/*' ) ? 'active' : '' }}">
                             <a href="/cms/students">
                                 <i class="material-icons">people</i>
                                 <span>Active Student List</span>
                             </a>
+                        </li> --}}
+
+                        <li id="student" class="{{ Request::is( 'cms/students/*' ) ? 'active' : '' }}">
+                            <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
+                                <i class="material-icons">people</i>
+                                <span>Active Students List</span>
+                            </a>
+                            <ul class="ml-menu">
+                                <li id="students-aames" class="{{ Request::is( 'cms/students/AAMES' ) ? 'active' : '' }}">
+                                    <a href="/cms/students/AAMES" class="waves-effect waves-block">
+                                        <i class="material-icons">account_balance</i>
+                                        <span>AAMES</span>
+                                    </a>
+                                </li>
+                                <li id="students-ges" class="{{ Request::is( 'cms/students/GES' ) ? 'active' : '' }}">
+                                    <a href="/cms/students/GES" class="waves-effect waves-block">
+                                        <i class="material-icons">account_balance</i>
+                                        <span>GES</span>
+                                    </a>
+                                </li>
+                                <li id="students-nbes" class="{{ Request::is( 'cms/students/NBES' ) ? 'active' : '' }}">
+                                    <a href="/cms/students/NBES" class="waves-effect waves-block">
+                                        <i class="material-icons">account_balance</i>
+                                        <span>NBES</span>
+                                    </a>
+                                </li>  
+                                <li id="students-ness" class="{{ Request::is( 'cms/students/NESS' ) ? 'active' : '' }}">
+                                    <a href="/cms/students/NESS" class="waves-effect waves-block">
+                                        <i class="material-icons">account_balance</i>
+                                        <span>NESS</span>
+                                    </a>
+                                </li>  
+                            </ul>
                         </li>
+
+
                         <li id="lockers" class="{{ Request::is( 'cms/lockers' ) || Request::is( 'cms/lockers/*' ) ? 'active' : '' }}">
                             <a href="/cms/lockers">
                                 <i class="material-icons">domain</i>
                                 <span>Student Locker Status</span>
                             </a>
                         </li>
+                        
                     </ul>
                 </div>
                 <!-- #Menu -->
