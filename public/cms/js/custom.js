@@ -16,11 +16,11 @@
         "dom": 'Bfrtip',
         "buttons": [{
                 text: '<i class="material-icons">redo</i><span>MOVE</span>',
-                className: 'btn bg-blue waves-effect move-accounts'
+                className: 'btn bg-blue waves-effect table-buttons move-accounts'
             },
             {
                 text: '<i class="material-icons">do_not_disturb</i><span>DISABLE</span>',
-                className: 'btn bg-red waves-effect disable-accounts'
+                className: 'btn bg-red waves-effect table-buttons disable-accounts'
             }
         ]
     });
@@ -41,7 +41,7 @@
         "dom": 'Bfrtip',
         "buttons": [{
             text: '<i class="material-icons">check_circle</i><span>ENABLE</span>',
-            className: 'btn bg-blue waves-effect enable-accounts'
+            className: 'btn bg-blue waves-effect table-buttons enable-accounts'
         }]
     });
 
