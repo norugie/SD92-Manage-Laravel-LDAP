@@ -33,6 +33,9 @@ class ViewStudentController extends Controller
 
         foreach($students as $student):
             $student = $this->getStudentInfo($student);
+
+            $grade = $student->groups()->whereContains('cn', $student->getFirstAttribute('school'))->first();
+            $student->setAttribute('grade', str_ireplace($student->getFirstAttribute('school'), '', $grade->getFirstAttribute('description')));
         endforeach;
 
         return view('cms.student.student', [

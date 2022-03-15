@@ -22,6 +22,7 @@
                                     <th>System User ID</th>
                                     <th>Email Address</th>
                                     <th>School</th>
+                                    <th>Grade</th>
                                     <th>Initial Password</th>
                                 </tr>
                             </thead>
@@ -32,6 +33,7 @@
                                     <th>System User ID</th>
                                     <th>Email Address</th>
                                     <th>School</th>
+                                    <th>Grade</th>
                                     <th>Initial Password</th>
                                 </tr>
                             </tfoot>
@@ -43,6 +45,7 @@
                                     <td>{{ $student->getFirstAttribute('sysid') }}</td>
                                     <td>{{ $student->getFirstAttribute('mail') }}</td>
                                     <td>{{ $student->getFirstAttribute('school') }}</td>
+                                    <td>{{ $student->getFirstAttribute('grade') }}</td>
                                     <td>
                                         <details>
                                             <summary class="dt-button btn bg-blue waves-effect">Show Pass</summary>
