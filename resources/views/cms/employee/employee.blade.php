@@ -69,13 +69,13 @@
                                                 <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="material-icons">more_horiz</i><span>OPTIONS</span> <span class="caret"></span>
                                                 </button>
-                                                <ul class="dropdown-menu">
-                                                    <li><a href="/cms/employees/{{ $employee->getFirstAttribute('samaccountname') }}/view">View Employee</a></li>
-                                                    <li><a href="/cms/employees/{{ $employee->getFirstAttribute('samaccountname') }}/update">Update Employee</a></li>
-                                                    <li role="separator" class="divider"></li>
-                                                    <li><a href="/cms/employees/{{ $employee->getFirstAttribute('samaccountname') }}/disable">Disable Employee</a></li>
-                                                </ul>
-                                            </div>
+                                                <div class="dropdown-menu">
+                                                    <a class="dropdown-item" href="/cms/employees/{{ $employee->getFirstAttribute('samaccountname') }}/view">View Employee</a>
+                                                    <a class="dropdown-item" href="/cms/employees/{{ $employee->getFirstAttribute('samaccountname') }}/update">Update Employee</a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item" href="/cms/employees/{{ $employee->getFirstAttribute('samaccountname') }}/disable">Disable Employee</a>
+                                                </div>
+                                              </div>
                                         </center>
                                     </td>
                                 </tr>
