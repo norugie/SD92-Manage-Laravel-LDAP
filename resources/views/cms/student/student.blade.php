@@ -47,7 +47,7 @@
                                     <td>{{ $student->getFirstAttribute('school') }}</td>
                                     <td>{{ $student->getFirstAttribute('grade') }}</td>
                                     <td>
-                                        <details>
+                                        <details class="student-pass">
                                             <summary class="dt-button btn bg-blue waves-effect">Show Pass</summary>
                                             {{ $student->getFirstAttribute('initialpassword') }}
                                         </details>

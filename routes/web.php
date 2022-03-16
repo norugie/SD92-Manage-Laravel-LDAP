@@ -99,7 +99,7 @@ Route::group(['middleware' => 'authAD', 'prefix' => 'cms'], function (){
     Route::group(['prefix' => 'students'], function(){
         Route::controller('ViewStudentController')->group(function (){
             // View Student - Active Student Index
-            Route::get('/{school}', 'enabledStudentAccountsIndex');
+            Route::get('/', 'enabledStudentAccountsIndex');
             // View Student - Profile
             Route::get('/{username}/view', 'viewStudentProfile');
             // View Student - Profile ID Download
