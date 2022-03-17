@@ -1,5 +1,7 @@
 (function() {
     // Custom JS DataTable
+    $.fn.DataTable.ext.pager.numbers_length = 4;
+
     $('#employee_table').DataTable({
         "bSort": true,
         'aaSorting': [
@@ -8,7 +10,7 @@
         "lengthChange": false,
         "iDisplayLength": 10,
         "columnDefs": [{
-            "targets": [0, 5],
+            "targets": [0, 6],
             "searchable": false,
             "orderable": false,
             "visible": true

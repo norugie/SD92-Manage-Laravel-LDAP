@@ -15,7 +15,26 @@ use Illuminate\Http\Request;
 class HelperStudentController extends Controller
 {
     // --- K12Admin-related processes here --- //
-    
+
+    /**
+     * Handle process for getting student info from K12Admin
+     *
+     * @return Object $students
+     */
+    public function getStudentIndexFromK12Admin ()
+    {
+        $students = DB::connection('mysql2')
+        ->table('lglist')
+        ->leftJoin('users', 'users.userid', '=', 'lglist.userid')
+        ->select('users.fullname', 'users.userid', 'users.uid', 'users.pt', 'lglist.school')
+        ->where('lglist.localgroup', 'student')
+        ->where('users.comment', 'like', '%student%')
+        ->orderBy('users.userid', 'ASC')
+        ->get();
+
+        return $students;
+    }
+
     /**
      * Handle process for getting student info from K12Admin
      *
@@ -29,6 +48,18 @@ class HelperStudentController extends Controller
         ->select('fullname', 'comment', 'uid', 'pt')
         ->where('userid', $username)
         ->first();
+
+        $fullname = explode(',', $student->fullname);
+        $student->fullname = $fullname[1] . " " . $fullname[0];
+        $school = explode(' ', $student->comment);
+        $student->school = $school[0];
+
+        // Base path for profile images
+        $url = '/cms/images/users/';
+
+        // Check image directory if profile image for user exists
+        $image_directory = glob(public_path($url) . $student->uid ."*.png");
+        if($image_directory ? $student->student_pic = $url . pathinfo($image_directory[0], PATHINFO_BASENAME) : $student->student_pic = $url . "user-placeholder.png");
 
         return $student;
     }

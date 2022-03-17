@@ -21,6 +21,38 @@ class ViewStudentController extends Controller
         $this->helpers = new HelperStudentController;
     }
 
+    public function test ()
+    {
+        $k12students = DB::connection('mysql2')
+        ->table('lglist')
+        ->leftJoin('users', 'users.userid', '=', 'lglist.userid')
+        ->select('users.fullname', 'users.userid', 'users.uid', 'users.pt', 'lglist.school')
+        ->where('lglist.localgroup', 'student')
+        ->where('users.comment', 'like', '%student%')
+        ->orderBy('users.userid', 'ASC')
+        ->get();
+
+        echo "Total count:" . count($k12students) . "<br><br>";
+
+        // dd($collection);
+        foreach($k12students as $student):
+            // $collection = collect($student);
+            // if($collection->contains('1078947')) echo "Jesse here<br><br>";
+            $adstudent = User::find('cn=' . $student->userid . ',ou="Domain Users",dc=nisgaa,dc=bc,dc=ca');
+            if($adstudent === NULL){
+                echo "<p style='color:red;'>" . $student->userid . " - " . $student->fullname . " - " . $student->school . "</p><br>";
+            } else {
+                echo $student->userid . " - " . $student->fullname . " - " . $student->school . "<br>";
+            }
+        endforeach;
+
+        // $students = Group::findBy('cn', 'student')->members()->get();
+
+        // foreach($students as $student):
+
+        // endforeach;
+    }
+
     /**
      * Return data for /students page
      * 
@@ -28,14 +60,7 @@ class ViewStudentController extends Controller
      */
     public function enabledStudentAccountsIndex ()
     {
-        $students = Group::findBy('cn', 'student')->members()->get();
-
-        foreach($students as $student):
-            $student = $this->getStudentInfo($student);
-
-            $grade = $student->groups()->whereContains('cn', $student->getFirstAttribute('school'))->first();
-            $student->setAttribute('grade', str_ireplace($student->getFirstAttribute('school'), '', $grade->getFirstAttribute('description')));
-        endforeach;
+        $students = $this->helpers->getStudentIndexFromK12Admin();
 
         return view('cms.student.student', [
             'students' => $students
@@ -88,41 +113,33 @@ class ViewStudentController extends Controller
     /**
      * Return student info taken from K12Admin with better formatting
      * 
-     * @param Object $student
+     * @param String $student
      * @return Object $student
      */
-    public function getStudentInfo (Object $student)
+    public function getStudentInfo (String $username)
     {
-        $student_info = [];
+        echo $username;
+        $student = $this->helpers->getStudentInfoFromK12Admin($username);
+        // $fullname = explode(',', $student->fullname);
+        // $fullname = $fullname[1] . " " . $fullname[0];
+        // $school = explode(' ', $student->comment);
+        // $school = $school[0];
 
-        $k12student = $this->helpers->getStudentInfoFromK12Admin($student->getFirstAttribute('samaccountname'));
-        $fullname = explode(',', $k12student->fullname);
-        $fullname = $fullname[1] . " " . $fullname[0];
-        $school = explode(' ', $k12student->comment);
-        $school = $school[0];
+        // // Base path for profile images
+        // $url = '/cms/images/users/';
 
-        // Base path for profile images
-        $url = '/cms/images/users/';
+        // // Check image directory if profile image for user exists
+        // $image_directory = glob(public_path($url) . $student->uid ."*.png");
+        // if($image_directory ? $student_pic = $url . pathinfo($image_directory[0], PATHINFO_BASENAME) : $student_pic = $url . "user-placeholder.png");
 
-        // Check image directory if profile image for user exists
-        $image_directory = glob(public_path($url) . $k12student->uid ."*.png");
-        if($image_directory ? $student_pic = $url . pathinfo($image_directory[0], PATHINFO_BASENAME) : $student_pic = $url . "user-placeholder.png");
-
-        $student_info = [
-            'fullname' => $fullname,
-            'sysid' => $k12student->uid, 
-            'school' => $school, 
-            'pt' => $k12student->pt, 
-            'student_pic' => $student_pic
-        ];
-
-        $student->setAttribute('fullname', $student_info['fullname']);
-        $student->setAttribute('sysid', $student_info['sysid']);
-        $student->setAttribute('school', $student_info['school']);
-        $student->setAttribute('initialpassword', $student_info['pt']);
-        $student->setAttribute('studentpic', $student_info['student_pic']);
+        // $student->setAttribute('fullname', $student_info['fullname']);
+        // $student->setAttribute('sysid', $student_info['sysid']);
+        // $student->setAttribute('school', $student_info['school']);
+        // $student->setAttribute('initialpassword', $student_info['pt']);
+        // $student->setAttribute('studentpic', $student_info['student_pic']);
         
-        return $student;
+        // return $student;
+        dd($student);
     }
 
     /**
@@ -150,7 +167,13 @@ class ViewStudentController extends Controller
                     ->with('message', 'The user you are looking for no longer has an active account in our directory');
         }
         
-        $student = $this->getStudentInfo($student);
+        $student_info = $this->helpers->getStudentInfoFromK12Admin($student->getFirstAttribute('samaccountname'));
+
+        $student->setAttribute('fullname', $student_info->fullname);
+        $student->setAttribute('sysid', $student_info->uid);
+        $student->setAttribute('school', $student_info->school);
+        $student->setAttribute('initialpassword', $student_info->pt);
+        $student->setAttribute('studentpic', $student_info->student_pic);
 
         return view('cms.student.profile', [
             'student' => $student,

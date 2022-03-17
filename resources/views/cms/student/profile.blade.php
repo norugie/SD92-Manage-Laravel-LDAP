@@ -70,7 +70,7 @@
                                     <div class="col-md-12">
                                         <div id="profile_card" class="card-id">
                                             <div class="card-top">
-                                                <div class="card-title">STUDENT</div>
+                                                <div class="card-title" style="margin-left:87px;">STUDENT</div>
                                                 <div class="card-img">
                                                     <img id="student_card_img" src="{{ $student->getFirstAttribute('studentpic') }}" alt="student ID Card Image">
                                                 </div>

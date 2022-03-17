@@ -26,6 +26,7 @@
 
         <!-- JQuery DataTable Css -->
         <link href="/cms/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet">
+        <link href="/cms/plugins/jquery-datatable/skin/bootstrap/css/dataTables.responsive.bootstrap.css" rel="stylesheet">
 
         <!-- Custom Css -->
         <link href="/cms/css/style.css" rel="stylesheet">
@@ -160,6 +161,7 @@
         <!-- END - Main Content -->
 
         <!-- Page Footer -->
+
         <!-- Popper Plugin Js -->
         <script src="/cms/plugins/popper/popper.js"></script>
 
@@ -174,14 +176,13 @@
 
         <!-- Jquery DataTable Plugin Js -->
         <script src="/cms/plugins/jquery-datatable/jquery.dataTables.js"></script>
+        <script src="/cms/plugins/jquery-datatable/skin/bootstrap/js/dataTables.responsive.js"></script>
+        <script src="/cms/plugins/jquery-datatable/skin/bootstrap/js/dataTables.responsive.bootstrap.js"></script>
         <script src="/cms/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
+
+        {{-- JQuery DataTable Plugin Extras --}}
         <script src="/cms/plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
-        <script src="/cms/plugins/jquery-datatable/extensions/export/buttons.flash.min.js"></script>
-        <script src="/cms/plugins/jquery-datatable/extensions/export/jszip.min.js"></script>
-        <script src="/cms/plugins/jquery-datatable/extensions/export/pdfmake.min.js"></script>
-        <script src="/cms/plugins/jquery-datatable/extensions/export/vfs_fonts.js"></script>
         <script src="/cms/plugins/jquery-datatable/extensions/export/buttons.html5.min.js"></script>
-        <script src="/cms/plugins/jquery-datatable/extensions/export/buttons.print.min.js"></script>
 
         <!-- Select Plugin Js -->
         <script src="/cms/plugins/bootstrap-select/js/bootstrap-select.js"></script>
