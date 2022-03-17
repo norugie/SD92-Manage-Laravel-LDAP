@@ -4071,13 +4071,13 @@ input[type="button"].btn-block {
 }
 
 .nav-tabs .nav-link {
+    color: #495057;
     border: 1px solid transparent;
     border-top-left-radius: 0.25rem;
     border-top-right-radius: 0.25rem;
 }
 
-.nav-tabs .nav-link:hover,
-.nav-tabs .nav-link:focus {
+.nav-tabs .nav-link:hover {
     border-color: #e9ecef #e9ecef #dee2e6;
 }
 
@@ -4089,9 +4089,9 @@ input[type="button"].btn-block {
 
 .nav-tabs .nav-link.active,
 .nav-tabs .nav-item.show .nav-link {
-    color: #495057;
+    color: #007bff;
     background-color: #fff;
-    border-color: #dee2e6 #dee2e6 #fff;
+    border-bottom: 2px solid #007bff;
 }
 
 .nav-tabs .dropdown-menu {
