@@ -21,11 +21,11 @@
                     </div>
                 <div class="body">
                     <div class="table-responsive">
-                        <table id="inactive_employee_table" class="table table-bordered table-striped table-hover dataTable">
+                        <table id="inactive_employee_table" class="table dt-responsive nowrap" style="width:100%">
                             <thead>
                                 <tr>
                                     <th></th>
-                                    <th>Name</th>
+                                    <th class="all">Name</th>
                                     <th>Username</th>
                                     <th>Email Address</th>
                                     <th>Options</th>
