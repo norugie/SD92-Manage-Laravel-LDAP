@@ -60,12 +60,7 @@
         "iDisplayLength": 10,
         'aaSorting': [
             [0, 'asc']
-        ],
-        "dom": 'Bfrtip',
-        "buttons": [{
-            text: '<i class="material-icons">remove_red_eye</i><span>SHOW ALL STUDENT PASS</span>',
-            className: 'btn bg-blue waves-effect table-buttons show-student-pass'
-        }]
+        ]
     });
 
     // Custom JQuery Validator
