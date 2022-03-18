@@ -1,4 +1,4 @@
-<div class="modal fade" id="imageCropper" tabindex="-1" role="dialog" style="display: none;">
+<div class="modal fade" id="imageCropper" tabindex="-1" role="dialog" aria-labelledby="imageCropperTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -12,7 +12,7 @@
                                 {{-- Image Crop Area --}}
                                 <img src="" class="img-responsive" id="card_img_crop_area" alt="ID Card New Image Crop Area">
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 ml-auto">
                                 {{-- Image Crop Preview --}}
                                 <center><div class="preview"></div></center>
                             </div>

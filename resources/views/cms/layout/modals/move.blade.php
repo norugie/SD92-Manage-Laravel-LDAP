@@ -1,4 +1,4 @@
-<div class="modal fade" id="moveAccounts" tabindex="-1" role="dialog" style="display: none;">
+<div class="modal fade" id="moveAccounts" tabindex="-1" role="dialog" aria-labelledby="moveAccountsTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">

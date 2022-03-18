@@ -15,7 +15,7 @@
                     </div>
                 <div class="body">
                     <div class="table-responsive">
-                        <table id="log_table" class="table table-bordered table-striped table-hover dataTable">
+                        <table id="log_table" class="table dt-responsive nowrap" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>Log User</th>
