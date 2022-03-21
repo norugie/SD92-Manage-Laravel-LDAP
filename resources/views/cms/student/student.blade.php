@@ -22,6 +22,7 @@
                                     <th>System User ID</th>
                                     <th>Email Address</th>
                                     <th>School</th>
+                                    <th>Grade</th>
                                 </tr>
                             </thead>
                             <tfoot>
@@ -31,6 +32,7 @@
                                     <th>System User ID</th>
                                     <th>Email Address</th>
                                     <th>School</th>
+                                    <th>Grade</th>
                                 </tr>
                             </tfoot>
                             <tbody>
@@ -41,6 +43,7 @@
                                     <td>{{ $student->uid }}</td>
                                     <td>{{ $student->userid }}@nisgaa.bc.ca</td>
                                     <td>{{ $student->school }}</td>
+                                    <td></td>
                                 </tr>
                                 @endforeach
                             </tbody>

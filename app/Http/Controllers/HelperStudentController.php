@@ -24,9 +24,9 @@ class HelperStudentController extends Controller
     public function getStudentIndexFromK12Admin ()
     {
         $students = DB::connection('mysql2')
-        ->table('lglist')
-        ->leftJoin('users', 'users.userid', '=', 'lglist.userid')
-        ->select('users.fullname', 'users.userid', 'users.uid', 'users.pt', 'lglist.school')
+        ->table('users')
+        ->leftJoin('lglist', 'users.userid', '=', 'lglist.userid')
+        ->select('users.fullname', 'users.userid', 'users.uid', 'users.pt', 'lglist.school', 'lglist.localgroup')
         ->where('lglist.localgroup', 'student')
         ->where('users.comment', 'like', '%student%')
         ->orderBy('users.userid', 'ASC')
@@ -45,14 +45,14 @@ class HelperStudentController extends Controller
     {
         $student = DB::connection('mysql2')
         ->table('users')
-        ->select('fullname', 'comment', 'uid', 'pt')
-        ->where('userid', $username)
+        ->leftJoin('lglist', 'users.userid', '=', 'lglist.userid')
+        ->select('users.fullname', 'users.uid', 'users.uid', 'users.pt', 'lglist.school', 'lglist.localgroup')
+        ->where('users.userid', $username)
+        ->where('localgroup', '!=', 'student')
         ->first();
 
         $fullname = explode(',', $student->fullname);
         $student->fullname = $fullname[1] . " " . $fullname[0];
-        $school = explode(' ', $student->comment);
-        $student->school = $school[0];
 
         // Base path for profile images
         $url = '/cms/images/users/';

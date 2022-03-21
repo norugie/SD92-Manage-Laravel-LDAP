@@ -111,38 +111,6 @@ class ViewStudentController extends Controller
     }
 
     /**
-     * Return student info taken from K12Admin with better formatting
-     * 
-     * @param String $student
-     * @return Object $student
-     */
-    public function getStudentInfo (String $username)
-    {
-        echo $username;
-        $student = $this->helpers->getStudentInfoFromK12Admin($username);
-        // $fullname = explode(',', $student->fullname);
-        // $fullname = $fullname[1] . " " . $fullname[0];
-        // $school = explode(' ', $student->comment);
-        // $school = $school[0];
-
-        // // Base path for profile images
-        // $url = '/cms/images/users/';
-
-        // // Check image directory if profile image for user exists
-        // $image_directory = glob(public_path($url) . $student->uid ."*.png");
-        // if($image_directory ? $student_pic = $url . pathinfo($image_directory[0], PATHINFO_BASENAME) : $student_pic = $url . "user-placeholder.png");
-
-        // $student->setAttribute('fullname', $student_info['fullname']);
-        // $student->setAttribute('sysid', $student_info['sysid']);
-        // $student->setAttribute('school', $student_info['school']);
-        // $student->setAttribute('initialpassword', $student_info['pt']);
-        // $student->setAttribute('studentpic', $student_info['student_pic']);
-        
-        // return $student;
-        dd($student);
-    }
-
-    /**
      * Return data for /students/{username}/view page
      *
      * @param String $username
@@ -168,12 +136,14 @@ class ViewStudentController extends Controller
         }
         
         $student_info = $this->helpers->getStudentInfoFromK12Admin($student->getFirstAttribute('samaccountname'));
+        $grade = Group::findBy('cn', $student_info->localgroup)->getFirstAttribute('description');
 
         $student->setAttribute('fullname', $student_info->fullname);
         $student->setAttribute('sysid', $student_info->uid);
         $student->setAttribute('school', $student_info->school);
         $student->setAttribute('initialpassword', $student_info->pt);
         $student->setAttribute('studentpic', $student_info->student_pic);
+        $student->setAttribute('grade', str_replace($student->school, '', $grade));
 
         return view('cms.student.profile', [
             'student' => $student,

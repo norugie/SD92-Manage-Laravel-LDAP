@@ -52,6 +52,7 @@
                                 <p><b>District Email Address: </b>{{ $student->getFirstAttribute('mail') }}</p>
                                 <p><b>District Username: </b>{{ $student->getFirstAttribute('samaccountname') }}</p>
                                 <p><b>School: </b>@if($student->getFirstAttribute('school') !== NULL) {{ $config['locations'][$student->getFirstAttribute('school')]['name'] }} @endif</p>
+                                <p><b>Grade: </b>{{ $student->getFirstAttribute('grade') }}</p>
                             </div>
                             <div class="tab-pane fade" id="nav-id" role="tabpanel" aria-labelledby="nav-id-tab">
                                 <div class="row">
