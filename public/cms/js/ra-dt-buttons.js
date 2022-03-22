@@ -1,4 +1,5 @@
 (function() {
+    $('.table-buttons').attr('disabled', true);
     $('#inactive_employee_table').on("change", ".employee-checkbox", function() {
         var employee = '#employee_checkbox_' + $(this).val();
         var employeeUsername = $(employee).val();
