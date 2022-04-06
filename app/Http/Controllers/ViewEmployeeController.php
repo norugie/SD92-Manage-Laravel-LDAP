@@ -187,7 +187,7 @@ class ViewEmployeeController extends Controller
         $this->fpdf->Cell(37,1,'School District 92 (Nisga\'a)',0,0,'R',FALSE);
         $this->fpdf->SetXY(36,8);
         $this->fpdf->Cell(37,1,$address,0,0,'R',FALSE);
-        $this->fpdf->SetXY(36,10.6);
+        $this->fpdf->SetXY(36,10.4);
         $this->fpdf->Cell(37,1,$city_province_postal,0,0,'R',FALSE);
         $this->fpdf->SetXY(36,13);
         $this->fpdf->Cell(37,1,$phone,0,0,'R',FALSE);

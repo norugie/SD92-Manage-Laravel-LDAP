@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Codedge\Fpdf\Fpdf\Fpdf;
 use App\Http\Controllers\HelperStudentController;
 use App\Ldap\User;
 use App\Ldap\Group;
@@ -19,6 +20,9 @@ class ViewStudentController extends Controller
         $this->config = json_decode($json, true);
 
         $this->helpers = new HelperStudentController;
+
+        // Initialize FPDF for cards
+        $this->fpdf = new Fpdf('L','mm',array(85,54));
     }
 
     public function test ()
@@ -110,6 +114,21 @@ class ViewStudentController extends Controller
         // return view('cms.locker.log');
     }
 
+    public function getStudentInfo($student)
+    {
+        $student_info = $this->helpers->getStudentInfoFromK12Admin($student->getFirstAttribute('samaccountname'));
+        $grade = Group::findBy('cn', $student_info->localgroup)->getFirstAttribute('description');
+
+        $student->setAttribute('fullname', $student_info->fullname);
+        $student->setAttribute('sysid', $student_info->uid);
+        $student->setAttribute('school', $student_info->school);
+        $student->setAttribute('initialpassword', $student_info->pt);
+        $student->setAttribute('studentpic', $student_info->student_pic);
+        $student->setAttribute('grade', str_replace($student->school, '', $grade));
+
+        return $student;
+    }
+
     /**
      * Return data for /students/{username}/view page
      *
@@ -135,19 +154,69 @@ class ViewStudentController extends Controller
                     ->with('message', 'The user you are looking for no longer has an active account in our directory');
         }
         
-        $student_info = $this->helpers->getStudentInfoFromK12Admin($student->getFirstAttribute('samaccountname'));
-        $grade = Group::findBy('cn', $student_info->localgroup)->getFirstAttribute('description');
-
-        $student->setAttribute('fullname', $student_info->fullname);
-        $student->setAttribute('sysid', $student_info->uid);
-        $student->setAttribute('school', $student_info->school);
-        $student->setAttribute('initialpassword', $student_info->pt);
-        $student->setAttribute('studentpic', $student_info->student_pic);
-        $student->setAttribute('grade', str_replace($student->school, '', $grade));
+        $student = $this->getStudentInfo($student);
 
         return view('cms.student.profile', [
             'student' => $student,
             'config' => $this->config
         ]);
+    }
+
+    /**
+     * Handle process for downloading student profile ID image
+     *
+     * @param String $username
+     */
+    public function viewStudentProfileIDImageDownload (String $username)
+    {
+        // Set student object values
+        $student = User::find('cn=' . $username . ',ou="Domain Users",dc=nisgaa,dc=bc,dc=ca');
+        $student = $this->getStudentInfo($student);
+
+        $name = $student->getFirstAttribute('fullname');
+        $school = $this->config['locations'][$student->getFirstAttribute('school')]['name'];
+        $address = $this->config['locations'][$student->getFirstAttribute('school')]['address'];
+        $city_province_postal = $this->config['locations'][$student->getFirstAttribute('school')]['city'] . " " . 
+                                $this->config['locations'][$student->getFirstAttribute('school')]['province'] . " " . 
+                                $this->config['locations'][$student->getFirstAttribute('school')]['postal_code'];
+        $phone = $this->config['locations'][$student->getFirstAttribute('school')]['phone'];
+
+        $logo = public_path('/nisgaa-icon.png');
+        $barcode = public_path('/cms/images/barcode.png');
+        $student_pic = public_path($student->getFirstAttribute('studentpic'));
+
+        $this->fpdf->SetMargins(0,0,0);
+        $this->fpdf->AddPage();
+        $this->fpdf->SetFont('Arial','B', 10);
+        $this->fpdf->SetTextColor(255,255,255);
+        $this->fpdf->SetFillColor(224,19,24);
+        $this->fpdf->Rect(0,38,85,16,'F');
+        $this->fpdf->SetFillColor(0,0,0);
+        $this->fpdf->Rect(0,0,85,16,'F');
+        $this->fpdf->Rect(3,15,33,33,'F');
+        $this->fpdf->SetXY(5.75,7);
+        $this->fpdf->Cell(28,2.5,'STUDENT',0,0,'C',FALSE);
+        $this->fpdf->SetFont('Arial', '', 6.1);
+        $this->fpdf->SetXY(36,1.8);
+        $this->fpdf->Cell(37,2,$school,0,0,'R',FALSE);
+        $this->fpdf->SetFont('Arial', '', 6);
+        $this->fpdf->SetXY(36,5.5);
+        $this->fpdf->Cell(37,1,'School District 92 (Nisga\'a)',0,0,'R',FALSE);
+        $this->fpdf->SetXY(36,8);
+        $this->fpdf->Cell(37,1,$address,0,0,'R',FALSE);
+        $this->fpdf->SetXY(36,10.4);
+        $this->fpdf->Cell(37,1,$city_province_postal,0,0,'R',FALSE);
+        $this->fpdf->SetXY(36,13);
+        $this->fpdf->Cell(37,1,$phone,0,0,'R',FALSE);
+        $this->fpdf->Image($logo,73.5,1.5,8.5,13.3,'PNG');
+        $this->fpdf->SetTextColor(0,0,0);
+        $this->fpdf->SetFont('Arial', 'B', 12);
+        $this->fpdf->SetXY(36,22);
+        $this->fpdf->Cell(49,4,$name,0,0,'C',FALSE);
+        $this->fpdf->SetXY(36,23.25);
+        $this->fpdf->Image($barcode,43,28,34,6,'PNG');
+        $this->fpdf->Image($student_pic,3.2,12.5,32.5,35,'PNG');
+
+        $this->fpdf->Output('card_' . $username . '.pdf', 'D');
     }
 }
