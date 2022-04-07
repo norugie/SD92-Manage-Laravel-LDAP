@@ -15,11 +15,11 @@
                     </div>
                 <div class="body">
                     <div class="table-responsive">
-                        <table id="log_table" class="table dt-responsive nowrap" style="width:100%">
+                        <table id="log_table" class="table dt-responsive" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>Log User</th>
-                                    <th>Log Description</th>
+                                    <th class="all">Log Description</th>
                                     <th>Date</th>
                                 </tr>
                             </thead>
