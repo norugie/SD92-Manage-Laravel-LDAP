@@ -96,3 +96,17 @@ fieldset[disabled] .btn {
     box-shadow: none;
     opacity: .65;
 }
+
+#nav-id-tab,
+#nav-user-tab {
+    color: #495057!important;
+}
+
+.nav-tabs .nav-link.active {
+    border: none!important;
+    border-bottom: 2px solid #007bff!important;
+}
+
+.tab-pane>p {
+    margin-bottom: 8px!important;
+}
