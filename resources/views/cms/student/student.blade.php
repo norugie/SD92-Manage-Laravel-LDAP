@@ -14,7 +14,7 @@
                     </div>
                 <div class="body">
                     <div class="table-responsive">
-                        <table id="student_table" class="table dt-responsive nowrap" style="width:100%">
+                        <table id="student_table" class="table dt-responsive" style="width:100%">
                             <thead>
                                 <tr>
                                     <th class="all">Name</th>
@@ -22,7 +22,6 @@
                                     <th>System User ID</th>
                                     <th>Email Address</th>
                                     <th>School</th>
-                                    <th>Grade</th>
                                 </tr>
                             </thead>
                             <tfoot>
@@ -32,7 +31,6 @@
                                     <th>System User ID</th>
                                     <th>Email Address</th>
                                     <th>School</th>
-                                    <th>Grade</th>
                                 </tr>
                             </tfoot>
                             <tbody>
@@ -43,7 +41,6 @@
                                     <td>{{ $student->uid }}</td>
                                     <td>{{ $student->userid }}@nisgaa.bc.ca</td>
                                     <td>{{ $student->school }}</td>
-                                    <td></td>
                                 </tr>
                                 @endforeach
                             </tbody>

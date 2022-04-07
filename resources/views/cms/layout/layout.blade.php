@@ -37,6 +37,9 @@
         <!-- Jquery Core Js -->
         <script src="/cms/plugins/jquery/jquery.min.js"></script>
 
+        <!-- Popper Plugin Js -->
+        <script src="/cms/plugins/popper/popper.js"></script>
+
         <!-- Jquery Validation Plugin Css -->
         <script src="/cms/plugins/jquery-validation/jquery.validate.js"></script>
     </head>
@@ -161,9 +164,6 @@
         <!-- END - Main Content -->
 
         <!-- Page Footer -->
-
-        <!-- Popper Plugin Js -->
-        <script src="/cms/plugins/popper/popper.js"></script>
 
         <!-- Bootstrap Core Js -->
         <script src="/cms/plugins/bootstrap-v4/js/bootstrap.js"></script>

@@ -26,7 +26,7 @@
                     </div>
                 <div class="body">
                     <div class="table-responsive">
-                        <table id="employee_table" class="table dt-responsive nowrap" style="width:100%">
+                        <table id="employee_table" class="table dt-responsive" style="width:100%">
                             <thead>
                                 <tr>
                                     <th class="all"></th>
@@ -75,7 +75,7 @@
                                                     <div class="dropdown-divider"></div>
                                                     <a class="dropdown-item" href="/cms/employees/{{ $employee->getFirstAttribute('samaccountname') }}/disable">Disable Employee</a>
                                                 </div>
-                                              </div>
+                                            </div>
                                         </center>
                                     </td>
                                 </tr>
