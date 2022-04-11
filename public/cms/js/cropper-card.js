@@ -4,6 +4,7 @@
     var image = document.getElementById('card_img_crop_area');
     var username = $('#upload_id_image').data('username');
     var userID = $('#upload_id_image').data('usernumber');
+    var type = $('#upload_id_image').data('type');
     var cropper;
 
     $('#new_card_img').change(function(event) {
@@ -50,7 +51,7 @@
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    url: '/cms/employees/' + username + '/update/image/' + userID,
+                    url: '/cms/' + type + '/' + username + '/update/image/' + userID,
                     method: 'POST',
                     data: { image: base64data },
                     success: function() {

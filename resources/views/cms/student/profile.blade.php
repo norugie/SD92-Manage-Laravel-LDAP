@@ -61,7 +61,7 @@
                                     </div>
                                     <div class="col-md-12">
                                         <label for="new_card_img">
-                                            <button type="button" id="upload_id_image" class="btn bg-green waves-effect" style="display: inline-block;" data-username="{{ $student->getFirstAttribute('samaccountname') }}" data-usernumber="{{ $student->getFirstAttribute('uidNumber') }}" onclick="$('#new_card_img').trigger('click'); return false;"><i class="material-icons">image</i><span>UPDATE ID IMAGE</span></button>
+                                            <button type="button" id="upload_id_image" class="btn bg-green waves-effect" style="display: inline-block;" data-username="{{ $student->getFirstAttribute('samaccountname') }}" data-type="students" data-usernumber="{{ $student->getFirstAttribute('sysid') }}" onclick="$('#new_card_img').trigger('click'); return false;"><i class="material-icons">image</i><span>UPDATE ID IMAGE</span></button>
                                         </label>
                                         <input type="file" id="new_card_img" name="new_card_img" style="display: none;">
                                         <label for="download_id_card">

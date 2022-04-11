@@ -105,6 +105,8 @@ Route::group(['middleware' => 'authAD', 'prefix' => 'cms'], function (){
             Route::get('/{username}/view', 'viewStudentProfile');
             // View Student - Profile ID Download
             Route::get('/{username}/download/image', 'viewStudentProfileIDImageDownload');
+            // Update Student - Profile ID
+            Route::post('/{username}/update/image/{userID}', 'updateStudentProfileIDImage');
         });
     });
 
