@@ -63,7 +63,7 @@
                                         <label for="new_card_img">
                                             <button type="button" id="upload_id_image" class="btn bg-green waves-effect" style="display: inline-block;" data-username="{{ $student->getFirstAttribute('samaccountname') }}" data-type="students" data-usernumber="{{ $student->getFirstAttribute('sysid') }}" onclick="$('#new_card_img').trigger('click'); return false;"><i class="material-icons">image</i><span>UPDATE ID IMAGE</span></button>
                                         </label>
-                                        <input type="file" id="new_card_img" name="new_card_img" style="display: none;">
+                                        <input type="file" id="new_card_img" name="new_card_img" accept="image/*" style="display: none;">
                                         <label for="download_id_card">
                                             <a href="/cms/students/{{ $student->getFirstAttribute('samaccountname') }}/download/image" id="download_id_card" type="button" class="btn bg-blue waves-effect" style="display: inline-block;" download><i class="material-icons">file_download</i><span>DOWNLOAD ID</span></a>
                                         </label>

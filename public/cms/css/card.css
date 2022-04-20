@@ -86,6 +86,14 @@
     max-width: 1280px !important;
 }
 
+.img-container {
+    max-width: 100%;
+}
+
+.img-container img {
+    width: 100%;
+}
+
 .preview {
     overflow: hidden;
     width: 250px;
