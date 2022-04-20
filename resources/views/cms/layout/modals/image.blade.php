@@ -5,7 +5,7 @@
                 <h4 class="modal-title" id="imageCropperLabel">New ID Image</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                  </button>
+                </button>
             </div>
             <form method="POST">
                 <div class="modal-body">

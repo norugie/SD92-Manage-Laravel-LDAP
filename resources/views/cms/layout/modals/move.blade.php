@@ -3,6 +3,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="moveAccountsLabel">Move the following user(s) to another department:</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <form class="new_form_validate" action="/cms/employees/update" method="POST">
                 @csrf

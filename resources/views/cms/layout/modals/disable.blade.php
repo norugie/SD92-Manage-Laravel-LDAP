@@ -3,6 +3,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="disableAccountsLabel">Disable the following user account(s):</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <form class="new_form_validate" action="/cms/employees/disable" method="POST">
                 @csrf
