@@ -15,12 +15,21 @@
             $modal.modal('show');
         };
 
+        var reader;
+        var file;
+
         if (files && files.length > 0) {
-            reader = new FileReader();
-            reader.onload = function(event) {
-                done(reader.result);
-            };
-            reader.readAsDataURL(files[0]);
+            file = files[0];
+
+            if (URL) {
+                done(URL.createObjectURL(file));
+            } else if (FileReader) {
+                reader = new FileReader();
+                reader.onload = function(e) {
+                    done(reader.result);
+                };
+                reader.readAsDataURL(file);
+            }
         }
     });
 
@@ -36,29 +45,33 @@
     });
 
     $('#save_crop').click(function() {
-        canvas = cropper.getCroppedCanvas({
-            width: 400,
-            height: 400
-        });
+        $modal.modal('hide');
+        var canvas;
+        if (cropper) {
+            canvas = cropper.getCroppedCanvas({
+                width: 160,
+                height: 160
+            });
 
-        canvas.toBlob(function(blob) {
-            url = URL.createObjectURL(blob);
-            var reader = new FileReader();
-            reader.readAsDataURL(blob);
-            reader.onloadend = function() {
-                var base64data = reader.result;
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    url: '/cms/' + type + '/' + username + '/update/image/' + userID,
-                    method: 'POST',
-                    data: { image: base64data },
-                    success: function() {
-                        location.reload();
-                    }
-                });
-            };
-        });
+            canvas.toBlob(function(blob) {
+                url = URL.createObjectURL(blob);
+                var reader = new FileReader();
+                reader.readAsDataURL(blob);
+                reader.onloadend = function() {
+                    var base64data = reader.result;
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        url: '/cms/' + type + '/' + username + '/update/image/' + userID,
+                        method: 'POST',
+                        data: { image: base64data },
+                        success: function() {
+                            location.reload();
+                        }
+                    });
+                };
+            });
+        }
     });
 })();
