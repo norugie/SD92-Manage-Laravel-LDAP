@@ -28,7 +28,7 @@
                                     <th class="all">Name</th>
                                     <th>Username</th>
                                     <th>Email Address</th>
-                                    <th>Options</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tfoot>
@@ -37,7 +37,7 @@
                                     <th>Name</th>
                                     <th>Username</th>
                                     <th>Email Address</th>
-                                    <th>Options</th>
+                                    <th></th>
                                 </tr>
                             </tfoot>
                             <tbody>

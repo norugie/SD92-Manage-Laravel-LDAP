@@ -35,7 +35,7 @@
                                     <th>System User ID</th>
                                     <th>Email Address</th>
                                     <th>Main School/Department</th>
-                                    <th>Options</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tfoot>
@@ -46,7 +46,7 @@
                                     <th>System User ID</th>
                                     <th>Email Address</th>
                                     <th>Main School/Department</th>
-                                    <th>Options</th>
+                                    <th></th>
                                 </tr>
                             </tfoot>
                             <tbody>

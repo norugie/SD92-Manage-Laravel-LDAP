@@ -26,38 +26,6 @@ class ViewStudentController extends Controller
         $this->fpdf = new Fpdf('L','mm',array(85,54));
     }
 
-    public function test ()
-    {
-        $k12students = DB::connection('mysql2')
-        ->table('lglist')
-        ->leftJoin('users', 'users.userid', '=', 'lglist.userid')
-        ->select('users.fullname', 'users.userid', 'users.uid', 'users.pt', 'lglist.school')
-        ->where('lglist.localgroup', 'student')
-        ->where('users.comment', 'like', '%student%')
-        ->orderBy('users.userid', 'ASC')
-        ->get();
-
-        echo "Total count:" . count($k12students) . "<br><br>";
-
-        // dd($collection);
-        foreach($k12students as $student):
-            // $collection = collect($student);
-            // if($collection->contains('1078947')) echo "Jesse here<br><br>";
-            $adstudent = User::find('cn=' . $student->userid . ',ou="Domain Users",dc=nisgaa,dc=bc,dc=ca');
-            if($adstudent === NULL){
-                echo "<p style='color:red;'>" . $student->userid . " - " . $student->fullname . " - " . $student->school . "</p><br>";
-            } else {
-                echo $student->userid . " - " . $student->fullname . " - " . $student->school . "<br>";
-            }
-        endforeach;
-
-        // $students = Group::findBy('cn', 'student')->members()->get();
-
-        // foreach($students as $student):
-
-        // endforeach;
-    }
-
     /**
      * Return data for /students page
      * 
