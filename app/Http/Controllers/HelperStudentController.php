@@ -25,12 +25,23 @@ class HelperStudentController extends Controller
      */
     public function getStudentIndexFromK12Admin ()
     {
+        // $students = DB::connection('mysql2')
+        // ->table('users')
+        // ->leftJoin('lglist', 'users.userid', '=', 'lglist.userid')
+        // ->select('users.fullname', 'users.userid', 'users.uid', 'users.pt', 'lglist.school', 'lglist.localgroup')
+        // ->where('lglist.localgroup', 'student')
+        // ->where('users.comment', 'like', '%student%')
+        // ->orderBy('users.userid', 'ASC')
+        // ->get();
+
         $students = DB::connection('mysql2')
         ->table('users')
         ->leftJoin('lglist', 'users.userid', '=', 'lglist.userid')
         ->select('users.fullname', 'users.userid', 'users.uid', 'users.pt', 'lglist.school', 'lglist.localgroup')
-        ->where('lglist.localgroup', 'student')
+        ->where('lglist.localgroup', '!=', 'student')
+        ->where('lglist.localgroup', 'not like', '%A3 Student Assignment%')
         ->where('users.comment', 'like', '%student%')
+        ->where('users.userid', 'regexp', '^-?[0-9]+$')
         ->orderBy('users.userid', 'ASC')
         ->get();
 
