@@ -12,6 +12,18 @@
 
     <script src="/cms/plugins/cropper/cropper.min.js"></script>
     <script src="/cms/js/cropper-card.js"></script>
+    <script>
+        $('#student_rfid_toggle').click(function() {
+            $('#student_rfid_area').removeAttr('hidden');
+            $('#student_rfid_area').show();
+            $('#student_rfid_toggle').hide();
+        });
+
+        $('#student_rfid_cancel').click(function() {
+            $('#student_rfid_area').hide();
+            $('#student_rfid_toggle').show();
+        });
+    </script>
 
 @endsection
 
@@ -28,6 +40,31 @@
                     <div class="content-area">
                         <h3>{{ $student->getFirstAttribute('fullname') }}</h3>
                         <p>@if($student->getFirstAttribute('school') !== NULL) {{ $config['locations'][$student->getFirstAttribute('school')]['name'] }} @endif</p>
+                    </div>
+                </div>
+                <div class="profile-footer">
+                    <button type="button" id="student_rfid_toggle" class="btn bg-green waves-effect btn-block"><i class="material-icons">edit</i><span>ASSIGN STUDENT ID</span></button>
+                    <div id="student_rfid_area" class="row" hidden>
+                        <div class="col-lg-12">
+                            <div class="row" >
+                                <div class="col-md-12">
+                                    <label for="student_rfid">Student ID Card Code</label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" class="form-control" id="student_rfid" name="student_rfid">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <button id="student_rfid_cancel" class="btn btn-block btn-lg waves-effect">CANCEL</button> 
+                                </div>
+                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <button id="student_rfid_save" type="submit" class="btn bg-blue-grey btn-block btn-lg waves-effect">SAVE</button> 
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
