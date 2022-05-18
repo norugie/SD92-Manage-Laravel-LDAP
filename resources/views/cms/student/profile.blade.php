@@ -53,7 +53,7 @@
                                         <label for="student_rfid">Student ID Card Code</label>
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="text" class="form-control" id="student_rfid" name="student_rfid">
+                                                <input type="text" class="form-control" id="student_rfid" name="student_rfid" value="{{ $student->getFirstAttribute('employeeNumber') }}">
                                             </div>
                                         </div>
                                     </div>
@@ -87,7 +87,7 @@
                             <div class="tab-pane fade show active" id="nav-user" role="tabpanel" aria-labelledby="nav-user-tab">
                                 {{-- User Info and Groups here --}}
                                 <p><b>System User ID: </b>{{ $student->getFirstAttribute('sysid') }}</p>
-                                <p><b>Student ID Card Code: </b>{{ $student->getFirstAttribute('studentNumber') }}</p>
+                                <p><b>Student ID Card Code: </b>{{ $student->getFirstAttribute('employeeNumber') }}</p>
                                 <p><b>Student Name: </b>{{ $student->getFirstAttribute('fullname') }}</p>
                                 <p><b>District Email Address: </b>{{ $student->getFirstAttribute('mail') }}</p>
                                 <p><b>District Username: </b>{{ $student->getFirstAttribute('samaccountname') }}</p>
