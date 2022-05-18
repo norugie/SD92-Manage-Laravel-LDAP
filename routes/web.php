@@ -6,6 +6,7 @@ use App\Http\Controllers\ViewEmployeeController;
 use App\Http\Controllers\ViewStudentController;
 use App\Http\Controllers\CreateEmployeeController;
 use App\Http\Controllers\UpdateEmployeeController;
+use App\Http\Controllers\UpdateStudentController;
 use App\Http\Controllers\DisableEmployeeController;
 use App\Http\Controllers\EnableEmployeeController;
 use App\Http\Controllers\AuthController;
@@ -22,8 +23,6 @@ use App\Http\Controllers\AuthController;
 | could affect some of the functionalities.
 |
 */
-
-Route::get('/cms/lockers', [ViewStudentController::class, 'lockerStatusDisplay']);
 
 Route::get('/', function () {
     return redirect('/cms/dashboard');
@@ -97,6 +96,12 @@ Route::group(['middleware' => 'authAD', 'prefix' => 'cms'], function (){
     });
 
     Route::group(['prefix' => 'students'], function(){
+        Route::controller('UpdateStudentController')->group(function (){
+            // Update Student - Profile ID
+            Route::post('/{username}/update/{userID}', 'updateStudentProfileID');
+            Route::post('/{username}/update/image/{userID}', 'updateStudentProfileIDImage');
+        });
+
         Route::controller('ViewStudentController')->group(function (){
             // View Student - Active Student Index
             Route::get('/', 'enabledStudentAccountsIndex');
@@ -105,9 +110,10 @@ Route::group(['middleware' => 'authAD', 'prefix' => 'cms'], function (){
             Route::get('/{username}/view', 'viewStudentProfile');
             // View Student - Profile ID Download
             Route::get('/{username}/download/image', 'viewStudentProfileIDImageDownload');
-            // Update Student - Profile ID
-            Route::post('/{username}/update/image/{userID}', 'updateStudentProfileIDImage');
         });
+
+        // View Employee Reroute
+        Route::get('/{username}', function ( String $username ) { return redirect('/cms/students/' . $username . '/view'); });
     });
 
     Route::group(['prefix' => 'lockers'], function(){

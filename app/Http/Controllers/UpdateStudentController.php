@@ -23,10 +23,18 @@ class UpdateStudentController extends Controller
      */
     public function updateStudentProfileID (String $username, Int $userID, Request $request)
     {
-        if($request->student_rfid)
+        // Fetch student data
+        $student = User::find('cn=' . $username . ',ou="Domain Users",dc=nisgaa,dc=bc,dc=ca');
+        
+        if($request->student_rfid){
             $this->helpers->setStudentIDInK12Admin($userID, $request->student_rfid);
-        else
+            $student->employeeNumber = $request->student_rfid;
+        } else {
             $this->helpers->disableStudentIDInK12Admin($userID);
+            $student->employeeNumber = NULL;
+        }
+
+        $student->save();
 
         // Set student object values
         $student = $this->helpers->getStudentInfoFromK12Admin($username);
@@ -36,8 +44,9 @@ class UpdateStudentController extends Controller
         $message = 'The profile ID RFID code for <b><a href="/cms/students/' . $username . '/view" class="alert-link">' . $fullname . '</a></b> has been updated successfully.';
         $this->inputLog(session('userName'), $message);
 
-        session()->flash('status', 'success');
-        session()->flash('message', $message);
+        return redirect('/cms/students/' . $username . '/view')
+            ->with('status', 'success')
+            ->with('message', $message);
     }
 
     /**
