@@ -46,24 +46,27 @@
                     <button type="button" id="student_rfid_toggle" class="btn bg-green waves-effect btn-block"><i class="material-icons">edit</i><span>ASSIGN STUDENT ID</span></button>
                     <div id="student_rfid_area" class="row" hidden>
                         <div class="col-lg-12">
-                            <div class="row" >
-                                <div class="col-md-12">
-                                    <label for="student_rfid">Student ID Card Code</label>
-                                    <div class="form-group">
-                                        <div class="form-line">
-                                            <input type="text" class="form-control" id="student_rfid" name="student_rfid">
+                            <form action="/cms/students/{{ $student->getFirstAttribute('samaccountname') }}/update/{{ $student->getFirstAttribute('sysid') }}" method="POST">
+                                @csrf
+                                <div class="row" >
+                                    <div class="col-md-12">
+                                        <label for="student_rfid">Student ID Card Code</label>
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input type="text" class="form-control" id="student_rfid" name="student_rfid">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6 col-sm-12 col-xs-12">
-                                    <button id="student_rfid_cancel" class="btn btn-block btn-lg waves-effect">CANCEL</button> 
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-12 col-xs-12">
+                                        <button id="student_rfid_cancel" type="reset" class="btn btn-block btn-lg waves-effect">CANCEL</button> 
+                                    </div>
+                                    <div class="col-md-6 col-sm-12 col-xs-12">
+                                        <button id="student_rfid_save" type="submit" class="btn bg-blue-grey btn-block btn-lg waves-effect">SAVE</button> 
+                                    </div>
                                 </div>
-                                <div class="col-md-6 col-sm-12 col-xs-12">
-                                    <button id="student_rfid_save" type="submit" class="btn bg-blue-grey btn-block btn-lg waves-effect">SAVE</button> 
-                                </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>

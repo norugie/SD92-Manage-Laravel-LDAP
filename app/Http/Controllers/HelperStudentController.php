@@ -16,6 +16,8 @@ class HelperStudentController extends Controller
 {
     // --- K12Admin-related processes here --- //
 
+    // ---*** Students ***--- //
+
     /**
      * Handle process for getting student info from K12Admin
      *
@@ -63,6 +65,56 @@ class HelperStudentController extends Controller
 
         return $student;
     }
+
+    /**
+     * Handle process for setting ID info in K12Admin
+     *
+     * @param Int $uid
+     * @param mixed $rfid
+     */
+    public function setStudentIDInK12Admin (Int $uid, $rfid)
+    {
+        $data_id = '-' . $uid;
+
+        // Set RFID card if $rfid is not NULL
+        if($rfid !== NULL){
+            DB::connection('mysql2')
+            ->table('rfid')
+            ->updateOrInsert(
+                ['data_id' => $data_id],
+                [
+                    'data_id' => $data_id,
+                    'keypad_id' => $rfid,
+                    'rfid_active' => 1
+                ]
+            );
+        }
+    }
+
+    /**
+     * Handle process for disabling ID in K12Admin
+     *
+     * @param Int $uid
+     */
+    public function disableStudentIDInK12Admin (Int $uid)
+    {
+        $rfid = DB::connection('mysql2')
+        ->table('rfid')
+        ->where('data_id', '=', '-' . $uid)->first();
+
+        if($rfid !== NULL){
+            DB::connection('mysql2')
+            ->table('rfid')
+            ->where('data_id', '-' . $uid)
+            ->update(
+                [
+                    'rfid_active' => 0
+                ]
+            );
+        }
+    }
+
+    // ---*** Lockers ***--- //
 
     /**
      * Handle process for getting cart info from K12Admin
