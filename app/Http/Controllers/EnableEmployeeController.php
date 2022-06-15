@@ -92,7 +92,7 @@ class EnableEmployeeController extends Controller
         $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
         
         // Unset MS Exchange Hide from Address List option
-        $employee->setFirstAttribute('msExchHideFromAddressLists', '');
+        $employee->setFirstAttribute('msExchHideFromAddressLists', NULL);
 
         // Return NULL if $employee is NULL
         if($employee === NULL) return NULL;
