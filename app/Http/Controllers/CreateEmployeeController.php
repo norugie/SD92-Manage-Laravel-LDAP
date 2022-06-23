@@ -106,9 +106,12 @@ class CreateEmployeeController extends Controller
         // Log activity
         $message = 'An account for <b><a href="/cms/employees/' . $username . '/view" class="alert-link">' . $fullname . '</a></b> has been created successfully.';
         $this->inputLog(session('userName'), $message);
-        $message =  $message . ' Please take note of the password for this user before refreshing the page: <b>' . $password . '</b>';
+        $message =  $message . '<br><br>Please take note of the password for this user before refreshing the page: <b>' . $password . '</b>';
         
-        Alert::html('New Account Created', $message, 'success')->persistent(true)->showConfirmButton('DONE', '#607d8b')->showCloseButton();
+        Alert::html('New Account Created', $message, 'success')
+        ->persistent(true)
+        ->showCloseButton()
+        ->showConfirmButton('CLOSE', '#607d8b');
 
         return redirect('/cms/employees/' . $username . '/view');
     }

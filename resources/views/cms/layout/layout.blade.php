@@ -197,6 +197,7 @@
 
         {{-- SweetAlert --}}
         @include('sweetalert::alert')
+        
         <!-- END - Page Footer -->
     </body>
 </html>
