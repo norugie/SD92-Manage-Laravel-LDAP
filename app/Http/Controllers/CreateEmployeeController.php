@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Ldap\User;
 use App\Ldap\Group;
 use LdapRecord\Models\Attributes\AccountControl;
+use Alert;
 
 class CreateEmployeeController extends Controller
 {
@@ -107,8 +108,8 @@ class CreateEmployeeController extends Controller
         $this->inputLog(session('userName'), $message);
         $message =  $message . ' Please take note of the password for this user before refreshing the page: <b>' . $password . '</b>';
         
-        return redirect('/cms/employees/' . $username . '/view')
-            ->with('status', 'success')
-            ->with('message', $message);
+        Alert::html('New Account Created', $message, 'success')->persistent(true)->showConfirmButton('CLOSE', '#607d8b')->showCloseButton();;
+
+        return redirect('/cms/employees/' . $username . '/view');
     }
 }

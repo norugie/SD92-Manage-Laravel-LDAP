@@ -150,7 +150,7 @@
         <!-- Main Content -->
         <section class="content">
             <div class="container-fluid">
-                @include( 'cms.layout.notification' )
+                {{-- @include( 'cms.layout.notification' ) --}}
                 <div class="block-header">
                     <h2>{{ strtoupper($data->pageSection) }} @isset($data->pageSubSection) {{ " - " . strtoupper($data->pageSubSection) }} @endisset</h2>
                 </div>
