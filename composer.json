@@ -16,7 +16,8 @@
         "laravel/framework": "^9.0",
         "laravel/tinker": "^2.5",
         "league/oauth2-client": "^2.6",
-        "microsoft/microsoft-graph": "^1.33"
+        "microsoft/microsoft-graph": "^1.33",
+        "realrashid/sweet-alert": "^5.1"
     },
     "require-dev": {
         "spatie/laravel-ignition": "^1.0",
