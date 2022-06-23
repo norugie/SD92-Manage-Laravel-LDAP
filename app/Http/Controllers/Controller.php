@@ -8,6 +8,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use App\Models\Log;
 use Carbon\Carbon;
+use Alert;
 
 class Controller extends BaseController
 {
@@ -43,5 +44,28 @@ class Controller extends BaseController
         return $log->whereBetween("created_at", [$startDate, $endDate])
                 ->orderBy('created_at', 'DESC')
                 ->get();
+    }
+
+    /**
+     * Handle process for SweetAlert after-process alerts
+     *
+     * @param String $type
+     * @param String $message
+     */
+    public function alertDetails (String $type, String $message)
+    {
+        switch($type){
+            case 'create_success':
+                Alert::html('Success', $message, 'success')
+                    ->persistent(true)
+                    ->showCloseButton()
+                    ->showConfirmButton('CLOSE', '#607d8b');
+                break;
+            case 'error':
+                Alert::error('Something went wrong...', $message);
+                break;
+            default:
+                Alert::html('Success', $message, $type);
+        }
     }
 }
