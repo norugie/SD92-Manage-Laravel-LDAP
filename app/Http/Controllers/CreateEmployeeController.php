@@ -108,7 +108,7 @@ class CreateEmployeeController extends Controller
         $this->inputLog(session('userName'), $message);
         $message =  $message . ' Please take note of the password for this user before refreshing the page: <b>' . $password . '</b>';
         
-        Alert::html('New Account Created', $message, 'success')->persistent(true)->showConfirmButton('CLOSE', '#607d8b')->showCloseButton();;
+        Alert::html('New Account Created', $message, 'success')->persistent(true)->showConfirmButton('DONE', '#607d8b')->showCloseButton();
 
         return redirect('/cms/employees/' . $username . '/view');
     }
