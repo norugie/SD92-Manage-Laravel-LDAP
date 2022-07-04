@@ -43,10 +43,10 @@ class UpdateStudentController extends Controller
         // Log activity
         $message = 'The profile ID RFID code for <b><a href="/cms/students/' . $username . '/view" class="alert-link">' . $fullname . '</a></b> has been updated successfully.';
         $this->inputLog(session('userName'), $message);
+        
+        $this->alertDetails($message, 'create_success');
 
-        return redirect('/cms/students/' . $username . '/view')
-            ->with('status', 'success')
-            ->with('message', $message);
+        return redirect('/cms/students/' . $username . '/view');
     }
 
     /**
@@ -81,7 +81,6 @@ class UpdateStudentController extends Controller
         $message = 'The profile ID card for <b><a href="/cms/students/' . $username . '/view" class="alert-link">' . $fullname . '</a></b> has been updated successfully.';
         $this->inputLog(session('userName'), $message);
 
-        session()->flash('status', 'success');
-        session()->flash('message', $message);
+        $this->alertDetails($message, 'create_success');
     }
 }

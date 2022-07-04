@@ -66,10 +66,10 @@ class UpdateEmployeeController extends Controller
         // Log activity
         $message = 'The account for <b><a href="/cms/employees/' . $username . '/view" class="alert-link">' . $fullname . '</a></b> has been updated successfully.';
         $this->inputLog(session('userName'), $message);
+
+        $this->alertDetails($message, 'success');
         
-        return redirect('/cms/employees/' . $username . '/view')
-            ->with('status', 'success')
-            ->with('message', $message);
+        return redirect('/cms/employees/' . $username . '/view');
     }
 
     /**
@@ -104,8 +104,7 @@ class UpdateEmployeeController extends Controller
         $message = 'The profile ID card for <b><a href="/cms/employees/' . $username . '/view" class="alert-link">' . $fullname . '</a></b> has been updated successfully.';
         $this->inputLog(session('userName'), $message);
 
-        session()->flash('status', 'success');
-        session()->flash('message', $message);
+        $this->alertDetails($message, 'create_success');
     }
 
     /**
@@ -142,9 +141,9 @@ class UpdateEmployeeController extends Controller
         $message = 'The department/role(s) for multiple district accounts has been updated successfully.';
         $this->inputLog(session('userName'), $message);
 
-        return redirect('/cms/employees')
-            ->with('status', 'success')
-            ->with('message', $message);
+        $this->alertDetails($message, 'create_success');
+
+        return redirect('/cms/employees');
     }
 
     /**
