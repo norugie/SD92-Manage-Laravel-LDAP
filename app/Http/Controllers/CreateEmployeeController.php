@@ -107,7 +107,8 @@ class CreateEmployeeController extends Controller
         $message = 'An account for <b><a href="/cms/employees/' . $username . '/view" class="alert-link">' . $fullname . '</a></b> has been created successfully.';
         $this->inputLog(session('userName'), $message);
         
-        $message =  $message . '<br><br>Please take note of the password for this user before refreshing the page: <b>' . $password . '</b>';
+        $message =  $message . '<br><br>Please take note of the password for this user before closing this prompt: <b>' . $password . '</b>';
+        
         $this->alertDetails($message, 'create_success');
 
         return redirect('/cms/employees/' . $username . '/view');

@@ -52,20 +52,21 @@ class Controller extends BaseController
      * @param String $type
      * @param String $message
      */
-    public function alertDetails (String $type, String $message)
+    public function alertDetails (String $message, String $type)
     {
         switch($type){
             case 'create_success':
                 Alert::html('Success', $message, 'success')
                     ->persistent(true)
                     ->showCloseButton()
-                    ->showConfirmButton('CLOSE', '#607d8b');
+                    ->showCancelButton('CLOSE', '#607d8b');
                 break;
             case 'error':
                 Alert::error('Something went wrong...', $message);
                 break;
             default:
-                Alert::html('Success', $message, $type);
+                Alert::html('Success', $message, $type)
+                ->showCloseButton();
         }
     }
 }
