@@ -141,7 +141,7 @@ class UpdateEmployeeController extends Controller
         $message = 'The department/role(s) for multiple district accounts has been updated successfully.';
         $this->inputLog(session('userName'), $message);
 
-        $this->alertDetails($message, 'create_success');
+        $this->alertDetails($message, 'success');
 
         return redirect('/cms/employees');
     }

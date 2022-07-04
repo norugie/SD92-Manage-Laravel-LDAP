@@ -105,14 +105,14 @@ class ViewEmployeeController extends Controller
         // Redirect to /employees page if {username} is NULL
         if($employee === NULL) {
             $message = 'The user you are looking for does not exist in our directory.';
-            $this->alertDetails('error', $message);
+            $this->alertDetails($message, 'error');
             return redirect('/cms/employees');
         } else {
             // Redirect to /employees page if {username} has a disabled account
             $uac = new AccountControl($employee->getFirstAttribute('userAccountControl'));
             if($uac->has(AccountControl::ACCOUNTDISABLE)){
                 $message = 'The user you are looking for no longer has an active account in our directory.';
-                $this->alertDetails('error', $message);
+                $this->alertDetails($message, 'error');
                 return redirect('/cms/employees');
             }
         }

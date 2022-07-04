@@ -75,9 +75,9 @@ class EnableEmployeeController extends Controller
         $message = 'Multiple district account(s) have been re-enabled successfully.';
         $this->inputLog(session('userName'), $message);
 
-        return redirect('/cms/employees')
-            ->with('status', 'success')
-            ->with('message', $message);
+        $this->alertDetails($message, 'success');
+
+        return redirect('/cms/employees');
     }
 
     /**
