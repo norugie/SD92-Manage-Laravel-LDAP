@@ -62,11 +62,12 @@ class Controller extends BaseController
                     ->showCancelButton('CLOSE', '#607d8b');
                 break;
             case 'error':
-                Alert::error('Something went wrong...', $message);
+                Alert::error('Something went wrong...', $message)
+                    ->showCloseButton();
                 break;
             default:
                 Alert::html('Success', $message, $type)
-                ->showCloseButton();
+                    ->showCloseButton();
         }
     }
 }
