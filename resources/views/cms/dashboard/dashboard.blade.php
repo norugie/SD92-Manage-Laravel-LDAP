@@ -14,6 +14,7 @@
                         </div>
                     </div>
                 <div class="body">
+                    The current Laravel version is {{ app()->version() }}
                     <div class="table-responsive">
                         <table id="log_table" class="table dt-responsive" style="width:100%">
                             <thead>
