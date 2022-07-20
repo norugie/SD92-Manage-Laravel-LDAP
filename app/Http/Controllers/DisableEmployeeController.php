@@ -37,9 +37,9 @@ class DisableEmployeeController extends Controller
         $message = 'The account for <b>' . $fullname . '</b> has been disabled successfully.';
         $this->inputLog(session('userName'), $message);
         
-        return redirect('/cms/employees')
-            ->with('status', 'success')
-            ->with('message', $message);
+        $this->alertDetails($message, 'success');
+
+        return redirect('/cms/employees');
     }
     
     /**
