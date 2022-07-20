@@ -35,10 +35,10 @@ class EnableEmployeeController extends Controller
         // Log activity
         $message = 'The account for <b><a href="/cms/employees/' . $employee->getFirstAttribute('samaccountname') . '/view" class="alert-link">' . $employee->getFirstAttribute('displayname') . '</a></b> has been re-enabled successfully. Please update the re-enabled account profile.';
         $this->inputLog(session('userName'), $message);
+
+        $this->alertDetails($message, 'success');
         
-        return redirect('/cms/employees/' . $employee->getFirstAttribute('samaccountname') . "/update")
-            ->with('status', 'success')
-            ->with('message', $message);
+        return redirect('/cms/employees/' . $employee->getFirstAttribute('samaccountname') . "/update");
     }
 
     /**
