@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use App\Ldap\User;
 use App\Ldap\Group;
 use LdapRecord\Models\Attributes\AccountControl;
-use Alert;
 
 class CreateEmployeeController extends Controller
 {
