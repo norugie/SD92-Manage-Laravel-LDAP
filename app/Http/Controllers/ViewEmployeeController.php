@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Codedge\Fpdf\Fpdf\Fpdf;
 use App\Ldap\User;
 use App\Ldap\Group;
-use LdapRecord\Models\Attributes\AccountControl;
 
 class ViewEmployeeController extends Controller
 {
@@ -102,19 +101,12 @@ class ViewEmployeeController extends Controller
         // Fetch employee data
         $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
 
-        // Redirect to /employees page if {username} is NULL
-        if($employee === NULL) {
-            $message = 'The user you are looking for does not exist in our directory.';
+        // Check for account availability
+        $message = $this->checkUser($employee);
+        
+        if ($message) {
             $this->alertDetails($message, 'error');
             return redirect('/cms/employees');
-        } else {
-            // Redirect to /employees page if {username} has a disabled account
-            $uac = new AccountControl($employee->getFirstAttribute('userAccountControl'));
-            if($uac->has(AccountControl::ACCOUNTDISABLE)){
-                $message = 'The user you are looking for no longer has an active account in our directory.';
-                $this->alertDetails($message, 'error');
-                return redirect('/cms/employees');
-            }
         }
         
         $employee_info = $this->getEmployeeInfo($employee);
