@@ -85,12 +85,6 @@ class DisableEmployeeController extends Controller
         // Return NULL if $employee is NULL
         if($employee === NULL) return NULL;
 
-        $employee->department = "";
-        $employee->description = "Inactive employee";
-
-        // Hide employee from MS Exchange directory list
-        $employee->setFirstAttribute('msExchHideFromAddressLists', 'TRUE');
-
         // Fetch employee groups data
         $employee_groups = $employee->groups()->get();
 
@@ -117,6 +111,12 @@ class DisableEmployeeController extends Controller
         // Move employee to A1 Staff Assignment to assign A1 license
         $employee_group = Group::findBy('cn', 'A1 Staff Assignment');
         $employee->groups()->attach($employee_group);
+
+        $employee->department = "";
+        $employee->description = "Inactive employee";
+
+        // Hide employee from MS Exchange directory list
+        $employee->setFirstAttribute('msExchHideFromAddressLists', 'TRUE');
 
         // Add employee to nondistrict/oldstaff group in K12Admin
         $this->helpers->setEmployeeLocalGroupInK12Admin($username, '', 'nondistrict');

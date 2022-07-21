@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\UpdateEmployeeController;
+use App\Http\Controllers\HelperEmployeeController;
 use Illuminate\Http\Request;
 use App\Ldap\User;
 use App\Ldap\Group;
@@ -14,6 +15,7 @@ class EnableEmployeeController extends Controller
     public function __construct ()
     {
         $this->update = new UpdateEmployeeController;
+        $this->helpers = new HelperEmployeeController;
     }
 
     /**
@@ -96,6 +98,10 @@ class EnableEmployeeController extends Controller
 
         // Return NULL if $employee is NULL
         if($employee === NULL) return NULL;
+
+        // Remove disabled account localgroups
+        $this->helpers->removeEmployeeLocalGroupInK12Admin($employee->getFirstAttribute('samaccountname'), 'Incoming');
+        $this->helpers->removeEmployeeLocalGroupInK12Admin($employee->getFirstAttribute('samaccountname'), 'nondistrict');
 
         // Remove all employee groups
         $employee->groups()->detachAll();
