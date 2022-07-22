@@ -28,12 +28,6 @@ class EnableEmployeeController extends Controller
         // Process employee roles, return $employee object
         $employee = $this->enableInactiveAccounts($username);
 
-        // Redirect to /employees page if $employee is NULL
-        if($employee === NULL)
-            return redirect('/cms/employees')
-                ->with('status', 'danger')
-                ->with('message', 'The user you are looking for does not exist in our directory.');
-        
         // Log activity
         $message = 'The account for <b><a href="/cms/employees/' . $employee->getFirstAttribute('samaccountname') . '/view" class="alert-link">' . $employee->getFirstAttribute('displayname') . '</a></b> has been re-enabled successfully. Please update the re-enabled account profile.';
         $this->inputLog(session('userName'), $message);
@@ -93,11 +87,15 @@ class EnableEmployeeController extends Controller
         // Set employee object values
         $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
         
+        // Check for account availability - only check if account exists
+        if ($employee === NULL) {
+            $message = 'The user you are looking for does not exist in our directory.';
+            $this->alertDetails($message, 'error');
+            return redirect('/cms/employees');
+        }
+
         // Unset MS Exchange Hide from Address List option
         $employee->setFirstAttribute('msExchHideFromAddressLists', NULL);
-
-        // Return NULL if $employee is NULL
-        if($employee === NULL) return NULL;
 
         // Remove disabled account localgroups
         $this->helpers->removeEmployeeLocalGroupInK12Admin($employee->getFirstAttribute('samaccountname'), 'Incoming');

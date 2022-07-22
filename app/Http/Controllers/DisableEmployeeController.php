@@ -23,17 +23,11 @@ class DisableEmployeeController extends Controller
      */
     public function disableEmployeeProfile (String $username)
     {
-        // Process employee roles for disabled account, return employee $fullname
-        $fullname = $this->disableEmployeeAccounts($username);
-
-        // Redirect to /employees page if $fullname is NULL
-        if($fullname === NULL)
-            return redirect('/cms/employees')
-                ->with('status', 'danger')
-                ->with('message', 'The user you are looking for does not exist in our directory.');
+        // Process employee roles for disabled account, return $employee object
+        $employee = $this->disableEmployeeAccounts($username);
 
         // Log activity
-        $message = 'The account for <b>' . $fullname . '</b> has been disabled successfully.';
+        $message = 'The account for <b>' . $employee->getFirstAttribute('displayname') . '</b> has been disabled successfully.';
         $this->inputLog(session('userName'), $message);
         
         $this->alertDetails($message, 'success');
@@ -53,11 +47,11 @@ class DisableEmployeeController extends Controller
 
         // Loop through username array
         foreach($employees as $username): 
-            // Process employee roles for disabled account, return employee $fullname
-            $fullname = $this->disableEmployeeAccounts($username);
+            // Process employee roles for disabled account, return $employee object
+            $employee = $this->disableEmployeeAccounts($username);
             
             // Log activity per loop
-            $message = 'The account for <b>' . $fullname . '</b> has been disabled successfully.';
+            $message = 'The account for <b>' . $employee->getFirstAttribute('displayname') . '</b> has been disabled successfully.';
             $this->inputLog(session('userName'), $message);
         endforeach;
         
@@ -81,8 +75,13 @@ class DisableEmployeeController extends Controller
         // Set employee object values
         $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
 
-        // Return NULL if $employee is NULL
-        if($employee === NULL) return NULL;
+        // Check for account availability
+        $message = $this->checkUser($employee);
+
+        if ($message) {
+            $this->alertDetails($message, 'error');
+            return redirect('/cms/employees');
+        }
 
         // Fetch employee groups data
         $employee_groups = $employee->groups()->get();
@@ -135,6 +134,6 @@ class DisableEmployeeController extends Controller
         $employee->userAccountControl = $uac;
         $employee->save();
 
-        return $employee->getFirstAttribute('displayname');
+        return $employee;
     }
 }
