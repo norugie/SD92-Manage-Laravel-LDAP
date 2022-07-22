@@ -36,6 +36,17 @@ class UpdateEmployeeController extends Controller
                 'employee_department.required' => 'Select employee department/school'
             ]);
 
+        // Set employee object values
+        $employee = $this->updateEmployeeRoles($username, $request);
+
+        // Check for account availability
+        $message = $this->checkUser($employee);
+
+        if ($message) {
+            $this->alertDetails($message, 'error');
+            return redirect('/cms/employees');
+        }
+
         // Set up variable info
         $firstname = $request->employee_firstname;
         $lastname = $request->employee_lastname;
@@ -47,9 +58,6 @@ class UpdateEmployeeController extends Controller
         $employee_rfid = $request->employee_rfid;
         $employee_roles = $request->employee_roles;
 
-        // Set employee object values
-        $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
-
         $employee->displayname = $fullname;
         $employee->givenname = $firstname;
         $employee->sn = $lastname;
@@ -59,9 +67,6 @@ class UpdateEmployeeController extends Controller
         // Save set object values for employee
         $employee->save();
         $employee->refresh();
-
-        // Set employee account roles
-        $this->updateEmployeeRoles($username, $request);
 
         // Log activity
         $message = 'The account for <b><a href="/cms/employees/' . $username . '/view" class="alert-link">' . $fullname . '</a></b> has been updated successfully.';
@@ -98,10 +103,9 @@ class UpdateEmployeeController extends Controller
 
         // Set employee object values
         $employee = User::find('cn=' . $username . ',cn=Users,dc=nisgaa,dc=bc,dc=ca');
-        $fullname = $employee->getFirstAttribute('displayname');
         
         // Log activity
-        $message = 'The profile ID card for <b><a href="/cms/employees/' . $username . '/view" class="alert-link">' . $fullname . '</a></b> has been updated successfully.';
+        $message = 'The profile ID card for <b><a href="/cms/employees/' . $username . '/view" class="alert-link">' . $employee->getFirstAttribute('displayname') . '</a></b> has been updated successfully.';
         $this->inputLog(session('userName'), $message);
 
         $this->alertDetails($message, 'create_success');
@@ -129,11 +133,11 @@ class UpdateEmployeeController extends Controller
 
         // Loop through username array
         foreach($employees as $username): 
-            // Process employee roles, return employee $fullname
-            $fullname = $this->updateEmployeeRoles($username, $request);
+            // Process employee roles, return $employee object
+            $employee = $this->updateEmployeeRoles($username, $request);
             
             // Log activity per loop
-            $message = 'The account for <b><a href="/cms/employees/' . $username . '/view" class="alert-link">' . $fullname . '</a></b> has been updated successfully.';
+            $message = 'The account for <b><a href="/cms/employees/' . $username . '/view" class="alert-link">' . $employee->getFirstAttribute('displayname') . '</a></b> has been updated successfully.';
             $this->inputLog(session('userName'), $message);
         endforeach;
         
@@ -151,7 +155,7 @@ class UpdateEmployeeController extends Controller
      *
      * @param String $username
      * @param \Illuminate\Http\Request $request
-     * @return String $fullname
+     * @return Object $employee
      */
     public function updateEmployeeRoles (String $username, Request $request)
     {
@@ -187,7 +191,7 @@ class UpdateEmployeeController extends Controller
             endforeach;
         }
 
-        return $employee->getFirstAttribute('displayname');
+        return $employee;
     }
 
 }
